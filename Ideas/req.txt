@@ -1,0 +1,5 @@
+FEATURES IDENTIFIED
+
+security
+create/maintain hashtags
+wysiwig editor api integration
