@@ -1,0 +1,24 @@
+
+a, a:visited {color: black}
+a:hover, a.active {color:green; text-decoration: none}
+
+#page {width: 80%; margin-right: auto; margin-left: auto;}
+
+hr {
+    border: 0;
+    clear:both;
+    display:block;
+    width: 100%;
+    background-color:#000000;
+    height: 1px;
+}
+.row-fluid {
+    display: flex;
+    align-items: flex-end;
+}
+
+#title-row {margin-bottom: -10px; padding-right: 15px; padding-left: 15px}
+#title-col, #welcome {margin-bottom: -5px}
+#title {font-size: 16pt; font-weight: bold; font-family: Arial;}
+#hello{font-weight: bold; color:red}
+#welcome {font-size: 12pt}

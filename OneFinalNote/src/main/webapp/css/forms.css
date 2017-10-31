@@ -1,0 +1,38 @@
+
+
+.login-form{width: 90px}
+.form-label{margin-bottom: 12px}
+
+input:focus, input:active {border: 1px solid green; box-shadow: 0px 0px 5px #7fff21}
+button:active {background-color: black; color: white}
+button:hover {box-shadow: 0px 0px 5px #7fff21}
+button:active, button:hover, button:focus {outline: none;}
+
+select, input, button {
+    font-size: 12px;
+    -moz-box-sizing: content-box;
+    -webkit-box-sizing:content-box;
+    box-sizing:content-box;
+    vertical-align: bottom;
+    height: 16px;
+    padding: 2px;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 2px;
+}
+
+button {
+    padding-left: 8px; padding-right: 8px;
+    background-color: white;
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid black;
+    box-shadow:none;
+}
+
+select option {
+    margin: 40px;
+    background: white;
+    color: #000;
+}
