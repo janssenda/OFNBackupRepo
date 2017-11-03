@@ -11,6 +11,7 @@
     <properties>
         <spring.version>5.0.0.RELEASE</spring.version>
         <junit.version>4.12</junit.version>
+        <maven.test.skip>true</maven.test.skip>
     </properties>
 
     <dependencies>

@@ -23,30 +23,12 @@
                     login-page="/login"
                     authentication-failure-url="/login?login_error=1"/>
 
-        <intercept-url pattern="/"
-                       access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <intercept-url pattern="/index.jsp"
-                       access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+        <intercept-url pattern="/displayuserlist" access="ROLE_ADMIN" />
+        <intercept-url pattern="/deleteuser" access="ROLE_ADMIN" />
+        <intercept-url pattern="/createpost" access="ROLE_OWNER"/>
 
-        <intercept-url pattern="/createpost"
-                       access="ROLE_OWNER"/>
     </http>
-
-    <!--<authentication-manager>-->
-        <!--<authentication-provider>-->
-            <!--<user-service>-->
-                <!--<user name="user"-->
-                      <!--password="user"-->
-                      <!--authorities="ROLE_USER" />-->
-                <!--<user name="admin"-->
-                      <!--password="admin"-->
-                      <!--authorities="ROLE_USER, ROLE_ADMIN" />-->
-                <!--<user name="owner"-->
-                      <!--password="owner"-->
-                      <!--authorities="ROLE_USER, ROLE_ADMIN, ROLE_OWNER" />-->
-            <!--</user-service>-->
-        <!--</authentication-provider>-->
-    <!--</authentication-manager>-->
 
     <authentication-manager>
         <authentication-provider>

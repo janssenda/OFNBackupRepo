@@ -25,12 +25,15 @@
                 <c:if test="${param.login_error == 1}">
                     Wrong id or password!
                 </c:if><br/>
-                <form role="form" action="j_spring_security_check" method="post">
-                    <span class="form-label">Username:</span>&nbsp;
-                    <input class="login-form" name="j_username"/>&nbsp;
-                    <span class="form-label">Password:</span>&nbsp;
-                    <input class="login-form" type="password" name="j_password"/>&nbsp;
+                <form role="form" action="j_spring_security_check" style="display: inline" method="post">
+                        <%--<span class="form-label">Username:</span>&nbsp;--%>
+                    <input class="login-form" name="j_username" placeholder="Username"/>&nbsp;
+                        <%--<span class="form-label">Password:</span>&nbsp;--%>
+                    <input class="login-form" type="password" placeholder="Password " name="j_password"/>&nbsp;
                     <button type="submit">Login</button>
+                </form>
+                <form role="form" style="display: inline"  action="signup" method="get">
+                    <button type="submit">Sign up</button>
                 </form>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">

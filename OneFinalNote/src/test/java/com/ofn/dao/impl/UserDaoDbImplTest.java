@@ -23,10 +23,6 @@ public class UserDaoDbImplTest {
                 = new ClassPathXmlApplicationContext(
                 "test-applicationContext.xml");
         dao = ctx.getBean("UserDao", UserDao.class);
-//        List<User> userDBEntries = dao.getAllUsers();
-//        for(User u : userDBEntries){
-//            dao.removeUser(u.getUserId());
-//        }
 
         mDao = ctx.getBean("maintenanceDao", DBMaintenanceDao.class);
         mDao.refresh();
@@ -38,40 +34,22 @@ public class UserDaoDbImplTest {
 
     @Test
     public void getUserById() throws Exception {
-        User u = new User();
-        u.setUserName("hlemke91");
-        u.setUserPW("corndog");
-        u.setUserAvatar("hlemkedeathmetalpic.jpg");
-        u.setUserProfile("ofn.org/users/hlemke91");
-        u = dao.addUser(u);
-        User getUser = dao.getUserById(u.getUserId());
-        assertNotNull(getUser);
-        assertEquals(u.getUserName(),getUser.getUserName());
-        assertEquals(u.getUserPW(),u.getUserPW());
-    }
-
-    @Test
-    public void getAllUsers() throws Exception {
 //        User u = new User();
 //        u.setUserName("hlemke91");
 //        u.setUserPW("corndog");
 //        u.setUserAvatar("hlemkedeathmetalpic.jpg");
 //        u.setUserProfile("ofn.org/users/hlemke91");
-//        dao.addUser(u);
-//        u = new User();
-//        u.setUserName("janssenda");
-//        u.setUserPW("corndogs");
-//        u.setUserAvatar("janssendatechmetalpic.jpg");
-//        u.setUserProfile("ofn.org/users/janssenda");
-//        dao.addUser(u);
-//        u = new User();
-//        u.setUserName("sethroTull");
-//        u.setUserPW("cornwolf");
-//        u.setUserAvatar("sethroTullprogmetalpic.jpg");
-//        u.setUserProfile("ofn.org/users/sethroTull");
-//        dao.addUser(u);
+//        u = dao.addUser(u);
+        User getUser = dao.getUserById(6);
+        assertNotNull(getUser);
+        assertEquals("hlemke91",getUser.getUserName());
+//        assertEquals(u.getUserPW(),u.getUserPW());
+    }
+
+    @Test
+    public void getAllUsers() throws Exception {
         List<User> allUsers = dao.getAllUsers();
-        assertTrue(allUsers.size() == 4);
+        assertTrue(allUsers.size() == 6);
     }
 
     @Test
@@ -88,10 +66,10 @@ public class UserDaoDbImplTest {
     @Test
     public void updateUser() throws Exception {
         User u = new User();
-        u.setUserName("hlemke91");
+        u.setUserName("hlemke92");
         u.setUserPW("corndog");
         u.setUserAvatar("hlemkedeathmetalpic.jpg");
-        u.setUserProfile("ofn.org/users/hlemke91");
+        u.setUserProfile("ofn.org/users/hlemke92");
         u = dao.addUser(u);
         int key = u.getUserId();
         User newUser = new User();
@@ -100,6 +78,7 @@ public class UserDaoDbImplTest {
         newUser.setUserPW("yogibear");
         newUser.setUserAvatar("jstuartjazzmetal.jpg");
         newUser.setUserProfile("ofn.org/users/jstuart");
+        newUser.setEnabled(true);
         boolean isUserUpdated = dao.updateUser(newUser);
         assertTrue(isUserUpdated);
     }
@@ -107,7 +86,7 @@ public class UserDaoDbImplTest {
     @Test
     public void removeUser() throws Exception {
         User u = new User();
-        u.setUserName("hlemke91");
+        u.setUserName("hlemke92");
         u.setUserPW("corndog");
         u.setUserAvatar("hlemkedeathmetalpic.jpg");
         u.setUserProfile("ofn.org/users/hlemke91");

@@ -87,7 +87,9 @@ public class PageDaoDbImpl implements PageDao {
         Map<Integer, String> pageLinks = new HashMap<>();
         List<Page> allPages = getAllPages();
         for(Page p : allPages){
-            pageLinks.put(p.getPageId(), p.getTitle());
+            if(p.isPublished()) {
+                pageLinks.put(p.getPageId(), p.getTitle());
+            }
         }
         return pageLinks;
     }

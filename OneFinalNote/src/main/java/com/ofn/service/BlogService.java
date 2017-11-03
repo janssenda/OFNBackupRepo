@@ -11,14 +11,16 @@ public interface BlogService {
     // Basic model CRUD functionality
     // Tags
     List<Tag> getAllTags();
-    boolean addTag(Tag tag);
+    boolean addTag(Tag tag) throws PersistenceException;
+
+    void refresh();
 
     // Categories
     List<Category> getAllCategories();
     Category getCategoryById(int catId);
-    Category addCategory(Category category);
-    Category updateCategory(Category category);
-    boolean removeCategory(int catId);
+    Category addCategory(Category category) throws PersistenceException;
+    Category updateCategory(Category category) throws PersistenceException;
+    boolean removeCategory(int catId) throws PersistenceException;
 
     // Users
     List<User> getAllUsers();

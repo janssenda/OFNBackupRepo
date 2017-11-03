@@ -25,7 +25,7 @@ public class CommentDaoDbImpl implements CommentDao {
     private final String GET_BY_POST = "select * from comments where BlogPostID=?";
     private final String ADD = "insert into comments (BlogPostID,UserID,Body,CommentTime,Published) values(?,?,?,?,?)";
     private final String DELETE = "delete from comments where CommentID=?";
-    private final String UPDATE = "update comments set CommentID=?,BlogPostID=?,Body=?,CommentTime=?,Published=?";
+    private final String UPDATE = "update comments set BlogPostID=?,UserID=?,Body=?,CommentTime=?,Published=? where CommentID=?";
     private final String GET_BY_ID = "select * from comments where CommentID=?";
     private final String GET_BY_USER_ID = "select * from comments where UserID = ?";
 
@@ -69,12 +69,13 @@ public class CommentDaoDbImpl implements CommentDao {
     @Override
     public boolean updateComment(Comment comment) {
         return (jdbcTemplate.update(UPDATE,
-                comment.getCommentId(),
                 comment.getBlogPostId(),
+                comment.getUser().getUserId(),
                 comment.getBody(),
                 comment.getCommentTime(),
-                comment.isPublished())
-                > 0);
+                comment.isPublished(),
+                comment.getCommentId())
+                == 1);
     }
 
     @Override

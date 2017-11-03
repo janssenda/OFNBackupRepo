@@ -23,10 +23,10 @@
           class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url"
-                  value="jdbc:mysql://localhost:3306/ofnblogtest?serverTimezone=UTC" />
+                  value="jdbc:mysql://localhost:3306/ofnblognew?serverTimezone=UTC" />
         <property name="username" value="root" />
         <property name="password" value="root" />
-        <property name="initialSize" value="5" />
+        <property name="initialSize" value="1" />
         <property name="maxTotal" value="10" />
     </bean>
 

@@ -17,6 +17,7 @@ import static org.junit.Assert.assertEquals;
 public class CategoryDaoDbImplTest {
 
     private CategoryDao dao;
+    private DBMaintenanceDao mDao;
 
     @Before
     public void setUp() throws Exception {
@@ -24,10 +25,8 @@ public class CategoryDaoDbImplTest {
                 = new ClassPathXmlApplicationContext(
                 "test-applicationContext.xml");
         dao = ctx.getBean("CategoryDao", CategoryDao.class);
-        List<Category> categoryDBEntries = dao.getAllCategories();
-        for(Category cat : categoryDBEntries){
-            dao.removeCategory(cat.getCategoryID());
-        }
+        mDao = ctx.getBean("maintenanceDao", DBMaintenanceDao.class);
+        mDao.refresh();
     }
 
     @After
@@ -36,27 +35,15 @@ public class CategoryDaoDbImplTest {
 
     @Test
     public void getAllCategories() throws Exception {
-        Category cat = new Category();
-        cat.setCategoryName("metal");
-        cat.setDescription("all things metal");
-        dao.addCategory(cat);
-        Category cat2 = new Category();
-        cat2.setCategoryName("jazz");
-        cat2.setDescription("all things jazz");
-        dao.addCategory(cat2);
         List<Category> cats = dao.getAllCategories();
-        assertEquals(2, cats.size());
+        assertEquals(1, cats.size());
     }
 
     @Test
     public void getCategory() throws Exception {
-        Category cat = new Category();
-        cat.setCategoryName("deathmetal");
-        cat.setDescription("all things deathmetal");
-        cat = dao.addCategory(cat);
-        Category getcat = dao.getCategory(cat.getCategoryID());
+        Category getcat = dao.getCategory(1);
         assertNotNull(getcat);
-        assertEquals(cat.getCategoryID(), getcat.getCategoryID());
+        assertEquals("hippie", getcat.getCategoryName());
     }
 
     @Test
@@ -81,10 +68,11 @@ public class CategoryDaoDbImplTest {
     @Test
     public void updateCategory() throws Exception {
         Category cat = new Category();
-        cat.setCategoryName("hippies");
+        cat.setCategoryName("jam band");
+        cat.setDescription("all things jam band");
+        cat = dao.addCategory(cat);
         cat.setDescription("news on jam band, rave, and prog rock bands, festivals, and deals");
-        Category catAdded = dao.addCategory(cat);
-        boolean isCatEdited = dao.updateCategory(catAdded);
+        boolean isCatEdited = dao.updateCategory(cat);
         assertTrue(isCatEdited);
     }
 

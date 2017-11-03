@@ -20,25 +20,17 @@ import static org.junit.Assert.*;
 public class BlogPostDaoDbImplTest {
 
     private BlogPostDao dao;
+    private DBMaintenanceDao mDao;
+
     @Before
     public void setUp() throws Exception {
         ApplicationContext ctx
                 = new ClassPathXmlApplicationContext(
                 "test-applicationContext.xml");
         dao = ctx.getBean("BlogPostDao", BlogPostDao.class);
-        List<BlogPostTag> allBlogPostTags = dao.getAllBlogPostTagBridgeEntries();
-        for(BlogPostTag abpt : allBlogPostTags){
-            dao.removeBlogPostBridgeEntries(abpt.getBlogPostID(), abpt.getTagText());
-        }
-        List<BlogPost> allPosts = dao.getAllPubBlogPosts();
-        allPosts.addAll(dao.getAllUnPubBlogPosts());
-        for(BlogPost ap : allPosts){
-            dao.removeBlogPost(ap.getBlogPostId());
-        }
-        List<Tag> allTags = dao.getAllTags();
-        for(Tag t : allTags){
-            dao.removeTag(t.getTagText());
-        }
+        mDao = ctx.getBean("maintenanceDao", DBMaintenanceDao.class);
+        mDao.refresh();
+
     }
 
     @After
@@ -48,18 +40,15 @@ public class BlogPostDaoDbImplTest {
 
     @Test
     public void getRandomBlogPost() throws Exception {
+        BlogPost bp = dao.getRandomBlogPost();
+        assertNotNull(bp);
+        assertTrue(bp.getTitle().equals("test blog") || bp.getTitle().equals("Rush On Shrooms Rules!"));
     }
 
     @Test
     public void getAllTags() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("metal");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("hippie");
-        dao.addTag(t2);
         List<Tag> at = dao.getAllTags();
-        assertEquals(2, at.size());
+        assertEquals(3, at.size());
     }
 
     @Test
@@ -73,7 +62,7 @@ public class BlogPostDaoDbImplTest {
     @Test
     public void removeTag() throws Exception {
         Tag t1 = new Tag();
-        t1.setTagText("metal");
+        t1.setTagText("progrock");
         dao.addTag(t1);
         boolean isRemoved = dao.removeTag(t1.getTagText());
         assertTrue(isRemoved);
@@ -83,10 +72,8 @@ public class BlogPostDaoDbImplTest {
     public void addBlogPost() throws Exception {
         Tag t1 = new Tag();
         t1.setTagText("Meshuggah");
-        dao.addTag(t1);
         Tag t2 = new Tag();
         t2.setTagText("metal");
-        dao.addTag(t2);
         BlogPost bp = new BlogPost();
         bp.setUserId(1);
         bp.setCategoryId(1);
@@ -110,10 +97,8 @@ public class BlogPostDaoDbImplTest {
     public void updateBlogPost() throws Exception {
         Tag t1 = new Tag();
         t1.setTagText("Meshuggah");
-        dao.addTag(t1);
         Tag t2 = new Tag();
         t2.setTagText("metal");
-        dao.addTag(t2);
         BlogPost bp = new BlogPost();
         bp.setUserId(1);
         bp.setCategoryId(1);
@@ -147,10 +132,8 @@ public class BlogPostDaoDbImplTest {
     public void getBlogPostById() throws Exception {
         Tag t1 = new Tag();
         t1.setTagText("Meshuggah");
-        dao.addTag(t1);
         Tag t2 = new Tag();
         t2.setTagText("metal");
-        dao.addTag(t2);
         BlogPost bp = new BlogPost();
         bp.setUserId(1);
         bp.setCategoryId(1);
@@ -174,23 +157,7 @@ public class BlogPostDaoDbImplTest {
     @Test
     public void getBlogPostsByTag() throws Exception {
         Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        bp.setTagList(blogTagList);
-        bp.setPublished(true);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        bp.setStatus();
-        dao.addBlogPost(bp);
+        t1.setTagText("hippie");
         List<BlogPost> postsByTag = dao.getBlogPostsByTag(t1);
         assertEquals(1, postsByTag.size());
     }
@@ -199,7 +166,6 @@ public class BlogPostDaoDbImplTest {
     public void removeBlogPost() throws Exception {
         Tag t1 = new Tag();
         t1.setTagText("Meshuggah");
-        dao.addTag(t1);
         BlogPost bp = new BlogPost();
         bp.setUserId(1);
         bp.setCategoryId(1);
@@ -221,141 +187,31 @@ public class BlogPostDaoDbImplTest {
 
     @Test
     public void getAllPubBlogPosts() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("metal");
-        dao.addTag(t2);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        blogTagList.add(t2);
-        bp.setTagList(blogTagList);
-        bp.setPublished(true);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        bp.setStatus();
-        dao.addBlogPost(bp);
         List<BlogPost> pubPosts = dao.getAllPubBlogPosts();
         assertEquals(1, pubPosts.size());
     }
 
     @Test
     public void getAllUnPubBlogPosts() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("metal");
-        dao.addTag(t2);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        blogTagList.add(t2);
-        bp.setTagList(blogTagList);
-        bp.setPublished(false);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        //bp.setStatus();
-        dao.addBlogPost(bp);
         List<BlogPost> unpubPosts = dao.getAllUnPubBlogPosts();
         assertEquals(1, unpubPosts.size());
     }
 
     @Test
     public void getByUser() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("metal");
-        dao.addTag(t2);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        blogTagList.add(t2);
-        bp.setTagList(blogTagList);
-        bp.setPublished(true);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        bp.setStatus();
-        dao.addBlogPost(bp);
         List<BlogPost> postsByUser = dao.getByUser(1);
-        assertEquals(1,postsByUser.size());
+        assertEquals(2,postsByUser.size());
     }
 
     @Test
     public void getByCategory() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("metal");
-        dao.addTag(t2);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        blogTagList.add(t2);
-        bp.setTagList(blogTagList);
-        bp.setPublished(true);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        bp.setStatus();
-        dao.addBlogPost(bp);
         List<BlogPost> postsByCat = dao.getByCategory(1);
-        assertEquals(1, postsByCat.size());
+        assertEquals(2, postsByCat.size());
     }
 
     @Test
     public void searchBlogPosts() throws Exception {
-        Tag t1 = new Tag();
-        t1.setTagText("Meshuggah");
-        dao.addTag(t1);
-        Tag t2 = new Tag();
-        t2.setTagText("metal");
-        dao.addTag(t2);
-        BlogPost bp = new BlogPost();
-        bp.setUserId(1);
-        bp.setCategoryId(1);
-        bp.setTitle("Meshuggah rules! \\m/\\m/");
-        bp.setBody("<html>Meshuggah is probably the loudest band on earth</html>");
-        List<Tag> blogTagList = new ArrayList<>();
-        blogTagList.add(t1);
-        blogTagList.add(t2);
-        bp.setTagList(blogTagList);
-        bp.setPublished(true);
-        bp.setUpdateTime(LocalDateTime.now());
-        bp.setStartDate(LocalDateTime.now());
-        bp.setEndDate(LocalDateTime.now().plusYears(1));
-        bp.setCommentList(new ArrayList<>());
-        bp.setStatus();
-        dao.addBlogPost(bp);
-        List<BlogPost> findMyPost = dao.searchBlogPosts(null,"1",null,"Meshuggah rules! \\m/\\m/");
+        List<BlogPost> findMyPost = dao.searchBlogPosts(null,"1",null,"Rush On Shrooms Rules!");
         assertEquals(1, findMyPost.size());
     }
 

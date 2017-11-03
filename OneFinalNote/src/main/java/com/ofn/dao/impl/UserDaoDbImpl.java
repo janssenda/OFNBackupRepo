@@ -25,16 +25,16 @@ import static com.ofn.dao.impl.DataManipulator.varArgs;
 public class UserDaoDbImpl implements UserDao {
 
     private static final String SQL_INSERT_AUTHORITY
-            = "insert into authorities (username, authority) values (?, ?)";
+            = "insert into authorities (UserName, Authority) values (?, ?)";
 
     private static final String SQL_DELETE_AUTHORITIES
-            = "delete from authorities where username = ?";
+            = "delete from authorities where UserName = ?";
 
     private static final String SQL_INSERT_USER
-            = "insert into users (UserName, UserPass, Avatar, UserProfile) values (?, ?, ?, ?)";
+            = "insert into users (UserName, UserPass, Avatar, UserProfile, Enabled) values (?, ?, ?, ?, 1)";
 
     private static final String SQL_UPDATE_USER
-            = "update users set UserName = ?, UserPass = ?, Avatar = ?, UserProfile = ? where UserID = ?";
+            = "update users set UserName = ?, UserPass = ?, Avatar = ?, UserProfile = ?, Enabled = ? where UserID = ?";
 
     private static final String SQL_GET_ALL_USERS
             = "select * from users";
@@ -90,7 +90,18 @@ public class UserDaoDbImpl implements UserDao {
     @Override
     public boolean updateUser(User user) {
         int success = jdbcTemplate.update(SQL_UPDATE_USER, user.getUserName(), user.getUserPW(),
-                user.getUserAvatar(), user.getUserProfile(), user.getUserId());
+                user.getUserAvatar(), user.getUserProfile(), user.getIsEnabled(), user.getUserId());
+
+        jdbcTemplate.update(SQL_DELETE_AUTHORITIES, user.getUserName());
+
+        // now insert user's roles
+        ArrayList<String> authorities = user.getAuthorities();
+        for (String authority : authorities) {
+            jdbcTemplate.update(SQL_INSERT_AUTHORITY,
+                    user.getUserName(),
+                    authority);
+        }
+
         if (success == 1) {
             User updatedUser = jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new UserMapper(),
                     user.getUserId());

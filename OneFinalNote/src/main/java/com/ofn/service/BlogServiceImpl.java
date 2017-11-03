@@ -5,6 +5,7 @@ import com.ofn.dao.impl.PersistenceException;
 import com.ofn.dao.interfaces.*;
 import com.ofn.model.*;
 
+import javax.jnlp.PersistenceService;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,13 +29,22 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
+    public void refresh(){
+        this.mDao.refresh();
+    }
+
+    @Override
     public List<Tag> getAllTags() {
         return bpDao.getAllTags();
     }
 
     @Override
-    public boolean addTag(Tag tag) {
-        return bpDao.addTag(tag);
+    public boolean addTag(Tag tag) throws PersistenceException {
+        boolean isAdded = bpDao.addTag(tag);
+        if(!isAdded){
+            throw new PersistenceException("Couldn't add tag");
+        }
+        return isAdded;
     }
 
     @Override
@@ -48,23 +58,36 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public Category addCategory(Category category) {
-        return cDao.addCategory(category);
+    public Category addCategory(Category category) throws PersistenceException {
+        Category cat = cDao.addCategory(category);
+        if(cat == null){
+            throw new PersistenceException("Couldn't add category");
+        }
+        return cat;
     }
 
     @Override
-    public Category updateCategory(Category category) {
+    public Category updateCategory(Category category) throws PersistenceException {
         boolean isUpdated = cDao.updateCategory(category);
-        if(isUpdated){
+        if(!isUpdated) {
+            throw new PersistenceException("Couldn't update category");
+        }
+        else{
             Category cat = cDao.getCategory(category.getCategoryID());
+            if(cat == null) {
+                throw new PersistenceException("Error retrieving updated category");
+            }
             return cat;
         }
-        return null;
     }
 
     @Override
-    public boolean removeCategory(int catId) {
-        return cDao.removeCategory(catId);
+    public boolean removeCategory(int catId) throws PersistenceException {
+        boolean isDeleted = cDao.removeCategory(catId);
+        if(!isDeleted){
+            throw new PersistenceException("Couldn't delete category");
+        }
+        return isDeleted;
     }
 
     @Override
@@ -195,9 +218,7 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public Comment getCommentById(int commentId) {
-        return coDao.getComment(commentId);
-    }
+    public Comment getCommentById(int commentId) {return coDao.getComment(commentId);}
 
     @Override
     public List<BlogPost> getPublishedPosts() {
@@ -256,7 +277,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<BlogPost> getByTags(String[] tags) {
-        return bpDao.searchBlogPosts(tags);
+        List<BlogPost> postsForTags = new ArrayList<>();
+        for(String tag : tags){
+            Tag t = new Tag();
+            t.setTagText(tag);
+            List<BlogPost> postsForTag = getPostsByTag(t);
+            postsForTags.addAll(postsForTag);
+        }
+        return postsForTags;
     }
 
     @Override
@@ -267,7 +295,8 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public List<BlogPost> getPostsByTag(Tag tag) {
 //        yet to implement;
-        return null;
+        List<BlogPost> postsByTag = bpDao.getBlogPostsByTag(tag);
+        return postsByTag;
     }
 
     @Override

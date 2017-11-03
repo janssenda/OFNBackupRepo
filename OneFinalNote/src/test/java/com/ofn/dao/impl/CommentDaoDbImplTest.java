@@ -31,10 +31,7 @@ public class CommentDaoDbImplTest {
                 = new ClassPathXmlApplicationContext(
                 "test-applicationContext.xml");
         dao = ctx.getBean("CommentDao", CommentDao.class);
-        List<Comment> commentDBEntries = dao.getAllComments();
-        for(Comment comm : commentDBEntries) {
-            dao.removeComment(comm.getCommentId());
-        }
+
         mDao = ctx.getBean("maintenanceDao", DBMaintenanceDao.class);
 
         mDao.refresh();
@@ -46,23 +43,7 @@ public class CommentDaoDbImplTest {
     }
 
     @Test
-    public void getCommentsForPost() throws Exception {
-        Comment comm = new Comment();
-        User u = new User();
-        u.setUserId(1);
-        comm.setUser(u);
-        comm.setBlogPostId(1);
-        comm.setBody("Seriously, if you haven't tried it, you don't know what you're missing!");
-        comm.setCommentTime(LocalDateTime.now());
-        comm.setPublished(true);
-        dao.addComment(comm);
-        Comment comm2 = new Comment();
-        comm2.setUser(u);
-        comm2.setBlogPostId(1);
-        comm2.setBody("Please do it. You'll thank me for it.");
-        comm2.setCommentTime(LocalDateTime.now());
-        comm2.setPublished(true);
-        dao.addComment(comm2);
+    public void getCommentsForPost() throws Exception{
         List<Comment> commsForPost = dao.getCommentsForPost(1);
         assertEquals(2, commsForPost.size());
     }
@@ -107,73 +88,32 @@ public class CommentDaoDbImplTest {
         comm.setBody("Seriously, if you haven't tried it, you don't know what you're missing!");
         comm.setCommentTime(LocalDateTime.now());
         comm.setPublished(true);
-        Comment posted = dao.addComment(comm);
-        posted.setBody("You must try it. It is the best... RUSH ever. SEE WHAT I DID THERE?!");
+        comm = dao.addComment(comm);
+        comm.setBody("You must try it. It is the best... RUSH ever. SEE WHAT I DID THERE?!");
         comm.setCommentTime(LocalDateTime.now());
-        boolean isUpdated = dao.updateComment(posted);
+        boolean isUpdated = dao.updateComment(comm);
         assertTrue(isUpdated);
     }
 
     @Test
     public void getComment() throws Exception {
-        Comment comm = new Comment();
-        User u = new User();
-        u.setUserId(1);
-        comm.setUser(u);
-        comm.setBlogPostId(1);
-        comm.setBody("Seriously, if you haven't tried it, you don't know what you're missing!");
-        comm.setCommentTime(LocalDateTime.now());
-        comm.setPublished(true);
-        dao.addComment(comm);
-        Comment getComm = dao.getComment(comm.getCommentId());
-        assertEquals(getComm.getCommentId(), comm.getCommentId());
-        assertEquals(getComm.getBody(), comm.getBody());
+        Comment getComm = dao.getComment(1);
+        assertEquals(1, getComm.getCommentId());
+        assertEquals("Seriously, though, it is quite the... rush. See what I did there?!", getComm.getBody());
     }
 
     @Test
     public void getCommentsByUserId() throws Exception {
-        Comment comm = new Comment();
-        User u = new User();
-        u.setUserId(1);
-        comm.setUser(u);
-        comm.setBlogPostId(1);
-        comm.setBody("Seriously, if you haven't tried it, you don't know what you're missing!");
-        comm.setCommentTime(LocalDateTime.now());
-        comm.setPublished(true);
-        dao.addComment(comm);
-        Comment comm2 = new Comment();
-        comm2.setUser(u);
-        comm2.setBlogPostId(1);
-        comm2.setBody("Please do it. You'll thank me for it.");
-        comm2.setCommentTime(LocalDateTime.now());
-        comm2.setPublished(true);
-        dao.addComment(comm2);
         List<Comment> commsForUser = dao.getCommentsByUserId(1);
         assertEquals(2, commsForUser.size());
     }
 
     @Test
     public void getRandomComment() throws Exception {
-        Comment comm = new Comment();
-        User u = new User();
-        u.setUserId(1);
-        comm.setUser(u);
-        comm.setBlogPostId(1);
-        comm.setBody("Seriously, if you haven't tried it, you don't know what you're missing!");
-        comm.setCommentTime(LocalDateTime.now());
-        comm.setPublished(true);
-        dao.addComment(comm);
-        Comment comm2 = new Comment();
-        comm2.setUser(u);
-        comm2.setBlogPostId(1);
-        comm2.setBody("Please do it. You'll thank me for it.");
-        comm2.setCommentTime(LocalDateTime.now());
-        comm2.setPublished(true);
-        dao.addComment(comm2);
         Comment rando = dao.getRandomComment();
         assertNotNull(rando);
-        assertTrue(rando.getCommentId() == comm.getCommentId() ||
-                rando.getCommentId() == comm2.getCommentId());
+        assertTrue(rando.getCommentId() == 1||
+                rando.getCommentId() == 2);
     }
 
 }

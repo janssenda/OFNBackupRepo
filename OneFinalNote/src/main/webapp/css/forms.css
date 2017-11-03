@@ -1,4 +1,4 @@
-
+form {display: inline}
 
 .login-form{width: 90px}
 .form-label{margin-bottom: 12px}
@@ -36,3 +36,5 @@ select option {
     background: white;
     color: #000;
 }
+
+.errmsg{font-size: 10px; color:red}

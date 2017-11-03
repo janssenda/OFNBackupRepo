@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 public class PageDaoDbImplTest {
 
     private PageDao dao;
+    private DBMaintenanceDao mDao;
 
     @Before
     public void setUp() throws Exception {
@@ -28,10 +29,8 @@ public class PageDaoDbImplTest {
                 = new ClassPathXmlApplicationContext(
                 "test-applicationContext.xml");
         dao = ctx.getBean("PageDao", PageDao.class);
-        List<Page> pageDBEntries = dao.getAllPages();
-        for(Page p : pageDBEntries){
-            dao.removePage(p.getPageId());
-        }
+        mDao = ctx.getBean("maintenanceDao", DBMaintenanceDao.class);
+        mDao.refresh();
     }
 
     @After
@@ -42,10 +41,9 @@ public class PageDaoDbImplTest {
     public void addPage() throws Exception {
         Page p = new Page();
         p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
+        p.setBody("dynamic html code for a new static page");
         p.setUpdatedTime(LocalDateTime.now());
-        Timestamp testTS = Timestamp.valueOf(p.getUpdatedTime());
-        p.setTitle("my first static page");
+        p.setTitle("a static page");
         User u = new User();
         u.setUserId(1);
         u.setUserName("sethroTull");
@@ -53,9 +51,9 @@ public class PageDaoDbImplTest {
         u.setUserAvatar("sethroTullTheWerewolf.jpg");
         u.setUserProfile("ofn.org/users/sethroTull");
         p.setUser(u);
-        Page addedPage = dao.addPage(p);
-        assertEquals(1,addedPage.getUser().getUserId());
-        assertEquals(addedPage.getTitle(), p.getTitle());
+        p = dao.addPage(p);
+        assertEquals(1, p.getUser().getUserId());
+        assertEquals("a static page", p.getTitle());
     }
 
     @Test
@@ -72,11 +70,11 @@ public class PageDaoDbImplTest {
         u.setUserAvatar("sethroTullTheWerewolf.jpg");
         u.setUserProfile("ofn.org/users/sethroTull");
         p.setUser(u);
-        Page addedPage = dao.addPage(p);
-        addedPage.setTitle("my first edited static page");
-        addedPage.setBody("dynamic html code for the new static code that is expanded");
-        addedPage.setUpdatedTime(LocalDateTime.now());
-        boolean isEdited = dao.updatePage(addedPage);
+        p = dao.addPage(p);
+        p.setTitle("my first edited static page");
+        p.setBody("dynamic html code for the new static code that is expanded");
+        p.setUpdatedTime(LocalDateTime.now());
+        boolean isEdited = dao.updatePage(p);
         assertTrue(isEdited);
     }
 
@@ -94,85 +92,25 @@ public class PageDaoDbImplTest {
         u.setUserAvatar("sethroTullTheWerewolf.jpg");
         u.setUserProfile("ofn.org/users/sethroTull");
         p.setUser(u);
-        Page addedPage = dao.addPage(p);
-        boolean isDeleted = dao.removePage(addedPage.getPageId());
+        p = dao.addPage(p);
+        boolean isDeleted = dao.removePage(p.getPageId());
         assertTrue(isDeleted);
     }
 
     @Test
     public void getPage() throws Exception {
-        Page p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my first static page");
-        User u = new User();
-        u.setUserId(1);
-        u.setUserName("sethroTull");
-        u.setUserPW("cornwolf");
-        u.setUserAvatar("sethroTullTheWerewolf.jpg");
-        u.setUserProfile("ofn.org/users/sethroTull");
-        p.setUser(u);
-        Page addedPage = dao.addPage(p);
-        Page newPage = dao.getPage(addedPage.getPageId());
-        assertEquals(newPage.getTitle(), addedPage.getTitle());
+        Page newPage = dao.getPage(1);
+        assertEquals("Welcome to One Final Note",  newPage.getTitle());
     }
 
     @Test
     public void getLinks() throws Exception {
-        Page p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my first static page");
-        User u = new User();
-        u.setUserId(1);
-        u.setUserName("sethroTull");
-        u.setUserPW("cornwolf");
-        u.setUserAvatar("sethroTullTheWerewolf.jpg");
-        u.setUserProfile("ofn.org/users/sethroTull");
-        p.setUser(u);
-        dao.addPage(p);
-        p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my second static page");
-        p.setUser(u);
-        dao.addPage(p);
-        p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my first static page");
-        p.setUser(u);
-        dao.addPage(p);
         Map<Integer,String> pageLinks = dao.getLinks();
-        assertEquals(3,pageLinks.size());
+        assertEquals(1, pageLinks.size());
     }
 
     @Test
     public void getAllPages() throws Exception {
-        Page p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my first static page");
-        User u = new User();
-        u.setUserId(1);
-        u.setUserName("sethroTull");
-        u.setUserPW("cornwolf");
-        u.setUserAvatar("sethroTullTheWerewolf.jpg");
-        u.setUserProfile("ofn.org/users/sethroTull");
-        p.setUser(u);
-        dao.addPage(p);
-        p = new Page();
-        p.setPublished(true);
-        p.setBody("dynamic html code for the new static page");
-        p.setUpdatedTime(LocalDateTime.now());
-        p.setTitle("my second static page");
-        p.setUser(u);
-        dao.addPage(p);
         List<Page> allPages = dao.getAllPages();
         assertEquals(2, allPages.size());
     }
