@@ -1,8 +1,10 @@
+body {font-family: Arial; background-color: #f7f7f7; font-size: 11pt;
+}
 
 a, a:visited {color: black}
-a:hover, a.active {color:green; text-decoration: none}
+a:hover, a.active {color: #c80022; text-decoration: none}
 
-#page {width: 80%; margin-right: auto; margin-left: auto;}
+#page {width: 90%; margin-right: auto; margin-left: auto;}
 
 hr {
     border: 0;
@@ -16,9 +18,40 @@ hr {
     display: flex;
     align-items: flex-end;
 }
+.test{border: dashed 1px #61625a;
+}
 
+.center-offset{padding-right: 170px;}
+.center-offset-editor{padding-right: 70px;}
+.staticpages{font-size: 11pt}
+.staticpages:hover{color: #c80022; cursor: pointer}
+
+#linktitle{font-size: 12pt; font-weight: bold; text-decoration: underline; margin-bottom: 10px}
 #title-row {margin-bottom: -10px; padding-right: 15px; padding-left: 15px}
-#title-col, #welcome {margin-bottom: -5px}
-#title {font-size: 16pt; font-weight: bold; font-family: Arial;}
+#title-col, #welcome {padding-top: 3px}
+#title-col-left {padding-bottom: 5px}
+#title {font-size: 16pt; font-weight: bold;}
 #hello{font-weight: bold; color:red}
 #welcome {font-size: 12pt}
+
+
+#links-ul{padding: 0 0 0 15px; margin-left: 0;}
+.errmsg{font-size: 10px; color:red}
+
+
+.page-container{
+    border: dotted 1px darkgray;
+    border-radius: 5px;
+    width: 90%;
+    padding: 20px;
+    display: block;
+    margin-left:auto;
+    margin-right: auto;
+    background-color: white;
+
+}
+.user-role-form{display: inline}
+.user-role-div{border-bottom: solid 1px black}
+.edit-username-font{color: #2aabd2}
+.editbutton{width:18%; min-width: 30px}
+.roleselect{width:40%;}

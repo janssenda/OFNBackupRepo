@@ -5,6 +5,7 @@ import com.ofn.model.*;
 import org.springframework.security.access.method.P;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BlogService {
 
@@ -37,6 +38,7 @@ public interface BlogService {
     Page updatePage (Page page) throws PersistenceException;
     Page removePage (int pageId) throws PersistenceException;
     Page getPageById(int pageId);
+    Map<Integer, String> getPageLinks();
 
     // Comments
     Comment addComment(Comment comment) throws PersistenceException;

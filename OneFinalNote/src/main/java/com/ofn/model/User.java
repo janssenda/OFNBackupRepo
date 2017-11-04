@@ -16,13 +16,13 @@ public class User {
     private String userAvatar;
     private String userProfile;
     private boolean isEnabled;
-    private ArrayList<String> authorities = new ArrayList<>();
+    private List<String> authorities = new ArrayList<>();
     private List<Comment> userComments;
 
-    public ArrayList<String> getAuthorities() {
+    public List<String> getAuthorities() {
         return authorities;
     }
-    public void setAuthorities(ArrayList<String> authorities) {
+    public void setAuthorities(List<String> authorities) {
         this.authorities = authorities;
     }
     public List<Comment> getUserComments() {return userComments;}
@@ -64,6 +64,11 @@ public class User {
 
     public boolean getIsEnabled(){
         return this.isEnabled;
+    }
+
+
+    public User(){
+        this.isEnabled = true;
     }
 
 

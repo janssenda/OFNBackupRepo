@@ -5,9 +5,9 @@ import com.ofn.dao.impl.PersistenceException;
 import com.ofn.dao.interfaces.*;
 import com.ofn.model.*;
 
-import javax.jnlp.PersistenceService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class BlogServiceImpl implements BlogService{
 
@@ -134,14 +134,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<Page> getPublishedPages() {
-       List<Page> allPages = pDao.getAllPages();
-       List<Page> retPages = new ArrayList<>();
-       for(Page p : allPages){
-           if(p.isPublished()){
-               retPages.add(p);
-           }
-       }
-       return retPages;
+        List<Page> allPages = pDao.getAllPages();
+        List<Page> retPages = new ArrayList<>();
+        for(Page p : allPages){
+            if(p.isPublished()){
+                retPages.add(p);
+            }
+        }
+        return retPages;
     }
 
     @Override
@@ -297,6 +297,12 @@ public class BlogServiceImpl implements BlogService{
 //        yet to implement;
         List<BlogPost> postsByTag = bpDao.getBlogPostsByTag(tag);
         return postsByTag;
+    }
+
+    @Override
+    public Map<Integer, String> getPageLinks(){
+        return pDao.getLinks();
+
     }
 
     @Override

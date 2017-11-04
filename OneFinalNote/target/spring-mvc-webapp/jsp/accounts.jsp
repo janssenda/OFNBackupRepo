@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -15,12 +16,13 @@
 <body>
 <div class="container" id="page">
 
+
     <hr/>
     <div class="row" id="title-row">
         <div class="col-sm-6 text-left" id="title-col-left">
 
-            <ul id="m" class="nav nav-pills" style="display: inline-block; width:50px">
-                <li id="menudrop" class="dropdown">
+            <ul class="nav nav-pills" style="display: inline-block; width:50px">
+                <li class="dropdown">
                     <a data-toggle="dropdown" href="#"><img id="menu-button" src="./images/ofn-menu.png"/></a>
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
@@ -63,46 +65,76 @@
     <div class="row">
         <div class="col-sm-2 text-left" id="links-bar">
             <div class="row">
-                <div class="col-12 text-left">
+                <div class="col-12 text-center">
                     <div id="linktitle">Content</div>
                 </div>
             </div>
 
             <div id="staticpagelinkdiv">
                 <ul id="links-ul">
-                    <c:forEach var="link" items="${pageLinks}">
-                        <li class="staticpages" id="staticpage${link.key}">${link.value}</li>
-                    </c:forEach>
-                    <li class="staticpages">Music</li>
-                    <li class="staticpages">About Me</li>
+                    <li class="staticpages">View Users</li>
+                    <li class="staticpages">Search Users</li>
                 </ul>
             </div>
         </div>
-        <div class="col-sm-10 text-center center-offset-editor">
-            <div id="staticdiv">
+        <div class="col-sm-10 text-center center-offset">
+            <div class="row">
+                <div class="col-12">
+                    <h2>Manage Users</h2>
+                </div>
+            </div>
+            <br/>
+
+
+            <div style="display: inline-block; width: 90%">
+
+                <c:forEach var="user" items="${users}">
+
+                    <div class="user-role-div text-left">
+                        <form action="./manageuser?userid=${user.userId}" method="post">
+                            <div class="row">
+                                <div class="col-sm-7">
+                                    Username: <span class="edit-username-font"><c:out
+                                        value="${user.userName}"/></span><br/>
+                                    Authorities:
+                                    <c:forEach var="auth" items="${user.authorities}" varStatus="status">
+                                        ${auth}<c:if test="${not status.last}">, </c:if>
+                                    </c:forEach>
+
+                                </div>
+                                <div class="col-sm-5 text-right" style="margin-top: -7px">
+                                    <input name="enabledbox" class="ebox" value="true" type="checkbox"
+                                           <c:if test="${user.isEnabled}">checked="checked"</c:if>
+                                           style="margin-bottom: 2px"/>
+                                    Enabled<br/>
+
+                                    <select name="roleselect" class="roleselect">
+                                        <option value="false">Change Role</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="user">User</option>
+                                    </select>
+                                    <button class="editbutton" type="submit" name="editbutton" value="delete">Delete
+                                    </button>
+                                    <button class="editbutton" type="submit" name="editbutton" value="update">Update
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <br/>
+
+                </c:forEach>
 
             </div>
         </div>
+
+
     </div>
-
-
-</div>
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
-<script src="./js/jquery-3.2.1.min.js"></script>
-<script src="./js/bootstrap.min.js"></script>
-<script src="./js/ofn.js"></script>
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
 
 </body>
 </html>
 
-
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--<p>  This is only visible to users who are logged in.  </p>--%>
-<%--</sec:authorize>--%>
-
-<%--<sec:authorize access="hasRole('ROLE_ADMIN')">           <p>--%>
-<%--This is only visible to users who also have the ADMIN role.--%>
-<%--</p>--%>
-<%--<a href="displayuserlist">Display list of users</a>--%>
-<%--</sec:authorize>--%>

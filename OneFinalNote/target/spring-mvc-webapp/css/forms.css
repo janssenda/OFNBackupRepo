@@ -1,12 +1,21 @@
-form {display: inline}
+
 
 .login-form{width: 90px}
 .form-label{margin-bottom: 12px}
 
-input:focus, input:active {border: 1px solid green; box-shadow: 0px 0px 5px #7fff21}
+input:focus, input:active {border: 1px solid green; box-shadow: 0px 0px 5px #7fff21; background-color: white}
 button:active {background-color: black; color: white}
-button:hover {box-shadow: 0px 0px 5px #7fff21}
+button:hover {
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
+    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
+    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);}
 button:active, button:hover, button:focus {outline: none;}
+
+.ebox:hover, .ebox:active, .ebox:focus, .ebox{
+    border: 0;
+    box-shadow: none;
+    background-color: white;
+}
 
 select, input, button {
     font-size: 12px;
@@ -14,20 +23,20 @@ select, input, button {
     -webkit-box-sizing:content-box;
     box-sizing:content-box;
     vertical-align: bottom;
-    height: 16px;
+    height: 18px;
     padding: 2px;
     outline: none;
     border: 1px solid black;
-    border-radius: 2px;
+    border-radius: 4px;
 }
 
 button {
     padding-left: 8px; padding-right: 8px;
-    background-color: white;
-    color: black;
+    background-color: #3e5eff;
+    color: white;
     text-decoration: none;
     cursor: pointer;
-    border: 1px solid black;
+    border: 1px solid #2e40af;
     box-shadow:none;
 }
 
@@ -37,4 +46,32 @@ select option {
     color: #000;
 }
 
-.errmsg{font-size: 10px; color:red}
+.dropdown-menu {
+    padding: 5px 20px 5px 20px;
+    background-color: rgba(216, 229, 224, 1);
+    color:black;
+    border: solid 1px black;
+    min-width: 50px;
+    margin-top: 0;
+    width:120px;
+    box-shadow: 3px 5px 21px rgba(0, 0, 0, 0.80);
+    -moz-box-shadow: 3px 5px 21px rgba(0, 0, 0, 0.80);
+    -webkit-box-shadow: 3px 5px 21px rgba(0, 0, 0, 0.80);
+}
+
+#menu-button{
+    width: 43px;
+    border: none;
+    outline: none;
+    background-color: transparent;
+    margin-bottom: 8px;
+}
+#menu-button:hover{outline: none; background-color: transparent;
+    -webkit-filter: drop-shadow(5px 5px 5px #222);
+    filter:         drop-shadow(5px 5px 5px #222);}
+
+#menu-button:active{outline: none; background-color: transparent}
+.dropdown-divider{background-color:black}
+.dropdown:hover .dropdown-content {
+    display: block;
+}

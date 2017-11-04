@@ -16,8 +16,8 @@ CREATE TABLE users (
 CREATE TABLE authorities (
 	UserName VARCHAR(255) NOT NULL,
     Authority VARCHAR(255) NOT NULL,
-    KEY (UserName)
---     FOREIGN KEY (UserName) REFERENCES users(UserName)
+    KEY (UserName),    
+    FOREIGN KEY (UserName) REFERENCES users(UserName)
 );
     
 CREATE TABLE tags (
@@ -78,19 +78,15 @@ CREATE TABLE blogpoststags (
     FOREIGN KEY (TagText) REFERENCES tags(TagText)
 );
 
-insert into users (UserName, UserPass, Avatar, UserProfile, Enabled) values ("sethroTull", "$2a$10$tU5.6jgOZS/EbKKg.1kwTu85PUfTdl3VfsNBkQ482pFzTTZdsxJsG", "sethroTullWerewolf.jpg", "ofn.org/users/sethroTull", 1);
-insert into categories (CategoryName, Description) values ("hippie","news on jam bands, prog rock, and acid rock");
-insert into tags (TagText) values ("hippie");
-insert into tags (TagText) values ("metal");
-insert into tags (TagText) values ("Meshuggah");
-insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (1, now(), "Rush On Shrooms Rules!", 1, "<html>Listen to Rush after taking shrooms! You won't be disappointed!</html>", now(), addtime(now(), '14 0:00:00.00'), true);
+ 
  
 INSERT INTO users (UserName, UserPass, Avatar, UserProfile, Enabled) VALUES
 ('admin', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
 ('user', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
 ('owner', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
 ('janssenda','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,null,1),
-('hlemke91','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,null,1);
+('hlemke91','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,null,1),
+('sethroTull', 'cornwolf', 'sethroTullWerewolf.jpg', 'ofn.org/users/sethroTull', 1);
 
 INSERT INTO authorities (UserName, Authority) VALUES
 ('admin', 'ROLE_ADMIN'),
@@ -109,8 +105,23 @@ INSERT INTO authorities (UserName, Authority) VALUES
 ('hlemke91', 'ROLE_ADMIN'),
 ('hlemke91', 'ROLE_USER');
 
-ALTER TABLE `authorities`
- ADD CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`UserName`) REFERENCES `users` (`UserName`);
+insert into categories (CategoryName, Description) values ("hippie","news on jam bands, prog rock, and acid rock");
+
+insert into tags (TagText) values ("hippie");
+insert into tags (TagText) values ("metal");
+insert into tags (TagText) values ("Meshuggah");
+
+insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (1, now(), "Rush On Shrooms Rules!", 1, "<html>Listen to Rush after taking shrooms! You won't be disappointed!</html>", now(), addtime(now(), '14 0:00:00.00'), true);
+insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (1, now(), "test blog", 1, "page about metal draft", now(), now(), false);
+insert into blogpoststags(BlogPostID, TagText) values (1, "hippie"); 
+
+insert into staticpages (UserID, UpdatedTime, PageTitle, Body, Published) values (1, now(), "Welcome to One Final Note", "<html>You've parked it at the one-stop source for all things music. News of band formations, breakups, tour schedules, album releases, awards, chartings, shindigs, hoedowns, ragers, ravers, you name it. Every beautiful day and hard day's night, we're blogging about music.<p><h3 style='font:metal;color:red'>Enjoy!</h3><img src='hlemke91andjanssendaandsethrotullcandid.png'/> -Hayden, Danimae, and Seth</html>", true);
+insert into staticpages (UserID, UpdatedTime, PageTitle, Body, Published) values (1, now(), "test page", "test page code draft", false);
+
+insert into comments(BlogPostID, UserID, Body, CommentTime, Published) values (1, 1, "Seriously, though, it is quite the... rush. See what I did there?!", now(), true);
+insert into comments(BlogPostID, UserID, Body, CommentTime, Published) values (1, 1, "If you don't do it, you're missing out big time.", now(), false);
+
+
 
 DROP DATABASE IF EXISTS ofnblogtest;
 CREATE DATABASE ofnblogtest;

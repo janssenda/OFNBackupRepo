@@ -1,8 +1,6 @@
 package com.ofn.service;
 
-import com.ofn.dao.impl.DBMaintenanceDao;
 import com.ofn.dao.impl.PersistenceException;
-import com.ofn.dao.interfaces.*;
 import com.ofn.model.*;
 import org.junit.After;
 import org.junit.Before;
@@ -165,7 +163,7 @@ public class BlogServiceImplTest {
             u.setAuthorities(authoritah);
             u.setUserComments(new ArrayList<>());
             u = service.addUser(u);
-            ArrayList<String> auth = u.getAuthorities();
+            List<String> auth = u.getAuthorities();
             auth.add("owner");
             u.setAuthorities(auth);
             User updated = service.updateUser(u);

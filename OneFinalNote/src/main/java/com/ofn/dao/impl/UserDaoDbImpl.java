@@ -10,8 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static com.ofn.dao.impl.DataManipulator.nullify;
 import static com.ofn.dao.impl.DataManipulator.varArgs;
@@ -30,8 +29,11 @@ public class UserDaoDbImpl implements UserDao {
     private static final String SQL_DELETE_AUTHORITIES
             = "delete from authorities where UserName = ?";
 
+    private static final String SQL_GET_AUTHORITIES
+            = "select Authority from authorities where UserName = ?";
+
     private static final String SQL_INSERT_USER
-            = "insert into users (UserName, UserPass, Avatar, UserProfile, Enabled) values (?, ?, ?, ?, 1)";
+            = "insert into users (UserName, UserPass, Avatar, UserProfile, Enabled) values (?, ?, ?, ?, ?)";
 
     private static final String SQL_UPDATE_USER
             = "update users set UserName = ?, UserPass = ?, Avatar = ?, UserProfile = ?, Enabled = ? where UserID = ?";
@@ -57,25 +59,30 @@ public class UserDaoDbImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public User getUserById(int userId) {
-        return jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), userId);
+        List<User> tempList = new ArrayList<>();
+        tempList.add(jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), userId));
+        return includeUserAuthorities(tempList).get(0);
     }
 
     @Override
     public List<User> getAllUsers() {
-        return jdbcTemplate.query(SQL_GET_ALL_USERS, new UserMapper());
+
+        return includeUserAuthorities(jdbcTemplate.query(SQL_GET_ALL_USERS, new UserMapper()));
     }
 
     @Override
+    @Transactional
     public User addUser(User user) {
         int success = jdbcTemplate.update(SQL_INSERT_USER, user.getUserName(), user.getUserPW(),
-                user.getUserAvatar(), user.getUserProfile());
+                user.getUserAvatar(), user.getUserProfile(), user.getIsEnabled());
         if (success == 1) {
             int id = jdbcTemplate.queryForObject("select LAST_INSERT_ID()", Integer.class);
             User userAdded = jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), id);
 
             // now insert user's roles
-            ArrayList<String> authorities = user.getAuthorities();
+            List<String> authorities = user.getAuthorities();
             for (String authority : authorities) {
                 jdbcTemplate.update(SQL_INSERT_AUTHORITY,
                         user.getUserName(),
@@ -88,6 +95,7 @@ public class UserDaoDbImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public boolean updateUser(User user) {
         int success = jdbcTemplate.update(SQL_UPDATE_USER, user.getUserName(), user.getUserPW(),
                 user.getUserAvatar(), user.getUserProfile(), user.getIsEnabled(), user.getUserId());
@@ -95,7 +103,7 @@ public class UserDaoDbImpl implements UserDao {
         jdbcTemplate.update(SQL_DELETE_AUTHORITIES, user.getUserName());
 
         // now insert user's roles
-        ArrayList<String> authorities = user.getAuthorities();
+        List<String> authorities = user.getAuthorities();
         for (String authority : authorities) {
             jdbcTemplate.update(SQL_INSERT_AUTHORITY,
                     user.getUserName(),
@@ -114,6 +122,7 @@ public class UserDaoDbImpl implements UserDao {
     }
 
     @Override
+    @Transactional
     public boolean removeUser(int userID) {
         boolean success = false;
 
@@ -145,11 +154,30 @@ public class UserDaoDbImpl implements UserDao {
             jdbcTemplate.execute(qdata);
 
             // Search for usersw based on the given criteria,
-            return jdbcTemplate.query(GET_USER_QUERY_MULTI, new UserMapper());
+            return includeUserAuthorities(jdbcTemplate.query(GET_USER_QUERY_MULTI, new UserMapper()));
 
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    // This was written to load the users with their authorities as they are retrieved
+    // from the database.  The query returns a list of maps of objects, and therefore
+    // requires some extensive lambda work to extract.  Ultimately, all this method
+    // does is add the roles eg: "ROLE_ADMIN" to the user authority list.
+    // Please leave as is -- Danimae
+    private List<User> includeUserAuthorities(List<User> userList){
+
+        userList.forEach((u) ->{
+            List<Map<String, Object>> datafromDB = jdbcTemplate.queryForList(SQL_GET_AUTHORITIES, u.getUserName());
+
+            datafromDB.forEach((pair) -> {
+                List<String> s = new ArrayList<>();
+                pair.values().forEach((auth) -> s.add((String) auth));
+                u.getAuthorities().addAll(s);
+            });
+        });
+        return userList;
     }
 
     public static final class UserMapper implements RowMapper<User> {
@@ -162,6 +190,8 @@ public class UserDaoDbImpl implements UserDao {
             user.setUserPW(resultSet.getString("UserPass"));
             user.setUserAvatar(resultSet.getString("Avatar"));
             user.setUserProfile(resultSet.getString("UserProfile"));
+            user.setEnabled((resultSet.getString("Enabled").equals("1")));
+
             return user;
         }
     }

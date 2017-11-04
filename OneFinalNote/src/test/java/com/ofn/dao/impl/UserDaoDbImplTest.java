@@ -41,6 +41,9 @@ public class UserDaoDbImplTest {
 //        u.setUserProfile("ofn.org/users/hlemke91");
 //        u = dao.addUser(u);
         User getUser = dao.getUserById(6);
+
+
+
         assertNotNull(getUser);
         assertEquals("hlemke91",getUser.getUserName());
 //        assertEquals(u.getUserPW(),u.getUserPW());

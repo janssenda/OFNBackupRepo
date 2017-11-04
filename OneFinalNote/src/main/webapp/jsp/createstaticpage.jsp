@@ -6,7 +6,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Index Page</title>
+    <title>Create a Static Page</title>
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
     <link href="./css/main.css" rel="stylesheet">
@@ -14,6 +14,8 @@
     <!-- Include external CSS. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.css">
+
+
     <!-- Include Editor style. -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.1/css/froala_editor.pkgd.min.css" rel="stylesheet" type="text/css" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.1/css/froala_style.min.css" rel="stylesheet" type="text/css" />
@@ -65,42 +67,64 @@
             </div>
             <hr/>
 
-            <div class="row">
-                <div class="col-sm-2 text-left" id="links-bar">
-                    <div class="row">
-                        <div class="col-12 text-center">
-                            <div id="linktitle">Content</div>
-                        </div>
-                    </div>
 
-                    <div id="staticpagelinkdiv">
-                        <ul id="links-ul">
-                            <c:forEach var="link" items="${pageLinks}">
-                                <li class="staticpages" id="staticpage${link.key}">${link.value}</li>
-                            </c:forEach>
-                            <li class="staticpages" >Music</li>
-                            <li class="staticpages" >About Me</li>
-                        </ul>
-                    </div>
+            <div class="row">
+                <div class="col-sm-3 text-center">
+                    Links over here
                 </div>
-                <div class="col-sm-10 text-center center-offset-editor">
-                    <form action="save" method="POST">
-                        <textarea id="newBlogPost">Write a blog post here! Write the text in this box, and format/insert content using the toolbar!</textarea>
-                        <button>SUBMIT</button>
-                    </form>
+                <div class="col-sm-8 text-center">
+
+
+                    Create a new Post
+
+                    <p>
+                        Anyone can see this
+                    </p>
+                    <sec:authorize access="isAuthenticated()">
+                        <p>
+                            This is only visible to users who are logged in.
+                        </p>
+                    </sec:authorize>
+
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <p>
+                            This is only visible to users who also have the ADMIN role.
+                        </p>
+                        <form action="save" method="POST">
+                            <textarea id="newStaticPage">Write a blog post here! Write the text in this box, and format/insert content using the toolbar!</textarea>
+                            <button>SUBMIT</button>
+                        </form>
+                    </sec:authorize>
                 </div>
+
+
             </div>
 
 
         </div>
-
+        <!-- Placed at the end of the document so the pages load faster -->
         <script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
         <script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+        <!-- froala goodies incoming-->
+
+
+        <!-- Include external JS libs. -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/codemirror.min.js"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.25.0/mode/xml/xml.min.js"></script>
+
+        <!-- Include Editor JS files. -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/froala-editor/2.7.1/js/froala_editor.pkgd.min.js"></script>
-       <script> $(function() {$('#newBlogPost').froalaEditor({ heightMin:300, charCounterCount: false })});</script>
+
+        <!-- Initialize the editor. -->
+       <script>
+  $(function() {
+    $('#newStaticPage').froalaEditor({
+      heightMin:300,
+      charCounterCount: false
+    })
+  });
+</script>
 
     </body>
 </html>

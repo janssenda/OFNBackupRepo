@@ -1,4 +1,0 @@
-com\ofn\dao\controller\DefaultController.class
-com\ofn\model\BlogPostTag.class
-com\ofn\service\BlogServiceImpl.class
-com\ofn\dao\impl\BlogPostDaoDbImpl$BlogPostTagMapper.class

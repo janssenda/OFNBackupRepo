@@ -13,8 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class AccountHandlerController {
@@ -30,16 +29,24 @@ public class AccountHandlerController {
 
     // This endpoint retrieves all users from the database and puts the
     // List of users on the model
-    @RequestMapping(value = "/displayuserlist", method = RequestMethod.GET)
-    public String displayUserList(Map<String, Object> model) {
+    @RequestMapping(value = "/accounts", method = RequestMethod.GET)
+    public String displayUserList(Map<String, Object> model, Model m) {
         List users = dao.getAllUsers();
         model.put("users", users);
-        return "displayuserlist";
+        displayPageLinks(m);
+        return "accounts";
     }
+
+    public void displayPageLinks(Model m){
+        Map<Integer, String> pageLinks = dao.getPageLinks();
+        m.addAttribute("pageLinks", pageLinks);
+    }
+
 
     // This endpoint just displays the Add User form
     @RequestMapping(value = "/signup", method = RequestMethod.GET)
-    public String displayUserForm(Map<String, Object> model) {
+    public String displayUserForm(Map<String, Object> model, Model m) {
+        displayPageLinks(m);
         return "signup";
     }
 
@@ -77,28 +84,89 @@ public class AccountHandlerController {
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
-        return "redirect:index";
+        return "index";
     }
     // This endpoint deletes the specified User
     @RequestMapping(value = "/deleteuser", method = RequestMethod.GET)
-    public String deletUser(@RequestParam("userid") int userId,
-                            Map<String, Object> model) {
+    public String deleteUser(@RequestParam("userid") int userId) {
         try {
             dao.removeUser(userId);
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
-        return "redirect:displayuserlist";
+        return "redirect:accounts";
     }
 
+
+    @RequestMapping(value = "/manageuser", method = RequestMethod.POST)
+    public String changeUser(HttpServletRequest req, Model model,@RequestParam("userid") int userId) {
+
+        // Check if the request was for delete
+        if (req.getParameter("editbutton").equals("delete")){
+            try {
+                dao.removeUser(userId);
+            } catch (PersistenceException e) {
+                // need to add validation
+            }
+            return "redirect:accounts";
+        }
+        User user = dao.getUserById(userId);
+        // Set enabled status
+
+        if (Boolean.parseBoolean(req.getParameter("enabledbox"))) {
+            user.setEnabled(true);
+        } else {
+            user.setEnabled(false);
+        }
+
+        // Update roles if changed
+        addUserAuths(user, req.getParameter("roleselect"));
+
+        try {
+            dao.updateUser(user);
+        }catch (PersistenceException e){
+            // add stuff
+        }
+
+        return "redirect:accounts";
+    }
+
+
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String showLoginForm() {
+    public String showLoginForm(Model m) {
+        displayPageLinks(m);
         return "index";
     }
 
-    @RequestMapping(value = "/createpost", method = RequestMethod.GET)
-    public String showTest() {
-        return "createpost";
+
+    private void addUserAuths(User user, String role){
+        if (role == null || role.trim().isEmpty()){
+            return;
+        }
+
+        List<String> userAuths = new ArrayList<>();
+
+        // If the forwarded value matches a valid role, the authorities are added
+        // Otherwise, the current setting is intentionally left intact
+        switch (role.trim()) {
+            case "owner":
+                userAuths.add("ROLE_OWNER");
+                userAuths.add("ROLE_ADMIN");
+                userAuths.add("ROLE_USER");
+                user.setAuthorities(userAuths);
+                break;
+            case "admin":
+                userAuths.add("ROLE_ADMIN");
+                userAuths.add("ROLE_USER");
+                user.setAuthorities(userAuths);
+                break;
+            case "user":
+                userAuths.add("ROLE_USER");
+                user.setAuthorities(userAuths);
+                break;
+        }
+
     }
 
 
