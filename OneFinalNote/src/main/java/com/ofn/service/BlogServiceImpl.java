@@ -221,6 +221,11 @@ public class BlogServiceImpl implements BlogService{
     public Comment getCommentById(int commentId) {return coDao.getComment(commentId);}
 
     @Override
+    public List<Comment> getCommentsForPost(int blogPostId){
+        return coDao.getCommentsForPost(blogPostId);
+    }
+
+    @Override
     public List<BlogPost> getPublishedPosts() {
         return bpDao.getAllPubBlogPosts();
     }

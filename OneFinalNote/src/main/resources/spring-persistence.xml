@@ -65,6 +65,8 @@
     <bean id="maintenanceDao" class = "com.ofn.dao.impl.DBMaintenanceDao">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
+
+
     <bean id="BlogService"
         class="com.ofn.service.BlogServiceImpl">
         <constructor-arg ref="UserDao"/>

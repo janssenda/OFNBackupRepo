@@ -1,5 +1,9 @@
 package com.ofn.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.time.LocalDateTime;
 
 public class Comment {
@@ -8,6 +12,9 @@ public class Comment {
     private int blogPostId;
     private User user;
     private String body;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = ParseDeserializer.class)
     private LocalDateTime commentTime;
     private boolean published;
 

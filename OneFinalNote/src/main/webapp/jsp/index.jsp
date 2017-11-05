@@ -2,7 +2,8 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<%@page contentType="text/html" pageEncoding="UTF-8" %>
+<%@taglib uri="http://ofn.com/functions" prefix="cf" %>
+<%@ page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -26,7 +27,7 @@
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createpost">New Post</a></li>
+                        <li><a class="hlink" href="./createcontent">New Post</a></li>
                         <li><a class="hlink" href="accounts">Accounts</a></li>
                     </ul>
                 </li>
@@ -70,6 +71,7 @@
 
             <div id="staticpagelinkdiv">
                 <ul id="links-ul">
+                    <li><a class="hlink" href="./">Blog</a></li>
                     <c:forEach var="link" items="${pageLinks}">
                         <li class="staticpages" id="staticpage${link.key}">${link.value}</li>
                     </c:forEach>
@@ -79,19 +81,33 @@
             </div>
         </div>
         <div class="col-sm-10 text-center center-offset-editor">
-            <div id="staticdiv">
-
+            <div id="staticdiv" style="display: none">
             </div>
+            <div id="mainblogdiv">
+                <c:forEach var="blog" items="${allBlogs}">
+                    <div class="blogposts staticpages" id="blogPost${blog.blogPostId}"><c:out value="${blog.title}"/></div><br>
+                    <c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/><br>
+                    <c:out value="${blog.body}" escapeXml="false"/><br>
+                </c:forEach>
+            </div>
+            <div id="singleblogdiv" style="display: none">
+            </div>
+            <div id="commentbuttondiv" style="display: none">
+                Froala form goes here for comments Hayden
+            </div>
+
         </div>
     </div>
 
 
 </div>
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js"></script>
+<script src="./js/tether.min.js"></script>
+<script src="./js/moment.min.js"></script>
 <script src="./js/jquery-3.2.1.min.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/ofn.js"></script>
+<script src="./js/index.js"></script>
 
 </body>
 </html>

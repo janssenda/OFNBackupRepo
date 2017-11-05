@@ -1,5 +1,9 @@
 package com.ofn.model;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -7,12 +11,20 @@ public class BlogPost {
 
     private int blogPostId;
     private int userId;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = ParseDeserializer.class)
     private LocalDateTime updateTime;
     private String title;
     private int categoryId;
-    //private String category;
     private String body;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = ParseDeserializer.class)
     private LocalDateTime startDate;
+
+    @JsonSerialize(using = ToStringSerializer.class)
+    @JsonDeserialize(using = ParseDeserializer.class)
     private LocalDateTime endDate;
     private boolean published;
 

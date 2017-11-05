@@ -1,4 +1,4 @@
-package com.ofn.dao.controller;
+package com.ofn.controller;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

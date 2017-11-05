@@ -1,4 +1,4 @@
-package com.ofn.dao.controller;
+package com.ofn.controller;
 
 import com.ofn.dao.impl.PersistenceException;
 import com.ofn.dao.interfaces.UserDao;

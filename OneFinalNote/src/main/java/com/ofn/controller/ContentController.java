@@ -1,5 +1,7 @@
-package com.ofn.dao.controller;
+package com.ofn.controller;
 
+import com.ofn.model.BlogPost;
+import com.ofn.model.Category;
 import com.ofn.service.BlogService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -14,6 +16,9 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -31,24 +36,28 @@ public class ContentController {
     public String welcomeMap(Model model) {
         Map<Integer, String> pageLinks = service.getPageLinks();
         model.addAttribute("pageLinks", pageLinks);
+        List<BlogPost> allBlogs = service.getPublishedPosts();
+        model.addAttribute("allBlogs", allBlogs);
         return "index";
     }
 
 
-    @RequestMapping(value="/returnRequest",method= RequestMethod.POST)
-    public String returnRequest(HttpServletRequest request, Map<String, Object> model) {
-
-        String userInput = request.getParameter("userInput");
-        model.put("userInput", userInput);
-
-        return "index";
+    public static String formatLocalDateTime(LocalDateTime ldt, String pattern){
+        return ldt.format(DateTimeFormatter.ofPattern(pattern));
     }
-    @RequestMapping(value = "/createpost", method = RequestMethod.GET)
-    public String showTest() {
-              return "createpost";
+
+    public static String localDateTimeToString(LocalDateTime ldt){
+        return ldt.format(DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:SS"));
     }
-    
-     @RequestMapping(value = "/createstaticpage", method = RequestMethod.GET)
+
+    @RequestMapping(value = "/createcontent", method = RequestMethod.GET)
+    public String showTest(Model model) {
+        List<Category> categories = service.getAllCategories();
+        model.addAttribute("categories", categories);
+        return "createcontent";
+    }
+
+    @RequestMapping(value = "/createstaticpage", method = RequestMethod.GET)
     public String createStatic() {
         return "createstaticpage";
     }

@@ -18,14 +18,14 @@
     <div class="row" id="title-row">
         <div class="col-sm-6 text-left" id="title-col-left">
 
-            <ul class="nav nav-pills" style="display: inline-block; width:50px">
-                <li class="dropdown">
+            <ul id="m" class="nav nav-pills" style="display: inline-block; width:50px">
+                <li id="menudrop" class="dropdown">
                     <a data-toggle="dropdown" href="#"><img id="menu-button" src="./images/ofn-menu.png"/></a>
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
                         <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createpost">New Post</a></li>
+                        <li><a class="hlink" href="./createcontent">New Post</a></li>
                         <li><a class="hlink" href="accounts">Accounts</a></li>
                     </ul>
                 </li>
@@ -40,7 +40,8 @@
                 </c:if>
                 <form role="form" action="j_spring_security_check" style="display: inline" method="post">
                     <input class="login-form" style="width:20%" name="j_username" placeholder="Username"/>&nbsp;
-                    <input class="login-form" style="width:20%" type="password" placeholder="Password " name="j_password"/>&nbsp;
+                    <input class="login-form" style="width:20%" type="password" placeholder="Password "
+                           name="j_password"/>&nbsp;
                     <button type="submit">Login</button>
                 </form>
                 <form role="form" style="display: inline" action="signup" method="get">
@@ -119,9 +120,11 @@
 
 
 </div>
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="${pageContext.request.contextPath}/js/jquery-3.2.1.min.js"></script>
-<script src="${pageContext.request.contextPath}/js/bootstrap.min.js"></script>
+<script src="./js/tether.min.js"></script>
+<script src="./js/moment.min.js"></script>
+<script src="./js/jquery-3.2.1.min.js"></script>
+<script src="./js/bootstrap.min.js"></script>
+<script src="./js/ofn.js"></script>
 
 </body>
 </html>

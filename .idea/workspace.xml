@@ -1,0 +1,457 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="903b38bc-4e47-4354-b6a2-651595aa157c" name="Default" comment="">
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/.name" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/artifacts/OneFinalNote_war.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/artifacts/one_final_note_war.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/artifacts/one_final_note_war_exploded.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/compiler.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/inspectionProfiles/Project_Default.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__com_fasterxml_classmate_1_1_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_9_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_9_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_9_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__javax_inject_javax_inject_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__javax_servlet_javax_servlet_api_4_0_0.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__javax_servlet_jsp_jsp_api_2_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__javax_servlet_jstl_1_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__javax_validation_validation_api_2_0_0_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__junit_junit_4_12.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__mysql_mysql_connector_java_8_0_8_dmr.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_apache_commons_commons_dbcp2_2_1_1.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_aspectj_aspectjrt_1_8_11.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_aspectj_aspectjtools_1_8_11.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_11.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_hibernate_hibernate_validator_5_2_2_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_2_1_Final.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_security_spring_security_acl_3_2_10_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_security_spring_security_config_3_2_10_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_security_spring_security_core_3_2_10_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_security_spring_security_taglibs_3_2_10_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_security_spring_security_web_3_2_10_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_aop_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_beans_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_context_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_core_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_expression_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_jcl_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_jdbc_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_test_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_tx_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_web_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/libraries/Maven__org_springframework_spring_webmvc_5_0_0_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/misc.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/modules.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/uiDesigner.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/.idea/workspace.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/OneFinalNote.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/nb-configuration.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/one-final-note.iml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/pom.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/controller/AccountHandlerController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/controller/ContentController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/controller/PWEnc.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/controller/RESTController.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/BlogPostDaoDbImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/CategoryDaoDbImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/CommentDaoDbImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/DBMaintenanceDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/DataManipulator.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/PageDaoDbImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/PersistenceException.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/impl/UserDaoDbImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/interfaces/BlogPostDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/interfaces/CategoryDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/interfaces/CommentDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/interfaces/PageDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/dao/interfaces/UserDao.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/BlogPost.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/BlogPostTag.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/Category.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/Comment.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/Page.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/Tag.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/model/User.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/service/BlogService.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/java/com/ofn/service/BlogServiceImpl.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/resources/spring-persistence.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/META-INF/context.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/WEB-INF/spring-dispatcher-servlet.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/WEB-INF/spring-security.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/WEB-INF/web.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-grid.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-grid.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-grid.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-grid.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-reboot.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-reboot.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-reboot.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap-reboot.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/bootstrap.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/forms.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/css/main.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/images/ofn-menu.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/home.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/jquery-2.2.4.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/jquery-2.2.4.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/jquery-3.2.1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/jquery-3.2.1.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/moment.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/npm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/ofn.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/js/popper.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/jsp/accounts.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/jsp/createpost.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/jsp/createstaticpage.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/jsp/index.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/jsp/signup.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/main/webapp/old/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/dao/impl/BlogPostDaoDbImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/dao/impl/CategoryDaoDbImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/dao/impl/CommentDaoDbImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/dao/impl/PageDaoDbImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/dao/impl/UserDaoDbImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/java/com/ofn/service/BlogServiceImplTest.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/src/test/resources/test-applicationContext.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/classes/spring-persistence.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/META-INF/MANIFEST.MF" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/META-INF/context.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/WEB-INF/classes/spring-persistence.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/WEB-INF/spring-dispatcher-servlet.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/WEB-INF/spring-security.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/WEB-INF/web.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-grid.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-grid.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-grid.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-grid.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-reboot.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-reboot.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-reboot.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap-reboot.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/bootstrap.min.css.map" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/forms.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/css/main.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/images/ofn-menu.png" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/home.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/jquery-2.2.4.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/jquery-2.2.4.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/jquery-3.2.1.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/jquery-3.2.1.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/moment.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/npm.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/ofn.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/js/popper.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/jsp/accounts.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/jsp/createpost.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/jsp/createstaticpage.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/jsp/index.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/jsp/signup.jsp" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap-theme.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap-theme.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap.min.css" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/spring-mvc-webapp/old/bootstrap.min.js" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/OneFinalNote/target/test-classes/test-applicationContext.xml" afterPath="" />
+    </list>
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="width" value="1920" />
+    <option name="height" value="1040" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="SWGCapstone-Backup" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SWGCapstone-Backup" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SWGCapstone-Backup" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SWGCapstone-Backup" type="462c0819:PsiDirectoryNode" />
+              <item name="Backup" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="SWGCapstone-Backup" type="b2602c69:ProjectViewProjectNode" />
+              <item name="SWGCapstone-Backup" type="462c0819:PsiDirectoryNode" />
+              <item name="Backup" type="462c0819:PsiDirectoryNode" />
+              <item name=".idea" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="settings.editor.selected.configurable" value="reference.settings.ide.settings.file-colors" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="903b38bc-4e47-4354-b6a2-651595aa157c" name="Default" comment="" />
+      <created>1509822065895</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1509822065895</updated>
+      <workItem from="1509822067353" duration="13000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="13000" />
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Statistic" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Archetypes" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+    </layout>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager />
+    <watches-manager />
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

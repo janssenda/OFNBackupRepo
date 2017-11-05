@@ -22,7 +22,7 @@ hr {
 }
 
 .center-offset{padding-right: 170px;}
-.center-offset-editor{padding-right: 70px;}
+#page .center-offset-editor{padding-right: 30px;}
 .staticpages{font-size: 11pt}
 .staticpages:hover{color: #c80022; cursor: pointer}
 
@@ -55,3 +55,6 @@ hr {
 .edit-username-font{color: #2aabd2}
 .editbutton{width:18%; min-width: 30px}
 .roleselect{width:40%;}
+#page #links-bar {padding: 0;}
+#page #links-bar table {table-layout: fixed; width: 100%; margin: 0}
+

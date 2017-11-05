@@ -45,6 +45,7 @@ public interface BlogService {
     Comment updateComment(Comment comment) throws PersistenceException;
     Comment removeComment(int commentId) throws PersistenceException;
     Comment getCommentById(int commentId);
+    List<Comment> getCommentsForPost(int blogPostId);
 
     // Blog Posts
     List<BlogPost> getPublishedPosts();

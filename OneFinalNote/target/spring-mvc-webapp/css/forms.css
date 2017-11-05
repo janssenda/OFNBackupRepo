@@ -75,3 +75,9 @@ select option {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+#page #links-bar .contentform {width: 90%}
+#page #links-bar table .form-left {width: 90px; text-align: right; padding-right: 8px}
+#page #links-bar table .form-right {text-align: left}
+#page #links-bar table .form-right, .form-left {padding-bottom: 5px}
+#page #links-bar table #cf-buttonrow {text-align: center}

@@ -23,10 +23,10 @@
                     login-page="/login"
                     authentication-failure-url="/login?login_error=1"/>
 
-        <intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <intercept-url pattern="/displayuserlist" access="ROLE_ADMIN" />
-        <intercept-url pattern="/deleteuser" access="ROLE_ADMIN" />
-        <intercept-url pattern="/createpost" access="ROLE_OWNER"/>
+        <!--<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY" />-->
+        <!--<intercept-url pattern="/displayuserlist" access="ROLE_ADMIN" />-->
+        <!--<intercept-url pattern="/deleteuser" access="ROLE_ADMIN" />-->
+        <!--<intercept-url pattern="/createpost" access="ROLE_OWNER"/>-->
 
     </http>
 
