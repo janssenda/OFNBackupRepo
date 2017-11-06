@@ -106,6 +106,11 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
+    public User getUserByName(String userName){
+        return uDao.getUserByName(userName);
+    }
+
+    @Override
     public User addUser(User user) throws PersistenceException {
         User u = uDao.addUser(user);
         if(u == null){
@@ -138,6 +143,7 @@ public class BlogServiceImpl implements BlogService{
         List<Page> retPages = new ArrayList<>();
         for(Page p : allPages){
             if(p.isPublished()){
+                p.setUser(uDao.getUserById(p.getUser().getUserId()));
                 retPages.add(p);
             }
         }
@@ -150,6 +156,7 @@ public class BlogServiceImpl implements BlogService{
         List<Page> retPages = new ArrayList<>();
         for(Page p : allPages){
             if(!p.isPublished()){
+                p.setUser(uDao.getUserById(p.getUser().getUserId()));
                 retPages.add(p);
             }
         }
@@ -162,6 +169,7 @@ public class BlogServiceImpl implements BlogService{
         if(p == null){
             throw new PersistenceException("Error adding page");
         }
+        p.setUser(uDao.getUserById(p.getUser().getUserId()));
         return p;
     }
 
@@ -171,7 +179,9 @@ public class BlogServiceImpl implements BlogService{
         if(!isUpdated){
             throw new PersistenceException("Error updating page");
         }
-        return pDao.getPage(page.getPageId());
+        Page updated = pDao.getPage(page.getPageId());
+        updated.setUser(uDao.getUserById(page.getUser().getUserId()));
+        return updated;
     }
 
     @Override
@@ -186,7 +196,9 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public Page getPageById(int pageId) {
-        return pDao.getPage(pageId);
+        Page getPage = pDao.getPage(pageId);
+        getPage.setUser(uDao.getUserById(getPage.getUser().getUserId()));
+        return getPage;
     }
 
     @Override
@@ -195,6 +207,7 @@ public class BlogServiceImpl implements BlogService{
         if(c == null){
             throw new PersistenceException("Error adding comment");
         }
+        c.setUser(uDao.getUserById(c.getUser().getUserId()));
         return c;
     }
 
@@ -204,7 +217,9 @@ public class BlogServiceImpl implements BlogService{
         if(!isUpdated){
             throw new PersistenceException("Error updating comment");
         }
-        return coDao.getComment(comment.getCommentId());
+        Comment updated = coDao.getComment(comment.getCommentId());
+        updated.setUser(uDao.getUserById(comment.getUser().getUserId()));
+        return updated;
     }
 
     @Override
@@ -218,37 +233,69 @@ public class BlogServiceImpl implements BlogService{
     }
 
     @Override
-    public Comment getCommentById(int commentId) {return coDao.getComment(commentId);}
+    public Comment getCommentById(int commentId) {
+        Comment commentById = coDao.getComment(commentId);
+        commentById.setUser(uDao.getUserById(commentById.getUser().getUserId()));
+        return commentById;
+    }
 
     @Override
-    public List<Comment> getCommentsForPost(int blogPostId){
-        return coDao.getCommentsForPost(blogPostId);
+    public List<Comment> getCommentsForPost(int blogPostId, boolean isOwner){
+        List<Comment> commentsForPost = coDao.getCommentsForPost(blogPostId);
+        List<Comment> publishedComments = new ArrayList<>();
+        for(Comment cfp : commentsForPost){
+            if(cfp.isPublished()) {
+                cfp.setUser(uDao.getUserById(cfp.getUser().getUserId()));
+                publishedComments.add(cfp);
+            }
+        }
+        if(isOwner){
+            return commentsForPost;
+        }
+        return publishedComments;
     }
 
     @Override
     public List<BlogPost> getPublishedPosts() {
-        return bpDao.getAllPubBlogPosts();
+        List<BlogPost> pubPosts = bpDao.getAllPubBlogPosts();
+        for(BlogPost pubPost : pubPosts){
+            pubPost.setUserName(uDao.getUserById(pubPost.getUserId()).getUserName());
+        }
+        return pubPosts;
     }
 
     @Override
     public List<BlogPost> getUnPublishedPosts() {
-        return bpDao.getAllUnPubBlogPosts();
+        List<BlogPost> unpubPosts = bpDao.getAllUnPubBlogPosts();
+        for(BlogPost up : unpubPosts){
+            up.setUserName(uDao.getUserById(up.getUserId()).getUserName());
+        }
+        return unpubPosts;
     }
 
     @Override
     public List<BlogPost> getAllPosts() {
         List<BlogPost> allPub = bpDao.getAllPubBlogPosts();
-        allPub.addAll(bpDao.getAllUnPubBlogPosts());
+        List<BlogPost> allUnpub = bpDao.getAllUnPubBlogPosts();
+        allPub.addAll(allUnpub);
+        for(BlogPost ap : allPub){
+            ap.setUserName(uDao.getUserById(ap.getUserId()).getUserName());
+        }
         return allPub;
     }
 
     @Override
     public List<BlogPost> searchBlogPost(String... args) {
-        return bpDao.searchBlogPosts(args);
+        List<BlogPost> searched = bpDao.searchBlogPosts(args);
+        for(BlogPost s: searched){
+            s.setUserName(uDao.getUserById(s.getUserId()).getUserName());
+        }
+        return searched;
     }
 
     @Override
     public BlogPost addPost(BlogPost post) throws PersistenceException {
+        post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
         BlogPost bp = bpDao.addBlogPost(post);
         if(bp == null){
             throw new PersistenceException("Error adding blog post");
@@ -258,6 +305,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public BlogPost updatePost(BlogPost post) throws PersistenceException {
+        post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
         boolean isUpdated = bpDao.updateBlogPost(post);
         if(!isUpdated){
             throw new PersistenceException("Error updating blog post");
@@ -277,7 +325,9 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public BlogPost getBlogPost(int blogPostId) {
-        return bpDao.getBlogPostById(blogPostId);
+        BlogPost getPost = bpDao.getBlogPostById(blogPostId);
+        getPost.setUserName(uDao.getUserById(getPost.getUserId()).getUserName());
+        return getPost;
     }
 
     @Override
@@ -289,18 +339,28 @@ public class BlogServiceImpl implements BlogService{
             List<BlogPost> postsForTag = getPostsByTag(t);
             postsForTags.addAll(postsForTag);
         }
+        for(BlogPost pft : postsForTags){
+            pft.setUserName(uDao.getUserById(pft.getUserId()).getUserName());
+        }
         return postsForTags;
     }
 
     @Override
     public List<BlogPost> getPostsByUserId(int userId) {
-        return bpDao.getByUser(userId);
+       List<BlogPost> getPosts = bpDao.getByUser(userId);
+       for(BlogPost gp : getPosts){
+           gp.setUserName(uDao.getUserById(gp.getUserId()).getUserName());
+       }
+       return getPosts;
     }
 
     @Override
     public List<BlogPost> getPostsByTag(Tag tag) {
 //        yet to implement;
         List<BlogPost> postsByTag = bpDao.getBlogPostsByTag(tag);
+        for(BlogPost pbt : postsByTag){
+            pbt.setUserName(uDao.getUserById(pbt.getUserId()).getUserName());
+        }
         return postsByTag;
     }
 
@@ -312,6 +372,14 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public List<Comment> getCommentsByUserId(int userId) {
-        return coDao.getCommentsByUserId(userId);
+        List<Comment> commentsForUser = coDao.getCommentsByUserId(userId);
+        List<Comment> publishedComments = new ArrayList<>();
+        for(Comment cfu : commentsForUser){
+            if(cfu.isPublished()) {
+                cfu.setUser(uDao.getUserById(cfu.getUser().getUserId()));
+                publishedComments.add(cfu);
+            }
+        }
+        return publishedComments;
     }
 }

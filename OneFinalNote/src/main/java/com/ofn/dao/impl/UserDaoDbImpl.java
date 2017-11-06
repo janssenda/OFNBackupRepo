@@ -44,6 +44,9 @@ public class UserDaoDbImpl implements UserDao {
     private static final String SQL_GET_USER_BY_ID
             = "select * from users where UserID = ?";
 
+    private static final String SQL_GET_USER_BY_NAME
+            = "select * from users where UserName = ?";
+
     private static final String SQL_DELETE_USER
             = "delete from users where UserID = ?";
 
@@ -63,6 +66,14 @@ public class UserDaoDbImpl implements UserDao {
     public User getUserById(int userId) {
         List<User> tempList = new ArrayList<>();
         tempList.add(jdbcTemplate.queryForObject(SQL_GET_USER_BY_ID, new UserMapper(), userId));
+        return includeUserAuthorities(tempList).get(0);
+    }
+
+    @Override
+    @Transactional
+    public User getUserByName(String userName){
+        List<User> tempList = new ArrayList<>();
+        tempList.add(jdbcTemplate.queryForObject(SQL_GET_USER_BY_NAME, new UserMapper(), userName));
         return includeUserAuthorities(tempList).get(0);
     }
 

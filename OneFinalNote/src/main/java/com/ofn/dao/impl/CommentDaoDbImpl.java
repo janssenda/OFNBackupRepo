@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Random;
 
+import com.ofn.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Propagation;
@@ -38,7 +39,8 @@ public class CommentDaoDbImpl implements CommentDao {
 
     @Override
     public List<Comment> getCommentsForPost(int blogPostID) {
-        return jdbcTemplate.query(GET_BY_POST, new CommentMapper(), blogPostID);
+        List<Comment> commsForPost = jdbcTemplate.query(GET_BY_POST, new CommentMapper(), blogPostID);
+        return commsForPost;
     }
 
     @Override
@@ -111,6 +113,9 @@ public class CommentDaoDbImpl implements CommentDao {
             c.setCommentId(rs.getInt("CommentID"));
             c.setBlogPostId(rs.getInt("BlogPostID"));
             c.setBody(rs.getString("Body"));
+            User u = new User();
+            u.setUserId(rs.getInt("UserID"));
+            c.setUser(u);
             c.setCommentTime(rs.getTimestamp("CommentTime").toLocalDateTime());
             c.setPublished(rs.getBoolean("Published"));
             return c;

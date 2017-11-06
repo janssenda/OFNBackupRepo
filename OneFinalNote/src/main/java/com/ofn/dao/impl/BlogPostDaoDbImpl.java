@@ -94,10 +94,17 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             int key = jdbcTemplate
                     .queryForObject("select LAST_INSERT_ID()", Integer.class);
             BlogPost bp = jdbcTemplate.queryForObject(SQL_GET_BLOGPOST, new BlogMapper(), key);
+            if(!post.isPublished()){
+                jdbcTemplate.update("update blogposts set Published = ? where BlogPostID = ?", false, bp.getBlogPostId());
+                bp.setPublished(false);
+            }
+            bp.setUserName(post.getUserName());
             List<Tag> tagList = post.getTagList();
-            for(Tag t : tagList){
-                jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
-                        "values (?,?)", bp.getBlogPostId(), t.getTagText());
+            if(tagList != null && !tagList.isEmpty()) {
+                for (Tag t : tagList) {
+                    jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
+                            "values (?,?)", bp.getBlogPostId(), t.getTagText());
+                }
             }
             bp.setCommentList(post.getCommentList());
             bp.setTagList(post.getTagList());
@@ -253,8 +260,9 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             post.setStartDate(resultSet.getTimestamp("StartDate").toLocalDateTime());
             post.setEndDate(resultSet.getTimestamp("EndDate").toLocalDateTime());
             post.setPublished(resultSet.getBoolean("Published"));
-            post.setStatus();
-
+            if(post.isPublished()){
+                post.setStatus();
+            }
             return post;
         }
     }

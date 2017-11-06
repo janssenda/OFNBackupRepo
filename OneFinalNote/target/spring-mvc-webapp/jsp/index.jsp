@@ -83,17 +83,53 @@
         <div class="col-sm-10 text-center center-offset-editor">
             <div id="staticdiv" style="display: none">
             </div>
+            <c:set var="isOwnerLoggedIn" value="False"/>
+            <sec:authorize access="hasRole('ROLE_OWNER')">
+                <c:set var="isOwnerLoggedIn" value="True"/>
+            </sec:authorize>
+            <form>
+                <input type="hidden" name="ownerLoggedIn" id="ownerLoggedIn" value="${isOwnerLoggedIn}"/>
+            </form>
             <div id="mainblogdiv">
                 <c:forEach var="blog" items="${allBlogs}">
-                    <div class="blogposts staticpages" id="blogPost${blog.blogPostId}"><c:out value="${blog.title}"/></div><br>
-                    <c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/><br>
-                    <c:out value="${blog.body}" escapeXml="false"/><br>
+                    <c:if test="${isOwnerLoggedIn || blog.published}">
+                        <div class="blogposts staticpages" id="blogPost${blog.blogPostId}"><c:out
+                                value="${blog.title}"/></div>
+                        <br>
+                        <c:out value="Posted by ${blog.userName}"/><br>
+                        <c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/><br>
+                        <c:out value="${blog.body}" escapeXml="false"/><br>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <a href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
+                        </sec:authorize>
+                        <hr/>
+                    </c:if>
                 </c:forEach>
             </div>
             <div id="singleblogdiv" style="display: none">
             </div>
             <div id="commentbuttondiv" style="display: none">
-                Froala form goes here for comments Hayden
+                <sec:authorize access="isAuthenticated()">
+                    <form action="addComment" method="POST">
+                        <c:set var="isApprovalNeeded" value="True"/>
+                        <c:set var="isPublishing" value="False"/>
+                        <sec:authorize access="hasRole('ROLE_OWNER')">
+                            <c:set var="isApprovalNeeded" value="False"/>
+                            <c:set var="isPublishing" value="True"/>
+                        </sec:authorize>
+                        <textarea name="commentBody" id="commentBody">Comment here</textarea><br>
+                        <input type="hidden" id="hiddenBlogPostID"
+                               name="hiddenBlogPostID" value="-1"/>
+                        <c:choose>
+                            <c:when test="${isApprovalNeeded}">
+                                <c:out value="Your comment must be approved before posting"/><br>
+                            </c:when>
+                        </c:choose>
+                        <input type="hidden" name="isPublishing" value="${isPublishing}"/>
+                        <input type="hidden" name="userLoggedIn" value="${pageContext.request.userPrincipal.name}"/>
+                        <input type="submit" class="btn btn-success" value="ADD COMMENT"/>
+                    </form>
+                </sec:authorize>
             </div>
 
         </div>

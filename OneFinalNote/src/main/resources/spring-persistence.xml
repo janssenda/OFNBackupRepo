@@ -15,7 +15,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
     <!-- Bean definitions go here -->
-	<aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy/>
     <tx:annotation-driven />
 
     <!-- Bean definitions go here -->
@@ -43,7 +43,7 @@
     <!--Example implementation:-->
 
     <bean id="UserDao"
-        class="com.ofn.dao.impl.UserDaoDbImpl">
+          class="com.ofn.dao.impl.UserDaoDbImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="CategoryDao"
@@ -59,7 +59,7 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="CommentDao"
-        class="com.ofn.dao.impl.CommentDaoDbImpl">
+          class="com.ofn.dao.impl.CommentDaoDbImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="maintenanceDao" class = "com.ofn.dao.impl.DBMaintenanceDao">
@@ -68,12 +68,16 @@
 
 
     <bean id="BlogService"
-        class="com.ofn.service.BlogServiceImpl">
+          class="com.ofn.service.BlogServiceImpl">
         <constructor-arg ref="UserDao"/>
         <constructor-arg ref="CategoryDao"/>
         <constructor-arg ref="PageDao"/>
         <constructor-arg ref="BlogPostDao"/>
         <constructor-arg ref="CommentDao"/>
         <constructor-arg ref="maintenanceDao"/>
+    </bean>
+    <bean id="TagParser"
+            class="com.ofn.service.TagParserImpl">
+        <constructor-arg ref="BlogPostDao"/>
     </bean>
 </beans>

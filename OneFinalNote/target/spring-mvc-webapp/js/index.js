@@ -29,8 +29,10 @@ function indexListener() {
     $('input[type=radio]').click(function () {
         var radioClicked = this.id;
         if (radioClicked === "staticPageRadio") {
+            $("#blogPostRadio").attr("checked", false);
             $("#blogOptions").hide();}
         else {
+            $("#staticPageRadio").attr("checked", false);
             $("#blogOptions").show();}
     });
 }
@@ -46,8 +48,11 @@ function fetchPage(pageID) {
             "Content-Type": "application/json"
         },
         success: function (data) {
-            var post = "<div class='page-container'>" + data.body + "</div>";
-            $("#staticdiv").html(post); },
+            var post = "<div class='page-container'>" + "<h3 style='text-align:center;color:green'>" + data.title + "</h3><br>" + data.body + "<br>Posted by: " + data.user.userName + "</div>";
+            // var secstr = "<sec:authorize access='hasRole(" + "'ROLE_OWNER')><a href='deleteStaticPage?pageId=" + pageID + "'>Delete</a></sec:authorize></div>";
+            // post += secstr;
+            $("#staticdiv").html(post);
+        },
         error: function () {
             alert("fail"); }
     });
@@ -61,7 +66,6 @@ function fetchBlogPost(blogPostID) {
 
     singleblogdiv.empty();
     singleblogdiv.show();
-
     blogPostID = blogPostID.substr(8, blogPostID.length - 1);
     $.ajax({
         type: "GET",
@@ -82,11 +86,12 @@ function fetchBlogPost(blogPostID) {
             var d = new moment(data.updateTime);
 
             var post = "<div class='page-container'>" + data.title + "<br/>" +
-                "Last updated on " + d.format("MMM Do YY, h:mm a")+
-                "<br/>" + data.body + "<br/>Comments: <br/></div>";
+                "Last updated on " + d.format("MMM Do YYYY, h:mm a")+
+                "<br/>" + data.body + "<br/></div>";
 
             singleblogdiv.append(post);
             fetchComments(blogPostID);
+            document.getElementById("hiddenBlogPostID").value = blogPostID;
 
         },
         error: function () {
@@ -98,9 +103,10 @@ function fetchBlogPost(blogPostID) {
 
 // Grabs comments for a single blog post and attaches them
 function fetchComments(blogPostID){
+    var isOwner = document.getElementById("ownerLoggedIn").value;
     $.ajax({
         type: "get",
-        url: "http://localhost:8080/getCommentsForBlogPost/" + blogPostID,
+        url: "http://localhost:8080/getCommentsForBlogPost/" + blogPostID + "/" + isOwner,
         dataType: "json",
         headers: {
             "Accept": "application/json",
@@ -108,7 +114,10 @@ function fetchComments(blogPostID){
         },
         success: function (commdata) {
             $.each(commdata, function (i) {
-                $("#singleblogdiv").append(JSON.stringify(commdata[i]) + "<br>");
+                var d = new moment(commdata[i]["commentTime"]);
+                var commstr = "<strong>Comment from " + commdata[i]["user"]["userName"] + " on " + d.format("MMM Do YYYY, h:mm a") + "</strong><br>";
+                commstr += commdata[i]["body"] + "<br>";
+                $("#singleblogdiv").append(commstr);
             });},
         error: function () {
             alert("fail"); }

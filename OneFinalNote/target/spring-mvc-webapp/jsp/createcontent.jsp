@@ -2,6 +2,7 @@
 <%@ taglib prefix="s" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@taglib uri="http://ofn.com/functions" prefix="cf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -76,7 +77,13 @@
         <c:set var="isApprovalNeeded" value="False"/>
     </sec:authorize>
 
+    <%--<c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/>--%>
+
     <form action="save" method="POST">
+        <input type="hidden" name="contentID" value="${contentID}"/>
+        <input type="hidden" name="isApprovalNeeded" value="${isApprovalNeeded}"/>
+        <input type="hidden" name="userLoggedIn"
+               value="${pageContext.request.userPrincipal.name}"/>
         <div class="row">
             <div class="col-sm-3" id="links-bar" >
                 <div class="row">
@@ -88,22 +95,26 @@
                     <table id="contentform-table">
                         <tbody>
                         <tr><td class="form-left" >Title:</td><td class="form-right" >
-                            <input class = "contentform" type="text" placeholder="Title" id="newBlogPostTitle" required/></td></tr>
+                            <input value="${title}" class = "contentform" type="text" placeholder="Title" name="newBlogPostTitle" id="newBlogPostTitle" required/></td></tr>
                         <tr><td class="form-left" >Category:</td><td class="form-right">
-                            <select class = "contentform" id="categorySelector" required>
+                            <select class="contentform" name="categorySelector" id="categorySelector" required>
+                                    <option value="dummy">Dummy</option>
                                 <c:forEach var="cat" items="${categories}">
-                                    <option value="${cat.categoryName}">${cat.categoryName}</option>
+                                    <option value="${cat.categoryID}"
+                                    <c:if test="${catID == 1}">
+                                        selected</c:if>
+                                    >${cat.categoryName}</option>
                                 </c:forEach>
                             </select>
                         </td></tr>
                         <tr>
                             <td class="form-left">Start Date:</td>
                             <td class="form-right">
-                            <input class = "contentform" type="datetime-local" id="startDateSelector"/></td></tr>
+                            <input value="${startDate}" class="contentform" type="datetime-local" name="startDateSelector" id="startDateSelector"/></td></tr>
                         <tr>
                             <td class="form-left">End Date:</td>
                             <td class="form-right">
-                            <input  class = "contentform" type="datetime-local" id="endDateSelector"/></td></tr>
+                            <input value="${endDate}" class = "contentform" type="datetime-local" name="endDateSelector" id="endDateSelector"/></td></tr>
                         <tr>
                             <td class="form-left">Post Type:</td>
                             <td class="form-right">
@@ -111,7 +122,9 @@
                             Page <input class="ebox" type="radio" value="page" name="typeRadio"></td></tr>
                         <tr>
                             <td class="form-left">Publish:</td><td class="form-right">
-                            <input type="checkbox" class="ebox"/></td></tr>
+                            <input type="checkbox"
+                                    <c:if test="${published == true}"> checked </c:if>
+                                   name="publishedSelector" value="true" class="ebox"/></td></tr>
                         <tr>
                             <td id="cf-buttonrow" colspan="2">
                             <button>Save</button>&nbsp;&nbsp;
@@ -121,7 +134,18 @@
                 </div>
             </div>
             <div class="col-sm-9 text-center">
-                <div id="newBlogPost" placeholder="New Content"></div><br>
+                <textarea name="newBlogPost" id="newBlogPost">
+                    <c:choose>
+                        <c:when test="${not empty body}">
+                            ${body}
+                        </c:when>
+                        <c:otherwise>
+                            Say something...
+                        </c:otherwise>
+                    </c:choose>
+
+
+                </textarea><br>
             </div>
         </div>
     </form>

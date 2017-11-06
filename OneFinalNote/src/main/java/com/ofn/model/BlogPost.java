@@ -11,6 +11,7 @@ public class BlogPost {
 
     private int blogPostId;
     private int userId;
+    private String userName;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = ParseDeserializer.class)
@@ -66,6 +67,12 @@ public class BlogPost {
     }
     public void setTitle(String title) {
         this.title = title;
+    }
+    public void setUserName(String userName){
+        this.userName = userName;
+    }
+    public String getUserName(){
+        return this.userName;
     }
     public String getBody() {
         return body;

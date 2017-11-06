@@ -27,6 +27,7 @@ public interface BlogService {
     List<User> getAllUsers();
     List<User> searchUsers(String...args);
     User getUserById(int userId);
+    User getUserByName(String userName);
     User addUser(User user) throws PersistenceException;
     User updateUser(User user) throws PersistenceException;
     boolean removeUser(int userId) throws PersistenceException;
@@ -45,7 +46,7 @@ public interface BlogService {
     Comment updateComment(Comment comment) throws PersistenceException;
     Comment removeComment(int commentId) throws PersistenceException;
     Comment getCommentById(int commentId);
-    List<Comment> getCommentsForPost(int blogPostId);
+    List<Comment> getCommentsForPost(int blogPostId, boolean isOwner);
 
     // Blog Posts
     List<BlogPost> getPublishedPosts();

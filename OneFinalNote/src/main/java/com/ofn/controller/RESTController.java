@@ -23,11 +23,12 @@ public class RESTController {
         return service.getPageById(id);
     }
 
-    @RequestMapping(value = "/getCommentsForBlogPost/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/getCommentsForBlogPost/{id}/{isOwner}", method = RequestMethod.GET)
     @ResponseBody
-    public List<Comment> getCommentsForBlogPost(@PathVariable("id") int id){
+    public List<Comment> getCommentsForBlogPost(@PathVariable("id") int id,
+                                                @PathVariable("isOwner") boolean isOwner){
 
-        return service.getCommentsForPost(id);
+        return service.getCommentsForPost(id, isOwner);
     }
 
     @RequestMapping(value = "/displayBlogPost/{id}", method = RequestMethod.GET)
