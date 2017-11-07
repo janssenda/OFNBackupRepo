@@ -81,3 +81,8 @@ select option {
 #page #links-bar table .form-right {text-align: left}
 #page #links-bar table .form-right, .form-left {padding-bottom: 5px}
 #page #links-bar table #cf-buttonrow {text-align: center}
+
+.search-select{width: 15%;}
+#searchterms, #searchdate, #cat-select {width: 30%;}
+.spc {display: inline-block; padding-bottom: 5px}
+.search-select, #searchterms, #searchbutton, #cat-select, #searchdate{margin-bottom: 3px}

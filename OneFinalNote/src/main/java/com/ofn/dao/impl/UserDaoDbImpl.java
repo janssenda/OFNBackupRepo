@@ -12,7 +12,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.*;
 
-import static com.ofn.dao.impl.DataManipulator.nullify;
+import static com.ofn.dao.impl.DataManipulator.preparify;
 import static com.ofn.dao.impl.DataManipulator.varArgs;
 
 /*
@@ -154,8 +154,8 @@ public class UserDaoDbImpl implements UserDao {
             Connection c = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = c.prepareStatement(setup);
 
-            ps.setString(1, nullify(allArgs[0]));
-            ps.setString(2, nullify(allArgs[1]));
+            ps.setString(1, preparify(allArgs[0]));
+            ps.setString(2, preparify(allArgs[1]));
 
             String qdata = ps.toString().split(":")[1].trim();
             qdata = qdata.split("]")[0].trim();

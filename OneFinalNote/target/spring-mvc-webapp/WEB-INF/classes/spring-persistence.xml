@@ -15,7 +15,7 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
 
     <!-- Bean definitions go here -->
-	<aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy/>
     <tx:annotation-driven />
 
     <!-- Bean definitions go here -->
@@ -23,7 +23,7 @@
           class="org.apache.commons.dbcp2.BasicDataSource">
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url"
-                  value="jdbc:mysql://localhost:3306/ofnblognew?serverTimezone=UTC" />
+                  value="jdbc:mysql://localhost:3306/ofnblognew?useLegacyDatetimeCode=true" />
         <property name="username" value="root" />
         <property name="password" value="root" />
         <property name="initialSize" value="1" />
@@ -43,7 +43,7 @@
     <!--Example implementation:-->
 
     <bean id="UserDao"
-        class="com.ofn.dao.impl.UserDaoDbImpl">
+          class="com.ofn.dao.impl.UserDaoDbImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="CategoryDao"
@@ -59,7 +59,7 @@
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="CommentDao"
-        class="com.ofn.dao.impl.CommentDaoDbImpl">
+          class="com.ofn.dao.impl.CommentDaoDbImpl">
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
     <bean id="maintenanceDao" class = "com.ofn.dao.impl.DBMaintenanceDao">
@@ -68,7 +68,7 @@
 
 
     <bean id="BlogService"
-        class="com.ofn.service.BlogServiceImpl">
+          class="com.ofn.service.BlogServiceImpl">
         <constructor-arg ref="UserDao"/>
         <constructor-arg ref="CategoryDao"/>
         <constructor-arg ref="PageDao"/>

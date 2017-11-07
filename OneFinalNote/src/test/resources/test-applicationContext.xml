@@ -71,8 +71,5 @@
         <constructor-arg ref="CommentDao"/>
         <constructor-arg ref="maintenanceDao"/>
     </bean>
-    <bean id="TagParser"
-          class="com.ofn.service.TagParserImpl">
-        <constructor-arg ref="BlogPostDao"/>
-    </bean>
+   
 </beans>

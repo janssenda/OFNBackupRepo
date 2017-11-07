@@ -17,6 +17,9 @@
 <div class="container" id="page">
 
     <hr/>
+    <input type="hidden" id="cShowType" name="cShowType" value="${cShowType}"/>
+    <input type="hidden" id="cShowID" name="cShowID" value="${cShowID}"/>
+    <input type="hidden" id="cShow" name="cShow" value="${cShow}"/>
     <div class="row" id="title-row">
         <div class="col-sm-6 text-left" id="title-col-left">
 
@@ -28,7 +31,8 @@
                         <li class="dropdown-divider"></li>
                         <li><a class="hlink" href="./signup">Sign Up</a></li>
                         <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="accounts">Accounts</a></li>
+                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <li><a class="hlink" href="./search">Search</a></li>
                     </ul>
                 </li>
             </ul>
@@ -91,7 +95,8 @@
                 <input type="hidden" name="ownerLoggedIn" id="ownerLoggedIn" value="${isOwnerLoggedIn}"/>
             </form>
             <div id="mainblogdiv">
-                <c:forEach var="blog" items="${allBlogs}">
+                <c:forEach var="blogRow" items="${allBlogs}">
+                    <c:set var="blog" value="${blogRow.value}"/>
                     <c:if test="${isOwnerLoggedIn || blog.published}">
                         <div class="blogposts staticpages" id="blogPost${blog.blogPostId}"><c:out
                                 value="${blog.title}"/></div>
@@ -100,14 +105,27 @@
                         <c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/><br>
                         <c:out value="${blog.body}" escapeXml="false"/><br>
                         <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <a href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
+                            <a href="editcontent?contentType=blog&contentID=${blog.blogPostId}">Edit</a> <a href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
                         </sec:authorize>
+                        <div class="blogcomments" id="blogPostComments${blog.blogPostId}">
+                            <c:forEach var="comm" items="${blog.commentList}">
+                                <c:out value="Comment from ${comm.user.userName} at ${cf:formatLocalDateTime(comm.commentTime, 'dd.MM.yyyy hh:mm' )}"/><br>
+                                <c:out value="${comm.body}"/>
+                                <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                    <a href="editComment?commId=${comm.commentId}">Edit</a> <a href="deleteComment?commId=${comm.commentId}">Delete</a><br>
+                                </sec:authorize>
+                            </c:forEach>
+                        </div>
                         <hr/>
                     </c:if>
                 </c:forEach>
             </div>
             <div id="singleblogdiv" style="display: none">
             </div>
+            <form>
+                <input type="hidden" id="hiddenBlogPostID"
+                       name="hiddenBlogPostID" value="-1"/>
+            </form>
             <div id="commentbuttondiv" style="display: none">
                 <sec:authorize access="isAuthenticated()">
                     <form action="addComment" method="POST">
@@ -118,8 +136,6 @@
                             <c:set var="isPublishing" value="True"/>
                         </sec:authorize>
                         <textarea name="commentBody" id="commentBody">Comment here</textarea><br>
-                        <input type="hidden" id="hiddenBlogPostID"
-                               name="hiddenBlogPostID" value="-1"/>
                         <c:choose>
                             <c:when test="${isApprovalNeeded}">
                                 <c:out value="Your comment must be approved before posting"/><br>

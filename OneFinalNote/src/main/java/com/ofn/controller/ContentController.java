@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -33,12 +34,30 @@ public class ContentController {
     }
 
 
-    @RequestMapping(value = {"", "/", "/home", "/index"}, method = RequestMethod.GET)
-    public String welcomeMap(Model model) {
+    @RequestMapping(value = {"", "/", "/home", "/index","/show"}, method = RequestMethod.GET)
+    public String welcomeMap(HttpServletRequest request, Model model) {
+
+        model.addAttribute("cShow","0");
+        try {
+            String type = request.getParameter("contentType");
+            String id = request.getParameter("contentID");
+
+            if (type.equals("blog") || type.equals("page")) {
+                model.addAttribute("cShow", "1");
+                model.addAttribute("cShowType", type);
+                model.addAttribute("cShowID", id);
+            }
+
+        } catch (Exception e){}
+
         Map<Integer, String> pageLinks = service.getPageLinks();
         model.addAttribute("pageLinks", pageLinks);
+        Map<Integer, BlogPost> blogMap = new HashMap<>();
         List<BlogPost> allBlogs = service.getAllPosts();
-        model.addAttribute("allBlogs", allBlogs);
+        for(BlogPost ab : allBlogs){
+            blogMap.put(ab.getBlogPostId(),ab);
+        }
+        model.addAttribute("allBlogs", blogMap);
         return "index";
     }
 
@@ -53,6 +72,13 @@ public class ContentController {
         model.addAttribute("categories", categories);
         return "createcontent";
     }
+
+    @RequestMapping(value = {"/managecontent","/search"}, method = RequestMethod.GET)
+    public String manageContent(HttpServletRequest request, Model model) {
+        model.addAttribute("categories", service.getAllCategories());
+        return "managecontent";
+    }
+
 
     @RequestMapping(value = "/editcontent", method = RequestMethod.GET)
     public String editContent(HttpServletRequest request, Model model) {

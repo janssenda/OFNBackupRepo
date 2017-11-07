@@ -2,8 +2,30 @@ $(document).ready(function () {
 
     indexListener();
     navListener();
+    preload();
 
 });
+
+function preload(){
+
+    if ($("#cShow").val() === "1"){
+
+        var id = $("#cShowID").val();
+        var type = $("#cShowType").val();
+
+
+        if (type === "blog"){
+            hideall();
+            fetchBlogPost(id,true);
+            $("#singleblogdiv").show();
+        }
+        else {
+            hideall();
+            fetchPage(id);
+            $("#staticdiv").show();
+        }
+    }
+}
 
 function hideall(){
     $("#mainblogdiv").hide();
@@ -22,9 +44,9 @@ function indexListener() {
         fetchPage(itemNum);
     });
 
-    $(document).on("click", "#mainblogdiv .blogposts", function () {
-        fetchBlogPost($(this).attr("id"));
-    });
+    // $(document).on("click", "#mainblogdiv .blogposts", function () {
+    //     fetchBlogPost($(this).attr("id"));
+    // });
 
     $('input[type=radio]').click(function () {
         var radioClicked = this.id;
@@ -39,6 +61,7 @@ function indexListener() {
 
 // Fetches a page by ID and displays it
 function fetchPage(pageID) {
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/displayStaticPage/" + pageID,
@@ -60,13 +83,17 @@ function fetchPage(pageID) {
 
 // Fetches a post by ID and displays it.  On successful retrieval,
 // comments are also queried for and added.
-function fetchBlogPost(blogPostID) {
+function fetchBlogPost(blogPostID, direct) {
+
     var singleblogdiv = $("#singleblogdiv");
     hideall();
-
     singleblogdiv.empty();
     singleblogdiv.show();
-    blogPostID = blogPostID.substr(8, blogPostID.length - 1);
+
+    if (direct !== true){
+        blogPostID = blogPostID.substr(8, blogPostID.length - 1);
+    }
+
     $.ajax({
         type: "GET",
         url: "http://localhost:8080/displayBlogPost/" + blogPostID,
@@ -76,7 +103,6 @@ function fetchBlogPost(blogPostID) {
             "Content-Type": "application/json"
         },
         success: function (data) {
-
             // Note the addition of moment.js.  Using the backend JSON
             // serializer for date, this greatly simplifies the date-time
             // format exchange from front to back.
@@ -116,11 +142,11 @@ function fetchComments(blogPostID){
             $.each(commdata, function (i) {
                 var d = new moment(commdata[i]["commentTime"]);
                 var commstr = "<strong>Comment from " + commdata[i]["user"]["userName"] + " on " + d.format("MMM Do YYYY, h:mm a") + "</strong><br>";
-                commstr += commdata[i]["body"] + "<br>";
+                commstr += commdata[i]["body"] + " <a href='deleteComment?commId=" + (i + 1) + "'>Delete</a><br>";
                 $("#singleblogdiv").append(commstr);
             });},
         error: function () {
-            alert("fail"); }
+            alert("fail222"); }
     });
     $("#commentbuttondiv").show();
 }

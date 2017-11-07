@@ -29,7 +29,8 @@
                         <li class="dropdown-divider"></li>
                         <li><a class="hlink" href="./signup">Sign Up</a></li>
                         <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="accounts">Accounts</a></li>
+                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <li><a class="hlink" href="./search">Search</a></li>
                     </ul>
                 </li>
             </ul>

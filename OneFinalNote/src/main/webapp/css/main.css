@@ -58,3 +58,15 @@ hr {
 #page #links-bar {padding: 0;}
 #page #links-bar table {table-layout: fixed; width: 100%; margin: 0}
 
+
+#resultstable {border-radius: 5px; border: 2px solid black; border-collapse: separate; border-spacing: 0; width: 100%}
+#resultstable tbody, thead {border: 1px solid black; text-align: left}
+#resultstable .header-th-id, th {background-color: #2ecc7d; border-bottom: 2px solid black; padding: 3px; color: white;font-family: "Arial"; font-size: 10pt; font-weight: normal}
+#resultstable tr {border-right: 1px solid black}
+#resultstable th {text-align: left;}
+#resultstable .header-th-id, .id-col {text-align: right; width:25px; padding-right: 10px; padding-left: 10px}
+#resultstable tr:nth-child(odd) {background: #f3fff3}
+#resultstable tr:nth-child(even) {background: white;}
+/*tr:hover{background: rgba(0, 228, 135, 0.24); }*/
+#resultstable td {padding-right: 10px}
+

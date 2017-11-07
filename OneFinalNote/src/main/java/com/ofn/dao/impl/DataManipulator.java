@@ -11,11 +11,16 @@ public class DataManipulator {
         return allArgs;
     }
 
-    public static String nullify(String s){
+    public static String preparify(String s){
         if (s == null || s.isEmpty()) {
             s = null;
         }
         return  s;
+    }
+
+    public static String searchify(String s){
+        if (s == null || s.isEmpty()) return null;
+        else return "%" + s + "%";
     }
 
 }

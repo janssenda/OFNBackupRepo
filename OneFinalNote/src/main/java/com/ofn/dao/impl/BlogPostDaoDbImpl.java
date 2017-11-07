@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static com.ofn.dao.impl.DataManipulator.nullify;
+import static com.ofn.dao.impl.DataManipulator.preparify;
+import static com.ofn.dao.impl.DataManipulator.searchify;
 import static com.ofn.dao.impl.DataManipulator.varArgs;
 
 public class BlogPostDaoDbImpl implements BlogPostDao {
@@ -22,12 +23,12 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             "SELECT * FROM blogposts WHERE 1 = 1 " +
                     "AND (@BlogPostID IS NULL OR BlogPostID = @BlogPostID)" +
                     "AND (@UserID IS NULL OR UserID = @UserID) " +
-                    "AND (@Title IS NULL OR Title = @Title)" +
-                    "AND (@CategoryID IS NULL OR CategoryID  = @CategoryID )" +
-                    "AND (@Body IS NULL OR Body = @Body)" +
-                    "AND (@PostTime IS NULL OR PostTime = @PostTime)" +
-                    "AND (@StartDate IS NULL OR StartDate = @StartDate)" +
-                    "AND (@EndDate IS NULL OR EndDate = @EndDate)" +
+                    "AND (@Title IS NULL OR Title LIKE @Title)" +
+                    "AND (@CategoryID IS NULL OR CategoryID = @CategoryID )" +
+                    "AND (@Body IS NULL OR Body LIKE @Body)" +
+                    "AND (@PostTime IS NULL OR PostTime LIKE @PostTime)" +
+                    "AND (@StartDate IS NULL OR StartDate LIKE @StartDate)" +
+                    "AND (@EndDate IS NULL OR EndDate LIKE @EndDate)" +
                     "AND (@Published IS NULL OR Published = @Published) ";
 
     private static final String SQL_GET_ALL_TAGS
@@ -220,15 +221,15 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             Connection c = jdbcTemplate.getDataSource().getConnection();
             PreparedStatement ps = c.prepareStatement(setup);
 
-            ps.setString(1, nullify(allArgs[0]));
-            ps.setString(2, nullify(allArgs[1]));
-            ps.setString(3, nullify(allArgs[2]));
-            ps.setString(4, nullify(allArgs[3]));
-            ps.setString(5, nullify(allArgs[4]));
-            ps.setString(6, nullify(allArgs[5]));
-            ps.setString(7, nullify(allArgs[6]));
-            ps.setString(8, nullify(allArgs[7]));
-            ps.setString(9, nullify(allArgs[8]));
+            ps.setString(1, preparify(allArgs[0]));
+            ps.setString(2, preparify(allArgs[1]));
+            ps.setString(3, preparify(allArgs[2]));
+            ps.setString(4, searchify(preparify(allArgs[3])));
+            ps.setString(5, preparify(allArgs[4]));
+            ps.setString(6, searchify(preparify(allArgs[5])));
+            ps.setString(7, searchify(preparify(allArgs[6])));
+            ps.setString(8, searchify(preparify(allArgs[7])));
+            ps.setString(9, searchify(preparify(allArgs[8])));
 
             String qdata = ps.toString().split(":")[1].trim();
             qdata = qdata.split("]")[0].trim();

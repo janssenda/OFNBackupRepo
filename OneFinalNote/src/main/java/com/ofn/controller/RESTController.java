@@ -6,6 +6,8 @@ import com.ofn.model.Page;
 import com.ofn.service.BlogService;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @CrossOrigin
@@ -36,4 +38,57 @@ public class RESTController {
     public BlogPost displayBlogPost(@PathVariable("id") int id){
         return service.getBlogPost(id);
     }
+
+    @RequestMapping(value = "/search/blogs", method = RequestMethod.GET)
+    @ResponseBody
+    public List<BlogPost> searchposts(HttpServletRequest req){
+        String terms=null, method="general", state="both";
+        String blogPostID = null, userID = null, published = null,
+                tag = null, title = null, categoryID = null, body = null, date = null;
+
+       try {method = req.getParameter("method");} catch (Exception e){}
+       try {terms = req.getParameter("terms");} catch (Exception e){}
+       try {state = req.getParameter("state");} catch (Exception e){}
+
+        state = getState(state);
+
+       if (terms == null || terms.trim().isEmpty()){
+           return service.searchBlogPost(null, null, state);
+       }
+
+       switch (method){
+           case "title": title = terms; break;
+           case "general": body = terms; break;
+           case "category": categoryID = terms; break;
+           case "date": date = terms; break;
+           case "tag": tag = terms; break;
+           case "id": blogPostID = terms; break;
+           case "userid": userID = terms; break;
+       }
+
+        return service.searchBlogPost(blogPostID,userID,state,
+                title,categoryID,body,date);
+    }
+
+
+
+    @RequestMapping(value = "/search/pages", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Page> searchpages(HttpServletRequest req){
+        return service.getPublishedPages();
+    }
+
+    private String getState(String state){
+        if (state == null) return "1";
+        else if (state.equals("published")) return "1";
+        else if (state.equals("all")) return null;
+        else return "0";
+    }
+
+
+
+
+
+
 }
+

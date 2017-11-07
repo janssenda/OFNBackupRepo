@@ -260,6 +260,9 @@ public class BlogServiceImpl implements BlogService{
         List<BlogPost> pubPosts = bpDao.getAllPubBlogPosts();
         for(BlogPost pubPost : pubPosts){
             pubPost.setUserName(uDao.getUserById(pubPost.getUserId()).getUserName());
+            List<Comment> comms = coDao.getCommentsForPost(pubPost.getBlogPostId());
+            comms = addUsersToComments(comms);
+            pubPost.setCommentList(comms);
         }
         return pubPosts;
     }
@@ -269,19 +272,26 @@ public class BlogServiceImpl implements BlogService{
         List<BlogPost> unpubPosts = bpDao.getAllUnPubBlogPosts();
         for(BlogPost up : unpubPosts){
             up.setUserName(uDao.getUserById(up.getUserId()).getUserName());
+            List<Comment> comms = coDao.getCommentsForPost(up.getBlogPostId());
+            comms = addUsersToComments(comms);
+            up.setCommentList(comms);
         }
         return unpubPosts;
     }
 
     @Override
     public List<BlogPost> getAllPosts() {
-        List<BlogPost> allPub = bpDao.getAllPubBlogPosts();
-        List<BlogPost> allUnpub = bpDao.getAllUnPubBlogPosts();
+        List<BlogPost> allPub = getPublishedPosts();
+        List<BlogPost> allUnpub = getUnPublishedPosts();
         allPub.addAll(allUnpub);
-        for(BlogPost ap : allPub){
-            ap.setUserName(uDao.getUserById(ap.getUserId()).getUserName());
-        }
         return allPub;
+    }
+
+    public List<Comment> addUsersToComments(List<Comment> in){
+        for(Comment i : in){
+            i.setUser(uDao.getUserById(i.getUser().getUserId()));
+        }
+        return in;
     }
 
     @Override
@@ -289,6 +299,9 @@ public class BlogServiceImpl implements BlogService{
         List<BlogPost> searched = bpDao.searchBlogPosts(args);
         for(BlogPost s: searched){
             s.setUserName(uDao.getUserById(s.getUserId()).getUserName());
+            List<Comment> comms = coDao.getCommentsForPost(s.getBlogPostId());
+            comms = addUsersToComments(comms);
+            s.setCommentList(comms);
         }
         return searched;
     }
@@ -296,6 +309,10 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public BlogPost addPost(BlogPost post) throws PersistenceException {
         post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
+        
+        //unsure if we want to include this functionality
+//        post = parseTags(post);
+        
         BlogPost bp = bpDao.addBlogPost(post);
         if(bp == null){
             throw new PersistenceException("Error adding blog post");
@@ -327,6 +344,9 @@ public class BlogServiceImpl implements BlogService{
     public BlogPost getBlogPost(int blogPostId) {
         BlogPost getPost = bpDao.getBlogPostById(blogPostId);
         getPost.setUserName(uDao.getUserById(getPost.getUserId()).getUserName());
+        List<Comment> commsForPost = coDao.getCommentsForPost(getPost.getBlogPostId());
+        commsForPost = addUsersToComments(commsForPost);
+        getPost.setCommentList(commsForPost);
         return getPost;
     }
 
@@ -341,6 +361,9 @@ public class BlogServiceImpl implements BlogService{
         }
         for(BlogPost pft : postsForTags){
             pft.setUserName(uDao.getUserById(pft.getUserId()).getUserName());
+            List<Comment> comms = coDao.getCommentsForPost(pft.getBlogPostId());
+            comms = addUsersToComments(comms);
+            pft.setCommentList(comms);
         }
         return postsForTags;
     }
@@ -350,6 +373,9 @@ public class BlogServiceImpl implements BlogService{
        List<BlogPost> getPosts = bpDao.getByUser(userId);
        for(BlogPost gp : getPosts){
            gp.setUserName(uDao.getUserById(gp.getUserId()).getUserName());
+           List<Comment> comms = coDao.getCommentsForPost(gp.getBlogPostId());
+           comms = addUsersToComments(comms);
+           gp.setCommentList(comms);
        }
        return getPosts;
     }
@@ -360,6 +386,9 @@ public class BlogServiceImpl implements BlogService{
         List<BlogPost> postsByTag = bpDao.getBlogPostsByTag(tag);
         for(BlogPost pbt : postsByTag){
             pbt.setUserName(uDao.getUserById(pbt.getUserId()).getUserName());
+            List<Comment> comms = coDao.getCommentsForPost(pbt.getBlogPostId());
+            comms = addUsersToComments(comms);
+            pbt.setCommentList(comms);
         }
         return postsByTag;
     }
@@ -381,5 +410,21 @@ public class BlogServiceImpl implements BlogService{
             }
         }
         return publishedComments;
+    }
+    
+     //further implementation: make the hashtag text bold or a URL?
+    public BlogPost parseTags(BlogPost bp){
+        String[] beginWithHT = bp.getBody().split("#");
+        ArrayList<Tag> tagList = new ArrayList<>();
+        for(String s: beginWithHT){
+            String[] oneAndGarbage = s.split(" ");
+            Tag toAdd = new Tag();
+            toAdd.setTagText(oneAndGarbage[0]);
+            tagList.add(toAdd);
+        }
+        
+        bp.setTagList(tagList);
+      
+        return bp;
     }
 }
