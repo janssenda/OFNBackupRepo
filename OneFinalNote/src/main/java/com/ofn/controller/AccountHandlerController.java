@@ -77,6 +77,7 @@ public class AccountHandlerController {
 
         newUser.setUserName(userName);
         newUser.setUserPW(encoder.encode(clearPw));
+        newUser.setUserProfile("ofn.org/users/" + userName);
 
         newUser.addAuthority("ROLE_USER");
         try {
@@ -84,7 +85,7 @@ public class AccountHandlerController {
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
-        return "index";
+        return "redirect:index";
     }
     // This endpoint deletes the specified User
     @RequestMapping(value = "/deleteuser", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package com.ofn.controller;
 import com.ofn.model.BlogPost;
 import com.ofn.model.Comment;
 import com.ofn.model.Page;
+import com.ofn.model.User;
 import com.ofn.service.BlogService;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,16 +62,32 @@ public class RESTController {
            case "general": body = terms; break;
            case "category": categoryID = terms; break;
            case "date": date = terms; break;
-           case "tag": tag = terms; break;
+           case "tag":
+               String[] tags = terms.split(",");
+               return service.getByTags(tags);
            case "id": blogPostID = terms; break;
            case "userid": userID = terms; break;
        }
 
-        return service.searchBlogPost(blogPostID,userID,state,
+
+        List<BlogPost> p = service.searchBlogPost(blogPostID,userID,state,
                 title,categoryID,body,date);
+
+       return p;
     }
 
+    @RequestMapping(value = "/getUserNames", method = RequestMethod.GET)
+    @ResponseBody
+    public List<String> getUserNames(HttpServletRequest req){
+        List<User> userList = service.getAllUsers();
+        List<String> userNames = new ArrayList<>();
 
+        userList.forEach((u) -> {
+            userNames.add(u.getUserName());
+        });
+
+        return userNames;
+    }
 
     @RequestMapping(value = "/search/pages", method = RequestMethod.GET)
     @ResponseBody

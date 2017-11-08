@@ -4,6 +4,7 @@ import com.ofn.dao.interfaces.BlogPostDao;
 import com.ofn.model.BlogPost;
 import com.ofn.model.BlogPostTag;
 import com.ofn.model.Tag;
+import com.ofn.service.BlogService;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,8 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
                     "AND (@PostTime IS NULL OR PostTime LIKE @PostTime)" +
                     "AND (@StartDate IS NULL OR StartDate LIKE @StartDate)" +
                     "AND (@EndDate IS NULL OR EndDate LIKE @EndDate)" +
-                    "AND (@Published IS NULL OR Published = @Published) ";
+                    "AND (@Published IS NULL OR Published = @Published) " +
+                    "ORDER BY PostTime desc";
 
     private static final String SQL_GET_ALL_TAGS
             = "select * from tags";
@@ -103,8 +105,25 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             List<Tag> tagList = post.getTagList();
             if(tagList != null && !tagList.isEmpty()) {
                 for (Tag t : tagList) {
-                    jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
-                            "values (?,?)", bp.getBlogPostId(), t.getTagText());
+                    Tag test = null;
+                    try{
+                        test = jdbcTemplate.queryForObject("select * from tags where TagText = ?",
+                                new TagMapper(), t.getTagText());
+                    }
+                    catch(Exception ex){
+                        int isAdded = jdbcTemplate.update(SQL_ADD_TAG, t.getTagText());
+                        if(isAdded > 0){
+                            test = jdbcTemplate.queryForObject("select * from tags where TagText = ?",
+                                    new TagMapper(), t.getTagText());
+                        }
+                        else{
+                            return null;
+                        }
+                    }
+                    finally{
+                        jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
+                            "values (?,?)", bp.getBlogPostId(), test.getTagText());
+                    }
                 }
             }
             bp.setCommentList(post.getCommentList());
@@ -131,8 +150,26 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
                     }
                 }
                 for(Tag t : post.getTagList()){
-                    jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
-                            "values (?,?)", check.getBlogPostId(), t.getTagText());
+                    Tag test = null;
+                    try{
+                        test = jdbcTemplate.queryForObject("select * from tags where TagText = ?",
+                                new TagMapper(), t.getTagText());
+                    }
+                    catch(Exception ex){
+                        int isAdded = jdbcTemplate.update(SQL_ADD_TAG, t.getTagText());
+                        if(isAdded > 0){
+                            test = jdbcTemplate.queryForObject("select * from tags where TagText = ?",
+                                    new TagMapper(), t.getTagText());
+                        }
+                        else{
+                            return false;
+                        }
+                    }
+                    finally{
+                        jdbcTemplate.update("insert into blogpoststags (BlogPostID, TagText)" +
+                                "values (?,?)", check.getBlogPostId(), test.getTagText());
+                    }
+
                 }
                 check.setTagList(post.getTagList());
                 check.setCommentList(post.getCommentList());
@@ -154,12 +191,25 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
         List<BlogPost> postsForTag = new ArrayList<>();
         List<BlogPostTag> allBlogPostTagBridgeEntries = getAllBlogPostTagBridgeEntries();
         for(BlogPostTag abptbe : allBlogPostTagBridgeEntries){
-            if(abptbe.getTagText().equals(tagText)){
-                postsForTag.add(getBlogPostById(abptbe.getBlogPostID()));
+            if(abptbe.getTagText().contains(tagText)){
+                postsForTag.add(setTagsForPost(getBlogPostById(abptbe.getBlogPostID())));
             }
         }
         return postsForTag;
     }
+
+    private BlogPost setTagsForPost(BlogPost post){
+        List<Tag> tagList = new ArrayList<>();
+        List<BlogPostTag> allBlogPostTagBridgeEntries = getAllBlogPostTagBridgeEntries();
+        for(BlogPostTag abptbe : allBlogPostTagBridgeEntries){
+            if(abptbe.getBlogPostID() == post.getBlogPostId()){
+                tagList.add(new Tag(abptbe.getTagText()));
+            }
+        }
+        post.setTagList(tagList);
+        return post;
+    }
+
 
     @Override
     public List<BlogPostTag> getAllBlogPostTagBridgeEntries(){
@@ -238,8 +288,13 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             // Execute the prepared statement string to set the variables
             jdbcTemplate.execute(qdata);
 
+
             // Search for posts based on the given criteria,
-            return jdbcTemplate.query(GET_USER_QUERY_MULTI, new BlogMapper());
+            List<BlogPost> postList = jdbcTemplate.query(GET_USER_QUERY_MULTI, new BlogMapper());
+            postList.forEach((p) -> {
+                setTagsForPost(p);
+            });
+            return postList;
 
         } catch (SQLException e) {
             return null;
@@ -264,6 +319,7 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
             if(post.isPublished()){
                 post.setStatus();
             }
+
             return post;
         }
     }

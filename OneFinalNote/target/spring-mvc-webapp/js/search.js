@@ -1,9 +1,23 @@
-
 $(document).ready(function () {
-    clickHandlers()
+
+    var cat = getParameterByName("cat");
+    var sub = getParameterByName("method");
+    var pub = getParameterByName("state");
+    var terms = getParameterByName("terms");
+
+    if (cat === null || cat === undefined){
+
+        clickHandlers()
+    }
+
+    else {
+        qfrMin(cat, sub, pub, terms);
+    }
+
+
 });
 
-function clickHandlers(){
+function clickHandlers() {
 
     var category = $("#category");
     var subcategory = $("#subcategory");
@@ -13,8 +27,12 @@ function clickHandlers(){
     });
 
     category.change(function () {
-        if (category.val() === "page"){$(".postopt").hide();}
-        else {$(".postopt").show()}
+        if (category.val() === "page") {
+            $(".postopt").hide();
+        }
+        else {
+            $(".postopt").show()
+        }
         subcategory.val("general").prop('selected', true);
     });
 
@@ -25,7 +43,7 @@ function clickHandlers(){
             $("#searchterms").hide();
             $("#cat-select").hide();
             $("#searchdate").show();
-        }else if (elSub === "category") {
+        } else if (elSub === "category") {
             $("#searchterms").hide();
             $("#cat-select").show();
             $("#searchdate").hide();
@@ -40,20 +58,36 @@ function clickHandlers(){
 
 
 function queryforresults() {
+
     var terms;
     var category = $("#category").val();
     var method = $("#subcategory").val();
 
-    if (method === "date") {terms = $("#searchdate").val();}
-    else if (method === "category") {terms = $("#cat-select").val();}
-    else {terms = $("#searchterms").val()}
+    if (method === "date") {
+        terms = $("#searchdate").val();
+    }
+    else if (method === "category") {
+        terms = $("#cat-select").val();
+    }
+    else {
+        terms = $("#searchterms").val()
+    }
     var state = $("#state").val();
 
-    if (state === undefined){state = "published"}
+    if (state === undefined) {
+        state = "published"
+    }
+
+        qfrMin(category, method, state, terms);
+}
+
+function qfrMin(category, method, state, terms) {
+
     var call = "http://localhost:8080/search/" + category
         + "s?method=" + method + "&state=" + state + "&terms=" + terms;
 
     console.log(call);
+
 
     $.ajax({
         type: "GET",
@@ -74,7 +108,7 @@ function printResults(results, category) {
     var time = "updateTime";
     var type = "blog";
 
-    if (category === "page"){
+    if (category === "page") {
         id = "pageId";
         time = "updatedTime";
         type = "page";
@@ -86,11 +120,16 @@ function printResults(results, category) {
         "<thead> <tr> <th class='header-th-id'>ID</th> <th>Title</th> <th>Date</th> " +
         "<th>Preview</th>";
 
-        if (sec === "true") {
-            resultstable += " <th>Published</th> <th>Admin Functions</th> ";
-        }
+    if (type === "blog") {
+        resultstable += "<th>Tags</th>";
+    }
 
-        resultstable += "</tr> </thead> <tbody>";
+
+    if (sec === "owner" || sec === "admin") {
+        resultstable += " <th>Published</th> <th>Admin Functions</th> ";
+    }
+
+    resultstable += "</tr> </thead> <tbody>";
 
     $.each(results, function (index, res) {
 
@@ -99,18 +138,38 @@ function printResults(results, category) {
 
 
         resultstable +=
-            "<tr><td class='id-col'><a target='_blank' href='./show?contentType="+type+"&contentID="
+            "<tr><td class='id-col'><a class='hlink2' target='_blank' href='./show?contentType=" + type + "&contentID="
             + res[id] + "'>" + res[id] + "</a></td>" +
-            "<td><a target='_blank' href='./show?contentType="+type+"&contentID=" + res[id] + "'>"
+            "<td><a class='hlink2' target='_blank' href='./show?contentType=" + type + "&contentID=" + res[id] + "'>"
             + res.title + "</a></td>" +
-            "<td>" + d.format("MMM Do YY, h:mm a")  + "</td>" +
+            "<td>" + d.format("MMM Do YY, h:mm a") + "</td>" +
             "<td>" + getPreview(body, 4) + "</td>";
 
-        if (sec === "true") {
-            resultstable += "<td>" + res.published + "</td>" +
-                "<td><a target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a>&nbsp; | &nbsp;";
-            if (type === "blog") {
-                resultstable += "<a target='_blank' href='deleteBlogPost?blogId=" + res[id] + "'>Delete</a></td>";
+        if (type === "blog") {
+            try {
+                resultstable += "<td>";
+                $.each(res.tagList, function (index, tag) {
+                    if (index === res.tagList.length - 1) {
+                        resultstable += tag.tagText;
+                    } else {
+                        resultstable += tag.tagText + ", ";
+                    }
+                });
+                resultstable += "</td>";
+            } catch (err) {}
+        }
+
+        resultstable += "</td>";
+
+        if (sec === "admin" || sec === "owner") {
+            resultstable += "<td>" + res.published + "</td>";
+
+
+            if (sec === "owner") {
+                resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a>&nbsp; | &nbsp;" +
+                    "<a class='hlink2' target='_blank' href='deleteBlogPost?blogId=" + res[id] + "'>Delete</a></td>";
+            } else if (sec === "admin" && type === "blog"){
+                resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a></td>";
             }
         }
         resultstable += "</tr>";
@@ -121,25 +180,36 @@ function printResults(results, category) {
 }
 
 
-function strip(html)
-{
+function strip(html) {
     var tmp = document.createElement("DIV");
     tmp.innerHTML = html;
     return tmp.textContent || tmp.innerText || "";
 }
 
 
-function getPreview(fulltext, wlim){
+function getPreview(fulltext, wlim) {
     fulltext = strip(fulltext);
     var words = fulltext.split(" ");
     var preview = "";
 
-    for (var i = 0; i < wlim; i++){
-        if (i === wlim - 1){
-            preview += words[i]+"...";
+    for (var i = 0; i < wlim; i++) {
+        if (i === wlim - 1) {
+            preview += words[i] + "...";
         } else {
             preview += words[i] + " ";
         }
     }
     return preview;
+
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+
 }

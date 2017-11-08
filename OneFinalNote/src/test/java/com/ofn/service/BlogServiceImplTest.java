@@ -346,92 +346,92 @@ public class BlogServiceImplTest {
         assertEquals(1, searchedBlogPost.size());
     }
 
-    @Test
-    public void addPost() throws Exception {
-        try {
-            BlogPost newBP = new BlogPost();
-            newBP.setCommentList(new ArrayList<>());
-            newBP.setPublished(true);
-            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
-            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
-            newBP.setCategoryId(1);
-            newBP.setUserId(1);
-            List<Tag> tl = new ArrayList<>();
-            Tag t = new Tag();
-            t.setTagText("hippie");
-            tl.add(t);
-            newBP.setTagList(tl);
-            newBP.setUpdateTime(LocalDateTime.now());
-            newBP.setStartDate(LocalDateTime.now());
-            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
-            newBP.setStatus();
-            newBP = service.addPost(newBP);
-            assertNotNull(newBP);
-        }
-        catch(PersistenceException ex){
-            fail("Should've added valid post");
-        }
-    }
+//    @Test
+//    public void addPost() throws Exception {
+//        try {
+//            BlogPost newBP = new BlogPost();
+//            newBP.setCommentList(new ArrayList<>());
+//            newBP.setPublished(true);
+//            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
+//            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
+//            newBP.setCategoryId(1);
+//            newBP.setUserId(1);
+//            List<Tag> tl = new ArrayList<>();
+//            Tag t = new Tag();
+//            t.setTagText("hippie");
+//            tl.add(t);
+//            newBP.setTagList(tl);
+//            newBP.setUpdateTime(LocalDateTime.now());
+//            newBP.setStartDate(LocalDateTime.now());
+//            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
+//            newBP.setStatus();
+//            newBP = service.addPost(newBP);
+//            assertNotNull(newBP);
+//        }
+//        catch(PersistenceException ex){
+//            fail("Should've added valid post");
+//        }
+//    }
 
-    @Test
-    public void updatePost() throws Exception {
-        try {
-            BlogPost newBP = new BlogPost();
-            newBP.setCommentList(new ArrayList<>());
-            newBP.setPublished(true);
-            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
-            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
-            newBP.setCategoryId(1);
-            newBP.setUserId(1);
-            List<Tag> tl = new ArrayList<>();
-            Tag t = new Tag();
-            t.setTagText("hippie");
-            tl.add(t);
-            newBP.setTagList(tl);
-            newBP.setUpdateTime(LocalDateTime.now());
-            newBP.setStartDate(LocalDateTime.now());
-            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
-            newBP.setStatus();
-            newBP = service.addPost(newBP);
-            newBP.setTitle("Bonnaroo: High times and high prices");
-            newBP.setUpdateTime(LocalDateTime.now());
-            newBP.setStatus();
-            newBP = service.updatePost(newBP);
-            assertNotNull(newBP);
-            assertEquals("Bonnaroo: High times and high prices", newBP.getTitle());
-        }
-        catch(PersistenceException ex){
-            fail("Should've added valid post");
-        }
-    }
+//    @Test
+//    public void updatePost() throws Exception {
+//        try {
+//            BlogPost newBP = new BlogPost();
+//            newBP.setCommentList(new ArrayList<>());
+//            newBP.setPublished(true);
+//            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
+//            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
+//            newBP.setCategoryId(1);
+//            newBP.setUserId(1);
+//            List<Tag> tl = new ArrayList<>();
+//            Tag t = new Tag();
+//            t.setTagText("hippie");
+//            tl.add(t);
+//            newBP.setTagList(tl);
+//            newBP.setUpdateTime(LocalDateTime.now());
+//            newBP.setStartDate(LocalDateTime.now());
+//            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
+//            newBP.setStatus();
+//            newBP = service.addPost(newBP);
+//            newBP.setTitle("Bonnaroo: High times and high prices");
+//            newBP.setUpdateTime(LocalDateTime.now());
+//            newBP.setStatus();
+//            newBP = service.updatePost(newBP);
+//            assertNotNull(newBP);
+//            assertEquals("Bonnaroo: High times and high prices", newBP.getTitle());
+//        }
+//        catch(PersistenceException ex){
+//            fail("Should've added valid post");
+//        }
+//    }
 
-    @Test
-    public void removePost() throws Exception {
-        try {
-            BlogPost newBP = new BlogPost();
-            newBP.setCommentList(new ArrayList<>());
-            newBP.setPublished(true);
-            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
-            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
-            newBP.setCategoryId(1);
-            newBP.setUserId(1);
-            List<Tag> tl = new ArrayList<>();
-            Tag t = new Tag();
-            t.setTagText("hippie");
-            tl.add(t);
-            newBP.setTagList(tl);
-            newBP.setUpdateTime(LocalDateTime.now());
-            newBP.setStartDate(LocalDateTime.now());
-            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
-            newBP.setStatus();
-            newBP = service.addPost(newBP);
-            newBP = service.removePost(newBP.getBlogPostId());
-            assertNotNull(newBP);
-        }
-        catch(PersistenceException ex){
-            fail("Should've added valid post");
-        }
-    }
+//    @Test
+//    public void removePost() throws Exception {
+//        try {
+//            BlogPost newBP = new BlogPost();
+//            newBP.setCommentList(new ArrayList<>());
+//            newBP.setPublished(true);
+//            newBP.setBody("<html>Load up on weed, shrooms and all your other psychedelics. It's almost time for Bonnaroo. Ticket prices are going sky high. Higher than you'll be at Bonnaroo. Is a cosmic odyssey worth breaking the bank?</html>");
+//            newBP.setTitle("Bonnaroo and the cosmic price for your cosmic high");
+//            newBP.setCategoryId(1);
+//            newBP.setUserId(1);
+//            List<Tag> tl = new ArrayList<>();
+//            Tag t = new Tag();
+//            t.setTagText("hippie");
+//            tl.add(t);
+//            newBP.setTagList(tl);
+//            newBP.setUpdateTime(LocalDateTime.now());
+//            newBP.setStartDate(LocalDateTime.now());
+//            newBP.setEndDate(LocalDateTime.now().plusMonths(1));
+//            newBP.setStatus();
+//            newBP = service.addPost(newBP);
+//            newBP = service.removePost(newBP.getBlogPostId());
+//            assertNotNull(newBP);
+//        }
+//        catch(PersistenceException ex){
+//            fail("Should've added valid post");
+//        }
+//    }
 
     @Test
     public void getBlogPost() throws Exception {
@@ -462,11 +462,36 @@ public class BlogServiceImplTest {
         assertEquals(1, postsForTag.size());
     }
 
-    @Test
-    public void getCommentsByUserId() throws Exception {
-        List<Comment> commentsForUser = service.getCommentsByUserId(1);
-        assertNotNull(commentsForUser);
-        assertEquals(2, commentsForUser.size());
-    }
+//    @Test
+//    public void getCommentsByUserId() throws Exception {
+//        List<Comment> commentsForUser = service.getCommentsByUserId(1);
+//        assertNotNull(commentsForUser);
+//        assertEquals(2, commentsForUser.size());
+//    }
 
+    
+    @Test
+    public void testParse(){
+        BlogPost orig = new BlogPost();
+        orig.setBody("<p> #holy hell this #parser is <br> <strong>#coolAF</strong>");
+       orig = service.parseTags(orig);
+       
+       BlogPost expected = new BlogPost();
+       Tag holy = new Tag();
+       holy.setTagText("holy");
+       Tag parser = new Tag();
+       parser.setTagText("parser");
+       Tag coolAF = new Tag();
+       coolAF.setTagText("ccolAF");
+       expected.setBody("<p> <a href='matchingTagURL'>#holy</a> hell this <a href='matchingTagURL'>#parser</a> is <br> <strong><a href='matchingTagURL'>#coolAF</a></strong>");
+       List<Tag> expectedList = new ArrayList<>();
+       expectedList.add(holy);
+       expectedList.add(parser);
+       expectedList.add(coolAF);
+       
+       expected.setTagList(expectedList);
+       
+       assertEquals(orig,expected);
+        
+    }
 }

@@ -2,6 +2,23 @@ $(document).ready(function () {
 
 launchEditor();
 
+
+
+
+
+    $('input[type=radio]').change(function() {
+    console.log("sx");
+        switch($(this).val()) {
+            case 'blog':
+                $(".form-hide").show();
+                break;
+            case 'page':
+                $(".form-hide").hide();
+                break;
+        }
+    });
+
+
 });
 
 

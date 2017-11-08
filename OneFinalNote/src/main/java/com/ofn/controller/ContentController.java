@@ -18,6 +18,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,6 +55,8 @@ public class ContentController {
         model.addAttribute("pageLinks", pageLinks);
         Map<Integer, BlogPost> blogMap = new HashMap<>();
         List<BlogPost> allBlogs = service.getAllPosts();
+        model.addAttribute("userList", getUserNames());
+
         for(BlogPost ab : allBlogs){
             blogMap.put(ab.getBlogPostId(),ab);
         }
@@ -61,6 +64,44 @@ public class ContentController {
         return "index";
     }
 
+    public List<String> getUserNames(){
+        List<User> userList = service.getAllUsers();
+        List<String> userNames = new ArrayList<>();
+        userList.forEach((u) -> {
+            userNames.add(u.getUserName());
+        });
+        return userNames;
+    }
+
+    @RequestMapping(value = "/deleteComment", method = RequestMethod.GET)
+    public String deleteComment(HttpServletRequest request){
+        int commentId = Integer.parseInt(request.getParameter("commId"));
+        try {
+            service.removeComment(commentId);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return "redirect:index";
+    }
+
+
+    @RequestMapping(value = "/editComment", method = RequestMethod.GET)
+    public String editComment(HttpServletRequest request){
+        int commentId = Integer.parseInt(request.getParameter("commId"));
+        Comment updating = service.getCommentById(commentId);
+        if(updating.isPublished()){
+            updating.setPublished(false);
+        }
+        else{
+            updating.setPublished(true);
+        }
+        try {
+            service.updateComment(updating);
+        } catch (PersistenceException e) {
+            e.printStackTrace();
+        }
+        return "redirect:index";
+    }
 
     public static String formatLocalDateTime(LocalDateTime ldt, String pattern){
         return ldt.format(DateTimeFormatter.ofPattern(pattern));
@@ -151,17 +192,28 @@ public class ContentController {
 
         String title = request.getParameter("newBlogPostTitle");
         String body = request.getParameter("newBlogPost");
-        String tagString = request.getParameter("tagSelector");
-        //System.out.println(request.getParameter("categorySelector"));
-        int categoryID = Integer.parseInt(request.getParameter("categorySelector"));
-        LocalDateTime start = LocalDateTime.parse(request.getParameter("startDateSelector"));
-        LocalDateTime end = LocalDateTime.parse(request.getParameter("endDateSelector"));
         boolean isPublishing = Boolean.parseBoolean(request.getParameter("publishedSelector"));
         boolean isApprovalNeeded = Boolean.parseBoolean(request.getParameter("isApprovalNeeded"));
         String radioChecked = request.getParameter("typeRadio");
         String userLoggedIn = request.getParameter("userLoggedIn");
         User u = service.getUserByName(userLoggedIn);
+
         if(radioChecked.equals("blog")){
+            LocalDateTime start, end;
+            int categoryID = Integer.parseInt(request.getParameter("categorySelector"));
+
+            try {
+                start = LocalDateTime.parse(request.getParameter("startDateSelector"));
+            } catch (DateTimeParseException e){
+                start = LocalDateTime.now();
+            }
+
+            try {
+                end = LocalDateTime.parse(request.getParameter("endDateSelector"));
+            } catch (DateTimeParseException e){
+                end = LocalDateTime.now().plusYears(200);
+            }
+
             BlogPost bp = new BlogPost();
             bp.setUserId(u.getUserId());
             bp.setTitle(title);
@@ -185,6 +237,8 @@ public class ContentController {
 
                 if (contentID > 0){
                     bp.setBlogPostId(contentID);
+                    bp.setUserName(service.getBlogPost(contentID).getUserName());
+                    bp.setUserId(service.getBlogPost(contentID).getUserId());
                     service.updatePost(bp);
                 } else {
                     service.addPost(bp);
@@ -205,6 +259,7 @@ public class ContentController {
 
                 if (contentID > 0){
                     p.setPageId(contentID);
+                    p.setUser(service.getPageById(contentID).getUser());
                     service.updatePage(p);
                 } else {
                     service.addPage(p);
@@ -222,7 +277,8 @@ public class ContentController {
         String commentBody = request.getParameter("commentBody");
         User u = service.getUserByName(request.getParameter("userLoggedIn"));
         boolean isPublishing = Boolean.parseBoolean(request.getParameter("isPublishing"));
-        int blogId = Integer.parseInt(request.getParameter("hiddenBlogPostID"));
+        String blogIdStr = request.getParameter("blogIdNumber");
+        int blogId = Integer.parseInt(blogIdStr);
         Comment c = new Comment();
         c.setUser(u);
         c.setBody(commentBody);

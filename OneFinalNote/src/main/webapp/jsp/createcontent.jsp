@@ -37,10 +37,15 @@
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <sec:authorize access="isAnonymous()">
+                            <li><a class="hlink" href="./signup">Sign Up</a></li>
+                        </sec:authorize>
                         <li><a class="hlink" href="./search">Search</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li class="dropdown-divider"></li>
+                            <li><a class="hlink" href="./createcontent">New Post</a></li>
+                            <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        </sec:authorize>
                     </ul>
                 </li>
             </ul>
@@ -73,9 +78,9 @@
     <hr/>
 
 
-    <c:set var="isApprovalNeeded" value="True"/>
+    <c:set var="isApprovalNeeded" value="true"/>
     <sec:authorize access="hasRole('ROLE_OWNER')">
-        <c:set var="isApprovalNeeded" value="False"/>
+        <c:set var="isApprovalNeeded" value="false"/>
     </sec:authorize>
 
     <%--<c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/>--%>
@@ -97,9 +102,10 @@
                         <tbody>
                         <tr><td class="form-left" >Title:</td><td class="form-right" >
                             <input value="${title}" class = "contentform" type="text" placeholder="Title" name="newBlogPostTitle" id="newBlogPostTitle" required/></td></tr>
-                        <tr><td class="form-left" >Category:</td><td class="form-right">
+
+
+                        <tr class="form-hide"><td class="form-left" >Category:</td><td class="form-right">
                             <select class="contentform" name="categorySelector" id="categorySelector" required>
-                                    <option value="dummy">Dummy</option>
                                 <c:forEach var="cat" items="${categories}">
                                     <option value="${cat.categoryID}"
                                     <c:if test="${catID == 1}">
@@ -108,24 +114,41 @@
                                 </c:forEach>
                             </select>
                         </td></tr>
-                        <tr>
+                        <tr class="form-hide">
                             <td class="form-left">Start Date:</td>
                             <td class="form-right">
                             <input value="${startDate}" class="contentform" type="datetime-local" name="startDateSelector" id="startDateSelector"/></td></tr>
-                        <tr>
+                        <tr class="form-hide">
                             <td class="form-left">End Date:</td>
                             <td class="form-right">
                             <input value="${endDate}" class = "contentform" type="datetime-local" name="endDateSelector" id="endDateSelector"/></td></tr>
                         <tr>
+
+
                             <td class="form-left">Post Type:</td>
                             <td class="form-right">
                             Blog <input class="ebox" type="radio" value="blog" name="typeRadio" checked>&nbsp;&nbsp;
-                            Page <input class="ebox" type="radio" value="page" name="typeRadio"></td></tr>
+                            <sec:authorize access="hasRole('ROLE_OWNER')">
+                                Page <input class="ebox" type="radio" value="page" name="typeRadio">
+                            </sec:authorize>
+
+                            </td></tr>
                         <tr>
                             <td class="form-left">Publish:</td><td class="form-right">
-                            <input type="checkbox"
-                                    <c:if test="${published == true}"> checked </c:if>
-                                   name="publishedSelector" value="true" class="ebox"/></td></tr>
+
+                            <c:choose>
+                                <c:when test="${isApprovalNeeded == false}">
+                                    <input type="checkbox"
+                                           <c:if test="${published == true}"> checked </c:if>
+                                           name="publishedSelector" value="true" class="ebox"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <input type="checkbox" name="publishedSelector" disabled value="true" class="ebox"/>
+                                </c:otherwise>
+                            </c:choose>
+
+
+                        </td></tr>
                         <tr>
                             <td id="cf-buttonrow" colspan="2">
                             <button>Save</button>&nbsp;&nbsp;

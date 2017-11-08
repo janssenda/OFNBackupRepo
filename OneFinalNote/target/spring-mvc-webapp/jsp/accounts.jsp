@@ -27,10 +27,15 @@
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <sec:authorize access="isAnonymous()">
+                            <li><a class="hlink" href="./signup">Sign Up</a></li>
+                        </sec:authorize>
                         <li><a class="hlink" href="./search">Search</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li class="dropdown-divider"></li>
+                            <li><a class="hlink" href="./createcontent">New Post</a></li>
+                            <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        </sec:authorize>
                     </ul>
                 </li>
             </ul>
@@ -90,43 +95,62 @@
             <div style="display: inline-block; width: 90%">
 
                 <c:forEach var="user" items="${users}">
-
-                    <div class="user-role-div text-left">
-                        <form action="./manageuser?userid=${user.userId}" method="post">
-                            <div class="row">
-                                <div class="col-sm-7">
-                                    Username: <span class="edit-username-font"><c:out
-                                        value="${user.userName}"/></span><br/>
-                                    Authorities:
-                                    <c:forEach var="auth" items="${user.authorities}" varStatus="status">
-                                        ${auth}<c:if test="${not status.last}">, </c:if>
-                                    </c:forEach>
-
-                                </div>
-                                <div class="col-sm-5 text-right" style="margin-top: -7px">
-                                    <input name="enabledbox" class="ebox" value="true" type="checkbox"
-                                           <c:if test="${user.isEnabled}">checked="checked"</c:if>
-                                           style="margin-bottom: 2px"/>
-                                    Enabled<br/>
-
-                                    <select name="roleselect" class="roleselect">
-                                        <option value="false">Change Role</option>
-                                        <option value="owner">Owner</option>
-                                        <option value="admin">Admin</option>
-                                        <option value="user">User</option>
-                                    </select>
-                                    <button class="editbutton" type="submit" name="editbutton" value="delete">Delete
-                                    </button>
-                                    <button class="editbutton" type="submit" name="editbutton" value="update">Update
-                                    </button>
-                                </div>
+                    <c:if test="${user.userName != pageContext.request.userPrincipal.name}">
+                        <c:set var="isAdminLoggedIn" value="False"/>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <c:set var="isAdminLoggedIn" value="True"/>
+                        </sec:authorize>
+                        <c:set var="isOwnerLoggedIn" value="False"/>
+                        <sec:authorize access="hasRole('ROLE_OWNER')">
+                            <c:set var="isOwnerLoggedIn" value="True"/>
+                            <c:set var="isAdminLoggedIn" value="True"/>
+                        </sec:authorize>
+                        <c:set var="userLoggedIn" value="${pageContext.request.userPrincipal.name}"/>
+                        <c:if test="${(userLoggedIn == 'owner') || (isOwnerLoggedIn && user.userName != 'owner'
+                                                                        && user.authorities[0] != 'ROLE_OWNER')
+                         || (isAdminLoggedIn && user.authorities[0] != 'ROLE_OWNER')}">
+                            <div class="user-role-div text-left">
+                                <form action="./manageuser?userid=${user.userId}" method="post">
+                                    <input type="hidden" name="isOwnerLoggedIn" value="${isOwnerLoggedIn}"/>
+                                    <input type="hidden" name="isAdminLoggedIn" value="${isAdminLoggedIn}"/>
+                                    <input type="hidden" name="userLoggedIn" value="${userLoggedIn}"/>
+                                    <div class="row">
+                                        <div class="col-sm-7">
+                                            Username: <span class="edit-username-font"><c:out
+                                                value="${user.userName}"/></span><br/>
+                                            Authorities:
+                                            <c:forEach var="auth" items="${user.authorities}" varStatus="status">
+                                                ${auth}<c:if test="${not status.last}">, </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        <div class="col-sm-5 text-right" style="margin-top: -7px">
+                                            <input name="enabledbox" class="ebox" value="true" type="checkbox"
+                                                   <c:if test="${user.isEnabled}">checked="checked"</c:if>
+                                                   style="margin-bottom: 2px"/>
+                                            Enabled<br/>
+                                            <sec:authorize access="hasRole('ROLE_OWNER')">
+                                                <select name="roleselect" class="roleselect">
+                                                    <option value="false">Change Role</option>
+                                                    <option value="owner">Owner</option>
+                                                    <option value="admin">Admin</option>
+                                                    <option value="user">User</option>
+                                                </select>
+                                                <button class="editbutton" type="submit" name="editbutton"
+                                                        value="delete">
+                                                    Delete
+                                                </button>
+                                            </sec:authorize>
+                                            <button class="editbutton" type="submit" name="editbutton" value="update">
+                                                Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                        </form>
-                    </div>
-                    <br/>
-
+                            <br/>
+                        </c:if>
+                    </c:if>
                 </c:forEach>
-
             </div>
         </div>
 

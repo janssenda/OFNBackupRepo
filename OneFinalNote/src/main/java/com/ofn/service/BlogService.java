@@ -64,5 +64,8 @@ public interface BlogService {
     List<BlogPost> getPostsByUserId(int userId);
     List<BlogPost> getPostsByTag(Tag tag);
     List<Comment> getCommentsByUserId(int userId);
+    
+    //tagParser
+    BlogPost parseTags(BlogPost bp);
 
 }

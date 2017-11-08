@@ -84,8 +84,8 @@ INSERT INTO users (UserName, UserPass, Avatar, UserProfile, Enabled) VALUES
 ('admin', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
 ('user', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
 ('owner', '$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW', null, null,1),
-('janssenda','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,null,1),
-('hlemke91','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,null,1),
+('janssenda','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,"ofn.org/users/janssenda",1),
+('hlemke91','$2a$10$7kXfoB1tpsaWPiuQsPONxuIIwRhZqmiusxkaqGpMEHik.7GW5wFKW',null,"ofn.org/users/hlemke91",1),
 ('sethroTull', 'cornwolf', 'sethroTullWerewolf.jpg', 'ofn.org/users/sethroTull', 1);
 
 INSERT INTO authorities (UserName, Authority) VALUES
@@ -105,20 +105,29 @@ INSERT INTO authorities (UserName, Authority) VALUES
 ('hlemke91', 'ROLE_ADMIN'),
 ('hlemke91', 'ROLE_USER');
 
-insert into categories (CategoryName, Description) values ("hippie","news on jam bands, prog rock, and acid rock");
+insert into categories (CategoryName, Description) values ("hippie","news on jam bands, prog rock, and acid rock"),
+('news', 'news involving musicians and anything music-related'),
+('metal', 'heavy metal bands and happenings'),
+('blues/jazz', 'blues, R&B, jazz, and all those going-downs'),
+('live', 'concerts, festivals, street musicians, buskers, and performances'),
+('pop', "MTV, Billboard Hot 100, and what's hot"),
+('TV/film', 'upcoming TV and film appearances'),
+('oldies but goodies', 'news on oldies, classic rock, etc.'),
+('classical', 'news on opera, classical, symphonic, and all music where suit-and-tie is the attire');
+
 
 insert into tags (TagText) values ("hippie");
 insert into tags (TagText) values ("metal");
 insert into tags (TagText) values ("Meshuggah");
 
-insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (1, now(), "Rush On Shrooms Rules!", 1, "<html>Listen to Rush after taking shrooms! You won't be disappointed!</html>", now(), addtime(now(), '14 0:00:00.00'), true);
+insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (6, now(), "Rush On Shrooms Rules!", 1, "<html>Listen to Rush after taking shrooms! You won't be disappointed!</html>", now(), addtime(now(), '14 0:00:00.00'), true);
 insert into blogposts (UserID, PostTime, Title, CategoryID, Body, StartDate, EndDate, Published) values (1, now(), "test blog", 1, "page about metal draft", now(), now(), false);
 insert into blogpoststags(BlogPostID, TagText) values (1, "hippie"); 
 
-insert into staticpages (UserID, UpdatedTime, PageTitle, Body, Published) values (1, now(), "Welcome to One Final Note", "<html>You've parked it at the one-stop source for all things music. News of band formations, breakups, tour schedules, album releases, awards, chartings, shindigs, hoedowns, ragers, ravers, you name it. Every beautiful day and hard day's night, we're blogging about music.<p><h3 style='font:metal;color:red'>Enjoy!</h3><img src='hlemke91andjanssendaandsethrotullcandid.png'/> -Hayden, Danimae, and Seth</html>", true);
+insert into staticpages (UserID, UpdatedTime, PageTitle, Body, Published) values (6, now(), "Welcome to One Final Note", "<html>You've parked it at the one-stop source for all things music. News of band formations, breakups, tour schedules, album releases, awards, chartings, shindigs, hoedowns, ragers, ravers, you name it. Every beautiful day and hard day's night, we're blogging about music.<p><h3 style='font:metal;color:red'>Enjoy!</h3><img src='hlemke91andjanssendaandsethrotullcandid.png'/> -Hayden, Danimae, and Seth</html>", true);
 insert into staticpages (UserID, UpdatedTime, PageTitle, Body, Published) values (1, now(), "test page", "test page code draft", false);
 
-insert into comments(BlogPostID, UserID, Body, CommentTime, Published) values (1, 1, "Seriously, though, it is quite the... rush. See what I did there?!", now(), true);
+insert into comments(BlogPostID, UserID, Body, CommentTime, Published) values (1, 6, "Seriously, though, it is quite the... rush. See what I did there?!", now(), true);
 insert into comments(BlogPostID, UserID, Body, CommentTime, Published) values (1, 1, "If you don't do it, you're missing out big time.", now(), false);
 
 

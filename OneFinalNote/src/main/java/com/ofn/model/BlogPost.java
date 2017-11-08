@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class BlogPost {
 
@@ -120,20 +121,42 @@ public class BlogPost {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BlogPost blogPost = (BlogPost) o;
+        final BlogPost blogPost = (BlogPost) o;
 
-        if (blogPostId != blogPost.blogPostId) return false;
-        if (userId != blogPost.userId) return false;
-        if (categoryId != blogPost.categoryId) return false;
-        if (published != blogPost.published) return false;
-        if (updateTime != null ? !updateTime.equals(blogPost.updateTime) : blogPost.updateTime != null) return false;
-        if (title != null ? !title.equals(blogPost.title) : blogPost.title != null) return false;
-        if (body != null ? !body.equals(blogPost.body) : blogPost.body != null) return false;
-        if (startDate != null ? !startDate.equals(blogPost.startDate) : blogPost.startDate != null) return false;
-        if (endDate != null ? !endDate.equals(blogPost.endDate) : blogPost.endDate != null) return false;
-        if (commentList != null ? !commentList.equals(blogPost.commentList) : blogPost.commentList != null)
+        if(!Objects.equals(this.blogPostId, blogPost.blogPostId)){
             return false;
-        return tagList != null ? tagList.equals(blogPost.tagList) : blogPost.tagList == null;
+        }
+        if(!Objects.equals(this.userId, blogPost.userId)){
+            return false;
+        }
+        if(!Objects.equals(this.categoryId, blogPost.categoryId)){
+            return false;
+        }
+        if(!Objects.equals(this.published, blogPost.published)){
+            return false;
+        }
+        if(!Objects.equals(this.updateTime, blogPost.updateTime)){
+            return false;
+        }
+        if(!Objects.equals(this.title, blogPost.title)){
+            return false;
+        }
+        if(!Objects.equals(this.body, blogPost.body)){
+            return false;
+        }
+        if(!Objects.equals(this.startDate, blogPost.startDate)){
+            return false;
+        }
+        if(!Objects.equals(this.endDate, blogPost.endDate)){
+            return false;
+        }
+        if(!Objects.equals(this.commentList, blogPost.commentList)){
+            return false;
+        }
+        if(!Objects.equals(this.tagList, blogPost.tagList)){
+            return false;
+        }
+        return true;
     }
 
     @Override

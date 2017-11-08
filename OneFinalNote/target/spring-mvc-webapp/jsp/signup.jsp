@@ -24,10 +24,15 @@
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <sec:authorize access="isAnonymous()">
+                            <li><a class="hlink" href="./signup">Sign Up</a></li>
+                        </sec:authorize>
                         <li><a class="hlink" href="./search">Search</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li class="dropdown-divider"></li>
+                            <li><a class="hlink" href="./createcontent">New Post</a></li>
+                            <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        </sec:authorize>
                     </ul>
                 </li>
             </ul>
@@ -89,9 +94,9 @@
                         <div class="col-12">
                             <table>
                                 <tbody>
-                                    <tr><td class="text-right">Username:</td><td><input required style="width: 90%" type="text" value="${username}" name="username"/></td></tr>
-                                    <tr><td class="text-right">Password:</td><td><input required style="width: 90%" type="password" name="password"/></td></tr>
-                                    <tr><td class="text-right">Re-Enter Password:</td><td><input required style="width: 90%" type="password" name="password-check"/></td></tr>
+                                    <tr><td class="text-right">Username:</td><td><input class="signform" required style="width: 90%" type="text" value="${username}" name="username"/></td></tr>
+                                    <tr><td class="text-right">Password:</td><td><input class="signform" required style="width: 90%" type="password" name="password"/></td></tr>
+                                    <tr><td class="text-right">Re-Enter Password:</td><td><input class="signform" required style="width: 90%" type="password" name="password-check"/></td></tr>
                                 </tbody>
                             </table>
                         </div>

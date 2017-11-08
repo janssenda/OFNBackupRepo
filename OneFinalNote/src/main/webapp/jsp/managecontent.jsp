@@ -16,10 +16,13 @@
 <body>
 <div class="container" id="page">
 
-
-    <sec:authorize access="hasRole('ROLE_ADMIN')">
-        <input type="hidden" value="true" id="sec"/>
+    <sec:authorize access="hasRole('ROLE_OWNER')">
+        <input type="hidden" value="owner" id="sec"/>
     </sec:authorize>
+    <sec:authorize access="hasRole('ROLE_ADMIN')">
+        <input type="hidden" value="admin" id="sec"/>
+    </sec:authorize>
+
 
     <hr/>
     <div class="row" id="title-row">
@@ -31,10 +34,15 @@
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <sec:authorize access="isAnonymous()">
+                            <li><a class="hlink" href="./signup">Sign Up</a></li>
+                        </sec:authorize>
                         <li><a class="hlink" href="./search">Search</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li class="dropdown-divider"></li>
+                            <li><a class="hlink" href="./createcontent">New Post</a></li>
+                            <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        </sec:authorize>
                     </ul>
                 </li>
             </ul>
@@ -90,7 +98,7 @@
                 <option class = "postopt" value="tag">Tags</option>
                 <option class = "postopt" value="id">Content ID</option>
                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                <option value="userid">User ID</option>
+                <option class = "postopt" value="userid">User ID</option>
                 </sec:authorize>
             </select>
             &nbsp;&nbsp;

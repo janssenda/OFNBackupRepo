@@ -3,12 +3,18 @@
 .login-form{width: 90px}
 .form-label{margin-bottom: 12px}
 
-input:focus, input:active {border: 1px solid green; box-shadow: 0px 0px 5px #7fff21; background-color: white}
+.search-select:hover, input:focus, input:active, .contentform:hover,
+.signform:hover
+{
+    border: 1px solid green;
+    box-shadow: 0 0 5px #7fff21;
+    background-color: white}
+
 button:active {background-color: black; color: white}
 button:hover {
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
-    -moz-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);
-    -webkit-box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.80);}
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);
+    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);
+    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);}
 button:active, button:hover, button:focus {outline: none;}
 
 .ebox:hover, .ebox:active, .ebox:focus, .ebox{
@@ -66,9 +72,18 @@ select option {
     background-color: transparent;
     margin-bottom: 8px;
 }
-#menu-button:hover{outline: none; background-color: transparent;
+
+.mb-on{outline: none; background-color: transparent;
     -webkit-filter: drop-shadow(5px 5px 5px #222);
     filter:         drop-shadow(5px 5px 5px #222);}
+
+.mb-off{outline: none; background-color: transparent;
+    -webkit-filter: drop-shadow(0px 0px 0px #222);
+    filter:         drop-shadow(0px 0px 0px #222);}
+
+/*#menu-button:hover{outline: none; background-color: transparent;*/
+    /*-webkit-filter: drop-shadow(5px 5px 5px #222);*/
+    /*filter:         drop-shadow(5px 5px 5px #222);}*/
 
 #menu-button:active{outline: none; background-color: transparent}
 .dropdown-divider{background-color:black}
@@ -84,5 +99,13 @@ select option {
 
 .search-select{width: 15%;}
 #searchterms, #searchdate, #cat-select {width: 30%;}
+
+#searchterms, #searchdate {
+    padding-left: 30px;
+    background: white url("/images/search.png") no-repeat 0 0;
+    background-size: contain;
+}
+
+
 .spc {display: inline-block; padding-bottom: 5px}
 .search-select, #searchterms, #searchbutton, #cat-select, #searchdate{margin-bottom: 3px}

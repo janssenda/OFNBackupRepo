@@ -6,8 +6,10 @@ import com.ofn.dao.interfaces.*;
 import com.ofn.model.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 public class BlogServiceImpl implements BlogService{
 
@@ -311,7 +313,7 @@ public class BlogServiceImpl implements BlogService{
         post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
         
         //unsure if we want to include this functionality
-//        post = parseTags(post);
+        post = parseTags(post);
         
         BlogPost bp = bpDao.addBlogPost(post);
         if(bp == null){
@@ -323,6 +325,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public BlogPost updatePost(BlogPost post) throws PersistenceException {
         post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
+        post = parseTags(post);
         boolean isUpdated = bpDao.updateBlogPost(post);
         if(!isUpdated){
             throw new PersistenceException("Error updating blog post");
@@ -414,17 +417,58 @@ public class BlogServiceImpl implements BlogService{
     
      //further implementation: make the hashtag text bold or a URL?
     public BlogPost parseTags(BlogPost bp){
-        String[] beginWithHT = bp.getBody().split("#");
+        // commented-out code doesn't work
+        // it would split by # and so tags would look like "<p>  ", "holy hell this", "parser is <br> <strong>", "coolAF</strong>"
+        // very ghetto way to parse tag text is found below, feel free to revise/improve as needed
+        // also need to remember to set body with new tags
+        // - Seth
+
+//        String[] beginWithHT = bp.getBody().split("#");
         ArrayList<Tag> tagList = new ArrayList<>();
-        for(String s: beginWithHT){
-            String[] oneAndGarbage = s.split(" ");
-            Tag toAdd = new Tag();
-            toAdd.setTagText(oneAndGarbage[0]);
-            tagList.add(toAdd);
+        ArrayList<String> hashText = new ArrayList<>();
+//        for(String s: beginWithHT){
+//            String[] oneAndGarbage = s.split(" ");
+//            String useful = oneAndGarbage[0];
+//            useful = useful.substring(1);
+//            hashText.add(useful);
+//            Tag toAdd = new Tag();
+//            toAdd.setTagText(useful);
+//            tagList.add(toAdd);
+//        }
+        String textToSearchForTags = bp.getBody();
+        int i = 0;
+        while(i < textToSearchForTags.length()){
+            if(textToSearchForTags.charAt(i) == '#'){
+                int j = i + 1;
+                String tagText = "";
+                while(j < textToSearchForTags.length()
+                        && textToSearchForTags.charAt(j) != ' '
+                        && Character.isLetterOrDigit(textToSearchForTags.charAt(j))){
+                    tagText += textToSearchForTags.charAt(j);
+                    j++;
+                }
+                hashText.add(tagText);
+                Tag toAdd = new Tag();
+                toAdd.setTagText(tagText);
+                tagList.add(toAdd);
+                i = j;
+            }
+            else if(((i + 1) < textToSearchForTags.length()) && textToSearchForTags.charAt(i) == '&' && textToSearchForTags.charAt(i+1) == '#'){
+                i += 2;
+            }
+            else{
+                i++;
+            }
+        }
+        
+        for(String hashtag: hashText){
+            bp.setBody(bp.getBody().replaceAll("#"+hashtag,
+                    "<a href='./search?cat=blog&method=tags&state=published&terms=" +
+                            hashtag +"'>#"+hashtag+"</a>"));
         }
         
         bp.setTagList(tagList);
-      
         return bp;
+      
     }
 }

@@ -1,8 +1,11 @@
+
 $(document).ready(function () {
 
     indexListener();
     navListener();
     preload();
+
+
 
 });
 
@@ -25,7 +28,50 @@ function preload(){
             $("#staticdiv").show();
         }
     }
+
+    startAutoComplete();
+
 }
+
+function startAutoComplete() {
+
+    var call = "http://localhost:8080/getUserNames";
+    $.ajax({
+        type: "GET",
+        url: call,
+        success: function (results) {
+            autoListener(results);
+        },
+        error: function () {
+            alert("fail")
+        }
+    });
+
+
+}
+
+function autoListener(list){
+
+    $('#commentBody').triggeredAutocomplete({
+        position: { my : "top", at: "bottom" },
+        source: list,
+        trigger: "@",
+        open: function() {
+            $('.ui-menu').width(0);
+            $('.ui-menu').height(0);
+            $('.ui-menu').css({
+                "margin-top":"0px",
+                "margin-left":"0px",
+                "background-color":"transparent",
+                "border":"0"});
+
+
+        }
+    });
+}
+
+
+
 
 function hideall(){
     $("#mainblogdiv").hide();
@@ -36,7 +82,8 @@ function hideall(){
 
 // Listens for clicks on elements and implements resulting functions
 function indexListener() {
-    $(document).on("click", "#staticpagelinkdiv .staticpages", function () {
+
+    $(document).on("click", "#staticpagelinkdiv .staticlnk", function () {
          hideall();
         $("#staticdiv").show();
         var thisItem = $(this).attr("id");
@@ -44,9 +91,37 @@ function indexListener() {
         fetchPage(itemNum);
     });
 
-    // $(document).on("click", "#mainblogdiv .blogposts", function () {
-    //     fetchBlogPost($(this).attr("id"));
-    // });
+    $(document).on("click", "#mainblogdiv .blogposts .showCommentsButton", function () {
+        var blogPostID = $(this).attr("id");
+        blogPostID = blogPostID.substr(8, blogPostID.length - 1);
+
+        var commDivID = "#blogPostComments"+blogPostID;
+
+        console.log(commDivID);
+        if ($(commDivID).is(":visible")){
+            $(commDivID).hide();
+        } else {
+
+        // document.getElementById("hiddenBlogPostID").value = blogPostID;
+        // var blogCommentColl = document.getElementsByClassName("blogcomments");
+        // for(var bcc in blogCommentColl){
+        //     if(bcc === ("blogPostComments" + blogPostID)){
+        //         document.getElementById(bcc).style.display = 'inline';
+        //     }
+        //     else{
+        //         if(bcc.length >= 16){
+        //             if(bcc.substr(0,16) === "blogPostComments"){
+        //                 // document.getElementById(bcc).style.display = 'none';
+        //             }
+        //         }
+        //     }
+        // }
+
+        $(commDivID).show();
+
+        }
+
+    });
 
     $('input[type=radio]').click(function () {
         var radioClicked = this.id;
@@ -146,7 +221,7 @@ function fetchComments(blogPostID){
                 $("#singleblogdiv").append(commstr);
             });},
         error: function () {
-            alert("fail222"); }
+            alert("fail"); }
     });
     $("#commentbuttondiv").show();
 }

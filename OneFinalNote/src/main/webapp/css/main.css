@@ -1,5 +1,5 @@
 body {font-family: Arial; background-color: #f7f7f7; font-size: 11pt;
-}
+background-color:#666666;}
 
 a, a:visited {color: black}
 a:hover, a.active {color: #c80022; text-decoration: none}
@@ -23,8 +23,12 @@ hr {
 
 .center-offset{padding-right: 170px;}
 #page .center-offset-editor{padding-right: 30px;}
-.staticpages{font-size: 11pt}
-.staticpages:hover{color: #c80022; cursor: pointer}
+.at-span, .hlink, .hlink:visited, .staticpages, a.hlink2 {
+    font-size: 11pt;
+    color: #536ebc;
+}
+a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer}
+.hlink, .hlink:visited, .staticpages{ font-weight: bold;}
 
 #linktitle{font-size: 12pt; font-weight: bold; text-decoration: underline; margin-bottom: 10px}
 #title-row {margin-bottom: -10px; padding-right: 15px; padding-left: 15px}
@@ -39,17 +43,7 @@ hr {
 .errmsg{font-size: 10px; color:red}
 
 
-.page-container{
-    border: dotted 1px darkgray;
-    border-radius: 5px;
-    width: 90%;
-    padding: 20px;
-    display: block;
-    margin-left:auto;
-    margin-right: auto;
-    background-color: white;
 
-}
 .user-role-form{display: inline}
 .user-role-div{border-bottom: solid 1px black}
 .edit-username-font{color: #2aabd2}
@@ -69,4 +63,94 @@ hr {
 #resultstable tr:nth-child(even) {background: white;}
 /*tr:hover{background: rgba(0, 228, 135, 0.24); }*/
 #resultstable td {padding-right: 10px}
+
+
+.page-container, .blogDiv{
+    border: solid 1px darkgray;
+    border-radius: 5px;
+    width: 90%;
+    padding-top: 20px;
+    display: block;
+    margin-left:auto;
+    margin-right: auto;
+    background-color: #cccccc;
+}
+.tagDiv {
+    width: 100%;
+    padding:3px 3px 3px 10px;
+    border-top: solid 1px darkgray }
+
+.tag {font-weight: bold}
+.tag:hover{color:red !important;}
+
+.blogposts .tagTextDiv {
+    text-align: left;
+    display: inline;
+    float:left;
+    width: 80%
+}
+
+.blogposts .commentbuttondiv{
+    text-align: right;
+    display: inline;
+    float:right;
+    width:20%
+}
+
+#mainblogdiv .single-comment{
+    width:70%;
+    text-align: left;
+    border: solid 1px darkgray;
+    display: inline-block;
+    margin: 20px auto auto 0;
+    padding: 5px;
+    border-radius: 5px;
+    background-color: #ffffcc;
+}
+
+#mainblogdiv .add-comment{
+    width:70%;
+    text-align: center;
+    display: inline-block;
+}
+
+.commentBody, .add-comment-button {
+    display: inline;
+}
+
+.commentBody{
+    resize: none;
+    width: 300px;
+    height: 75px;
+    border: solid 1px darkgray;
+    border-radius: 5px;
+}
+
+.cb-table{
+    display: inline-block
+}
+
+.blogcomments{width: 100%}
+.unpub{color:red}
+.pub{color:#2ecc7d}
+.smalltext{font-size: 10pt}
+.commentTitle{font-weight: bold}
+
+.ui-menu-item {
+    font-size: 10pt;
+
+}
+
+.ui-menu{background-color: transparent}
+
+
+.autores {color:black;
+    background-color: white;
+    border:0px solid black;
+    border-radius: 0px;
+    width: 150px;
+}
+
+
+
 

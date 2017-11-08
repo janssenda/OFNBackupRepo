@@ -4,14 +4,19 @@
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@taglib uri="http://ofn.com/functions" prefix="cf" %>
 <%@ page contentType="text/html" pageEncoding="UTF-8" %>
+<jsp:useBean id="random" class="java.util.Random" scope="application"/>
 <!DOCTYPE html>
 <html>
 <head>
     <title>Index Page</title>
     <!-- Bootstrap core CSS -->
     <link href="./css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="./css/jquery-ui.min.css">
+    <link rel="stylesheet" href="./css/jquery-ui.structure.min.css">
+    <link rel="stylesheet" href="./css/jquery-ui.theme.min.css">
     <link href="./css/main.css" rel="stylesheet">
     <link href="./css/forms.css" rel="stylesheet">
+    <%--<link href="./css/ofn-custom-style.css" rel="stylesheet">--%>
 </head>
 <body>
 <div class="container" id="page">
@@ -29,10 +34,15 @@
                     <ul class="dropdown-menu" id="linksdropdown">
                         <li><a class="hlink" href="./">Home</a></li>
                         <li class="dropdown-divider"></li>
-                        <li><a class="hlink" href="./signup">Sign Up</a></li>
-                        <li><a class="hlink" href="./createcontent">New Post</a></li>
-                        <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        <sec:authorize access="isAnonymous()">
+                            <li><a class="hlink" href="./signup">Sign Up</a></li>
+                        </sec:authorize>
                         <li><a class="hlink" href="./search">Search</a></li>
+                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+                            <li class="dropdown-divider"></li>
+                            <li><a class="hlink" href="./createcontent">New Post</a></li>
+                            <li><a class="hlink" href="./accounts">Accounts</a></li>
+                        </sec:authorize>
                     </ul>
                 </li>
             </ul>
@@ -77,16 +87,19 @@
                 <ul id="links-ul">
                     <li><a class="hlink" href="./">Blog</a></li>
                     <c:forEach var="link" items="${pageLinks}">
-                        <li class="staticpages" id="staticpage${link.key}">${link.value}</li>
+                        <li class="staticlnk" id="staticpage${link.key}"><span class="staticpages">${link.value}</span>
+                        </li>
                     </c:forEach>
-                    <li class="staticpages">Music</li>
-                    <li class="staticpages">About Me</li>
                 </ul>
             </div>
         </div>
         <div class="col-sm-10 text-center center-offset-editor">
             <div id="staticdiv" style="display: none">
             </div>
+            <c:set var="isAdminLoggedIn" value="False"/>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <c:set var="isAdminLoggedIn" value="True"/>
+            </sec:authorize>
             <c:set var="isOwnerLoggedIn" value="False"/>
             <sec:authorize access="hasRole('ROLE_OWNER')">
                 <c:set var="isOwnerLoggedIn" value="True"/>
@@ -97,55 +110,169 @@
             <div id="mainblogdiv">
                 <c:forEach var="blogRow" items="${allBlogs}">
                     <c:set var="blog" value="${blogRow.value}"/>
-                    <c:if test="${isOwnerLoggedIn || blog.published}">
-                        <div class="blogposts staticpages" id="blogPost${blog.blogPostId}"><c:out
-                                value="${blog.title}"/></div>
-                        <br>
-                        <c:out value="Posted by ${blog.userName}"/><br>
-                        <c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/><br>
-                        <c:out value="${blog.body}" escapeXml="false"/><br>
-                        <sec:authorize access="hasRole('ROLE_ADMIN')">
-                            <a href="editcontent?contentType=blog&contentID=${blog.blogPostId}">Edit</a> <a href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
-                        </sec:authorize>
-                        <div class="blogcomments" id="blogPostComments${blog.blogPostId}">
-                            <c:forEach var="comm" items="${blog.commentList}">
-                                <c:out value="Comment from ${comm.user.userName} at ${cf:formatLocalDateTime(comm.commentTime, 'dd.MM.yyyy hh:mm' )}"/><br>
-                                <c:out value="${comm.body}"/>
+                    <c:if test="${isOwnerLoggedIn || isAdminLoggedIn || blog.published}">
+
+
+                        <div style="display:inline" class="blogposts">
+                            <div class="blogDiv">
+                                <span class="staticpages"><c:out value="${blog.title}"/></span>
+                                <br>
+
+                                <c:if test="${!blog.published}">
+                                    <span class="unpub">Unpublished</span><br/>
+                                </c:if>
+
+
+                                Posted by: <span class="postedBy">${blog.userName}</span><br/>
+                                Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}
+                                <br/><br>
+
+                                <div class="blog-body">
+                                    <c:out value="${blog.body}" escapeXml="false"/>
+                                </div>
+                                <br>
+
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
-                                    <a href="editComment?commId=${comm.commentId}">Edit</a> <a href="deleteComment?commId=${comm.commentId}">Delete</a><br>
+                                    <a class="hlink" href="editcontent?contentType=blog&contentID=${blog.blogPostId}">Edit</a>&nbsp | &nbsp<a
+                                    class="hlink" href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
                                 </sec:authorize>
-                            </c:forEach>
+
+                                <div class="tagDiv">
+                                    <div class="tagTextDiv">
+                                        <c:forEach var="tag" items="${blog.tagList}">
+                                        <c:set var="r" value="${random.nextInt(9)}"/>
+                                        <c:set var="g" value="${random.nextInt(9)}"/>
+                                        <c:set var="b" value="${random.nextInt(9)}"/>
+
+
+                                        <a style="color: #${r}${g}${b}" class="tag"
+                                           href="./search?cat=blog&method=tags&state=published&terms="${tag.tagText}">
+                                        #${tag.tagText}
+                                        <a>&nbsp;
+                                            </c:forEach>
+                                    </div>
+                                    <div class="commentbuttondiv">
+                                        <button
+                                                id="blogPost${blog.blogPostId}"
+                                                class="showCommentsButton">View Comments
+                                        </button>
+                                    </div>
+                                    <div style="clear: both"></div>
+                                </div>
+                            </div>
+
                         </div>
-                        <hr/>
+
+
+                        <div style="display:none;" class="blogcomments" id="blogPostComments${blog.blogPostId}">
+                            <c:forEach var="comm" items="${blog.commentList}">
+                                <c:if test="${isOwnerLoggedIn || isAdminLoggedIn || comm.published}">
+                                    <div class="single-comment">
+
+                                        <span class="commentTitle">Comment from ${comm.user.userName}
+                                            at ${cf:formatLocalDateTime(comm.commentTime, 'dd.MM.yyyy hh:mm' )}</span>
+                                        <br>${comm.body}<br/>
+                                        <c:set var="canChange" value="true"/>
+
+                                        <c:if test="${pageContext.request.userPrincipal.name !=
+                                         comm.user.userName && pageContext.request.userPrincipal.name != 'owner' }">
+                                            <c:forEach var="auth" items="${comm.user.authorities}">
+                                                <c:if test="${auth == 'ROLE_OWNER'}">
+                                                    <c:set var="canChange" value="false"/>
+                                                </c:if>
+                                                <c:if test="${auth == 'ROLE_ADMIN' && isAdminLoggedIn}">
+                                                    <c:set var="canChange" value="false"/>
+                                                </c:if>
+
+                                            </c:forEach>
+                                        </c:if>
+
+                                        <sec:authorize access="hasRole('ROLE_ADMIN')">
+
+                                        <c:if test="${canChange == 'true'}">
+                                            
+                                            <a class="hlink2" href="editComment?commId=${comm.commentId}">
+                                                <c:choose>
+                                                    <c:when test="${comm.published}">Hide</c:when>
+                                                    <c:otherwise>Show</c:otherwise>
+                                                </c:choose>
+                                            </a>&nbsp| &nbsp<a
+                                            class="hlink2" href="deleteComment?commId=${comm.commentId}">Delete</a>
+                                        </c:if>
+
+                                        <span class="smalltext"> - Currently
+                                        <c:choose>
+                                            <c:when test="${comm.published}"><span
+                                                    class="pub smalltext"> visible</span></c:when>
+                                            <c:otherwise><span class="unpub smalltext"> hidden</span></c:otherwise>
+                                        </c:choose>
+
+
+                                    </sec:authorize>
+                                    </div>
+                                </c:if>
+
+                                <br>
+                            </c:forEach>
+                            <br/>
+                            <form>
+                                <input type="hidden" id="hiddenBlogPostID" name="hiddenBlogPostID" value="-1">
+                            </form>
+                            <sec:authorize access="isAuthenticated()">
+                                <form action="addComment" method="POST">
+                                    <c:set var="isApprovalNeeded" value="True"/>
+                                    <c:set var="isPublishing" value="False"/>
+                                    <sec:authorize access="hasRole('ROLE_OWNER') || hasRole('ROLE_ADMIN')">
+                                        <c:set var="isApprovalNeeded" value="False"/>
+                                        <c:set var="isPublishing" value="True"/>
+                                    </sec:authorize>
+
+                                    <div class="add-comment">
+                                        <table class="cb-table">
+                                            <tbody>
+                                            <tr>
+                                                <td>
+                                                    <textarea name="commentBody" id="commentBody"
+                                                              placeholder="Comment..."
+                                                              class="commentBody"></textarea>                                               </textarea>
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="text-align: right">
+                                                    <button type="submit" class="add-comment-button">Add Comment
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+                                    <c:choose>
+                                        <c:when test="${isApprovalNeeded}">
+                                            <br><c:out value="Your comment must be approved before posting"/>
+                                        </c:when>
+                                    </c:choose>
+                                    <input type="hidden" id="blogIdNumber" name="blogIdNumber"
+                                           value="${blog.blogPostId}"/>
+                                    <input type="hidden" name="isPublishing" value="${isPublishing}"/>
+                                    <input type="hidden" name="userLoggedIn"
+                                           value="${pageContext.request.userPrincipal.name}"/>
+
+                                </form>
+                            </sec:authorize>
+                        </div>
+                        <br/><br/>
                     </c:if>
                 </c:forEach>
             </div>
             <div id="singleblogdiv" style="display: none">
             </div>
             <form>
-                <input type="hidden" id="hiddenBlogPostID"
-                       name="hiddenBlogPostID" value="-1"/>
+
             </form>
             <div id="commentbuttondiv" style="display: none">
-                <sec:authorize access="isAuthenticated()">
-                    <form action="addComment" method="POST">
-                        <c:set var="isApprovalNeeded" value="True"/>
-                        <c:set var="isPublishing" value="False"/>
-                        <sec:authorize access="hasRole('ROLE_OWNER')">
-                            <c:set var="isApprovalNeeded" value="False"/>
-                            <c:set var="isPublishing" value="True"/>
-                        </sec:authorize>
-                        <textarea name="commentBody" id="commentBody">Comment here</textarea><br>
-                        <c:choose>
-                            <c:when test="${isApprovalNeeded}">
-                                <c:out value="Your comment must be approved before posting"/><br>
-                            </c:when>
-                        </c:choose>
-                        <input type="hidden" name="isPublishing" value="${isPublishing}"/>
-                        <input type="hidden" name="userLoggedIn" value="${pageContext.request.userPrincipal.name}"/>
-                        <input type="submit" class="btn btn-success" value="ADD COMMENT"/>
-                    </form>
-                </sec:authorize>
+
             </div>
 
         </div>
@@ -157,6 +284,9 @@
 <script src="./js/tether.min.js"></script>
 <script src="./js/moment.min.js"></script>
 <script src="./js/jquery-3.2.1.min.js"></script>
+<script src="./js/external/jquery/jquery.js"></script>
+<script src="./js/jquery-ui.min.js"></script>
+<script src="./js/jquery-ui.triggeredAutocomplete.js"></script>
 <script src="./js/bootstrap.min.js"></script>
 <script src="./js/ofn.js"></script>
 <script src="./js/index.js"></script>

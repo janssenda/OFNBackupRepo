@@ -10,6 +10,14 @@ public class Tag {
         this.tagText = tagText;
     }
 
+    public Tag(){
+
+    }
+
+    public Tag(String tagText){
+        this.tagText = tagText;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
