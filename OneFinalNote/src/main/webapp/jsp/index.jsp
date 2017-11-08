@@ -190,17 +190,17 @@
                                         <sec:authorize access="hasRole('ROLE_ADMIN')">
 
                                         <c:if test="${canChange == 'true'}">
-                                            
+
                                             <a class="hlink2" href="editComment?commId=${comm.commentId}">
                                                 <c:choose>
                                                     <c:when test="${comm.published}">Hide</c:when>
                                                     <c:otherwise>Show</c:otherwise>
                                                 </c:choose>
                                             </a>&nbsp| &nbsp<a
-                                            class="hlink2" href="deleteComment?commId=${comm.commentId}">Delete</a>
+                                            class="hlink2" href="deleteComment?commId=${comm.commentId}">Delete</a>&nbsp-&nbsp
                                         </c:if>
 
-                                        <span class="smalltext"> - Currently
+                                        <span class="smalltext">Currently
                                         <c:choose>
                                             <c:when test="${comm.published}"><span
                                                     class="pub smalltext"> visible</span></c:when>
