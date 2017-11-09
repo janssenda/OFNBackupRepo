@@ -1,20 +1,22 @@
 
 
-.login-form{width: 90px}
+.login-form{width: 120px}
 .form-label{margin-bottom: 12px}
 
-.search-select:hover, input:focus, input:active, .contentform:hover,
-.signform:hover
+.login-form:hover, .login-form:active, .login-form:focus, .search-select:hover, input:hover, input:focus, input:active, .contentform:hover,
+.signform:hover, .commentBody:hover, .commentBody:active, .commentBody:focus, .roleselect:hover, .roleselect:focus, .roleselect:active
 {
-    border: 1px solid green;
-    box-shadow: 0 0 5px #7fff21;
-    background-color: white}
+    outline: none;
+    border: 1px solid red;
+    box-shadow: 0 0 5px #ff1e28;
+    background-color: white
+}
 
 button:active {background-color: black; color: white}
-button:hover {
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);
-    -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);
-    -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.80);}
+.login-form:hover, .login-form:active, .login-form:focus, button:hover {
+    box-shadow: 0 0 5px rgba(255, 30, 40, 0.8);
+    -moz-box-shadow: 0 0 5px rgba(255, 30, 40, 0.8);
+    -webkit-box-shadow: 0 0 5px rgba(255, 30, 40, 0.8);}
 button:active, button:hover, button:focus {outline: none;}
 
 .ebox:hover, .ebox:active, .ebox:focus, .ebox{
@@ -33,21 +35,21 @@ select, input, button {
     padding: 2px;
     outline: none;
     border: 1px solid black;
-    border-radius: 4px;
+    border-radius: 1px;
 }
 
 button {
     padding-left: 8px; padding-right: 8px;
-    background-color: #3e5eff;
+    background-color: #2e2e2e;
     color: white;
     text-decoration: none;
     cursor: pointer;
-    border: 1px solid #2e40af;
+    border: 1px solid #000000;
     box-shadow:none;
 }
 
 select option {
-    margin: 40px;
+    /*margin: 40px;*/
     background: white;
     color: #000;
 }
@@ -91,7 +93,7 @@ select option {
     display: block;
 }
 
-#page #links-bar .contentform {width: 90%}
+#page #links-bar .contentform {width: 90%;}
 #page #links-bar table .form-left {width: 90px; text-align: right; padding-right: 8px}
 #page #links-bar table .form-right {text-align: left}
 #page #links-bar table .form-right, .form-left {padding-bottom: 5px}
@@ -102,10 +104,13 @@ select option {
 
 #searchterms, #searchdate {
     padding-left: 30px;
-    background: white url("/images/search.png") no-repeat 0 0;
+    background: white url("../images/search.png") no-repeat 0 0;
     background-size: contain;
 }
 
 
 .spc {display: inline-block; padding-bottom: 5px}
 .search-select, #searchterms, #searchbutton, #cat-select, #searchdate{margin-bottom: 3px}
+.login-form:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill, input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 1000px white inset;
+}

@@ -22,9 +22,12 @@
 <div class="container" id="page">
 
     <hr/>
+    <input type="hidden" id="ajaxUrl" value='@Url.Action("GetlocationAjax", "UpdateDetail")' />
     <input type="hidden" id="cShowType" name="cShowType" value="${cShowType}"/>
     <input type="hidden" id="cShowID" name="cShowID" value="${cShowID}"/>
     <input type="hidden" id="cShow" name="cShow" value="${cShow}"/>
+    <input type="hidden" id="blogid" name="blogid" value="${blogid}"/>
+
     <div class="row" id="title-row">
         <div class="col-sm-6 text-left" id="title-col-left">
 
@@ -46,10 +49,11 @@
                     </ul>
                 </li>
             </ul>
-            <span id="title"> One Final Note</span>&nbsp;
+            <span id="title"><img src="./images/logo.png" alt="One Final Note"></span>&nbsp;
 
         </div>
         <div class="col-sm-6 text-right" id="title-col">
+            <br/>
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <c:if test="${param.login_error == 1}">
                     <span class="errmsg"> Wrong id or password!</span><br/>
@@ -65,10 +69,12 @@
                 </form>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <span id="welcome">
-                    Hello : <span id="hello">${pageContext.request.userPrincipal.name}</span>
-                    | <a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
-                </span>
+                <div id="welcomediv">
+
+                    <span id="hello">${pageContext.request.userPrincipal.name}</span>
+                    | <a class="hlink" href="<c:url value="/j_spring_security_logout" />">Logout</a>
+
+                </div>
             </c:if>
         </div>
     </div>
@@ -113,9 +119,9 @@
                     <c:if test="${isOwnerLoggedIn || isAdminLoggedIn || blog.published}">
 
 
-                        <div style="display:inline" class="blogposts">
+                        <div style="display:inline" class="blogposts" id="bp${blog.blogPostId}">
                             <div class="blogDiv">
-                                <span class="staticpages"><c:out value="${blog.title}"/></span>
+                                <span class="content-title"><c:out value="${blog.title}"/></span>
                                 <br>
 
                                 <c:if test="${!blog.published}">
@@ -123,7 +129,7 @@
                                 </c:if>
 
 
-                                Posted by: <span class="postedBy">${blog.userName}</span><br/>
+                                Posted by: <span class="postedBy">${blog.user.userName}</span><br/>
                                 Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}
                                 <br/><br>
 
@@ -133,8 +139,14 @@
                                 <br>
 
                                 <sec:authorize access="hasRole('ROLE_ADMIN')">
+                                    <c:if test="${pageContext.request.userPrincipal.name == 'owner' ||
+                                        (isOwnerLoggedIn
+                                            && (pageContext.request.userPrincipal.name == blog.user.userName
+                                                                || blog.user.authorities[0] == 'ROLE_ADMIN'))
+                                            || !blog.published}">
                                     <a class="hlink" href="editcontent?contentType=blog&contentID=${blog.blogPostId}">Edit</a>&nbsp | &nbsp<a
                                     class="hlink" href="deleteBlogPost?blogId=${blog.blogPostId}">Delete</a>
+                                    </c:if>
                                 </sec:authorize>
 
                                 <div class="tagDiv">
@@ -145,8 +157,8 @@
                                         <c:set var="b" value="${random.nextInt(9)}"/>
 
 
-                                        <a style="color: #${r}${g}${b}" class="tag"
-                                           href="./search?cat=blog&method=tags&state=published&terms="${tag.tagText}">
+                                        <a style="color: #${r}${g}${b}" class="bodytag"
+                                           href="./search?cat=blog&method=tag&state=published&terms=${tag.tagText}">
                                         #${tag.tagText}
                                         <a>&nbsp;
                                             </c:forEach>
@@ -180,7 +192,8 @@
                                                 <c:if test="${auth == 'ROLE_OWNER'}">
                                                     <c:set var="canChange" value="false"/>
                                                 </c:if>
-                                                <c:if test="${auth == 'ROLE_ADMIN' && isAdminLoggedIn}">
+                                                <c:if test="${auth == 'ROLE_ADMIN' && isAdminLoggedIn
+                                                && !isOwnerLoggedIn}">
                                                     <c:set var="canChange" value="false"/>
                                                 </c:if>
 
@@ -191,13 +204,13 @@
 
                                         <c:if test="${canChange == 'true'}">
 
-                                            <a class="hlink2" href="editComment?commId=${comm.commentId}">
+                                            <a class="hlink2" href="editComment?commId=${comm.commentId}&blogid=${blog.blogPostId}">
                                                 <c:choose>
                                                     <c:when test="${comm.published}">Hide</c:when>
                                                     <c:otherwise>Show</c:otherwise>
                                                 </c:choose>
                                             </a>&nbsp| &nbsp<a
-                                            class="hlink2" href="deleteComment?commId=${comm.commentId}">Delete</a>&nbsp-&nbsp
+                                            class="hlink2" href="deleteComment?commId=${comm.commentId}&blogid=${blog.blogPostId}">Delete</a>&nbsp-&nbsp
                                         </c:if>
 
                                         <span class="smalltext">Currently
@@ -232,9 +245,9 @@
                                             <tbody>
                                             <tr>
                                                 <td>
-                                                    <textarea name="commentBody" id="commentBody"
+                                                    <textarea style="background-color: white" name="commentBody" id="commentBody"
                                                               placeholder="Comment..."
-                                                              class="commentBody"></textarea>                                               </textarea>
+                                                              class="commentBody"></textarea>
                                                 </td>
                                             </tr>
 
@@ -293,14 +306,3 @@
 
 </body>
 </html>
-
-
-<%--<sec:authorize access="isAuthenticated()">--%>
-<%--<p>  This is only visible to users who are logged in.  </p>--%>
-<%--</sec:authorize>--%>
-
-<%--<sec:authorize access="hasRole('ROLE_ADMIN')">           <p>--%>
-<%--This is only visible to users who also have the ADMIN role.--%>
-<%--</p>--%>
-<%--<a href="displayuserlist">Display list of users</a>--%>
-<%--</sec:authorize>--%>

@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class BlogServiceImpl implements BlogService{
@@ -261,7 +262,7 @@ public class BlogServiceImpl implements BlogService{
     public List<BlogPost> getPublishedPosts() {
         List<BlogPost> pubPosts = bpDao.getAllPubBlogPosts();
         for(BlogPost pubPost : pubPosts){
-            pubPost.setUserName(uDao.getUserById(pubPost.getUserId()).getUserName());
+            pubPost.setUser(uDao.getUserById(pubPost.getUserId()));
             List<Comment> comms = coDao.getCommentsForPost(pubPost.getBlogPostId());
             comms = addUsersToComments(comms);
             pubPost.setCommentList(comms);
@@ -273,7 +274,7 @@ public class BlogServiceImpl implements BlogService{
     public List<BlogPost> getUnPublishedPosts() {
         List<BlogPost> unpubPosts = bpDao.getAllUnPubBlogPosts();
         for(BlogPost up : unpubPosts){
-            up.setUserName(uDao.getUserById(up.getUserId()).getUserName());
+            up.setUser(uDao.getUserById(up.getUserId()));
             List<Comment> comms = coDao.getCommentsForPost(up.getBlogPostId());
             comms = addUsersToComments(comms);
             up.setCommentList(comms);
@@ -300,7 +301,7 @@ public class BlogServiceImpl implements BlogService{
     public List<BlogPost> searchBlogPost(String... args) {
         List<BlogPost> searched = bpDao.searchBlogPosts(args);
         for(BlogPost s: searched){
-            s.setUserName(uDao.getUserById(s.getUserId()).getUserName());
+            s.setUser(uDao.getUserById(s.getUserId()));
             List<Comment> comms = coDao.getCommentsForPost(s.getBlogPostId());
             comms = addUsersToComments(comms);
             s.setCommentList(comms);
@@ -310,7 +311,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public BlogPost addPost(BlogPost post) throws PersistenceException {
-        post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
+        post.setUser(uDao.getUserById(post.getUserId()));
         
         //unsure if we want to include this functionality
         post = parseTags(post);
@@ -324,7 +325,7 @@ public class BlogServiceImpl implements BlogService{
 
     @Override
     public BlogPost updatePost(BlogPost post) throws PersistenceException {
-        post.setUserName(uDao.getUserById(post.getUserId()).getUserName());
+        post.setUser(uDao.getUserById(post.getUserId()));
         post = parseTags(post);
         boolean isUpdated = bpDao.updateBlogPost(post);
         if(!isUpdated){
@@ -346,7 +347,7 @@ public class BlogServiceImpl implements BlogService{
     @Override
     public BlogPost getBlogPost(int blogPostId) {
         BlogPost getPost = bpDao.getBlogPostById(blogPostId);
-        getPost.setUserName(uDao.getUserById(getPost.getUserId()).getUserName());
+        getPost.setUser(uDao.getUserById(getPost.getUserId()));
         List<Comment> commsForPost = coDao.getCommentsForPost(getPost.getBlogPostId());
         commsForPost = addUsersToComments(commsForPost);
         getPost.setCommentList(commsForPost);
@@ -363,7 +364,7 @@ public class BlogServiceImpl implements BlogService{
             postsForTags.addAll(postsForTag);
         }
         for(BlogPost pft : postsForTags){
-            pft.setUserName(uDao.getUserById(pft.getUserId()).getUserName());
+            pft.setUser(uDao.getUserById(pft.getUserId()));
             List<Comment> comms = coDao.getCommentsForPost(pft.getBlogPostId());
             comms = addUsersToComments(comms);
             pft.setCommentList(comms);
@@ -375,7 +376,7 @@ public class BlogServiceImpl implements BlogService{
     public List<BlogPost> getPostsByUserId(int userId) {
        List<BlogPost> getPosts = bpDao.getByUser(userId);
        for(BlogPost gp : getPosts){
-           gp.setUserName(uDao.getUserById(gp.getUserId()).getUserName());
+           gp.setUser(uDao.getUserById(gp.getUserId()));
            List<Comment> comms = coDao.getCommentsForPost(gp.getBlogPostId());
            comms = addUsersToComments(comms);
            gp.setCommentList(comms);
@@ -388,7 +389,7 @@ public class BlogServiceImpl implements BlogService{
 //        yet to implement;
         List<BlogPost> postsByTag = bpDao.getBlogPostsByTag(tag);
         for(BlogPost pbt : postsByTag){
-            pbt.setUserName(uDao.getUserById(pbt.getUserId()).getUserName());
+            pbt.setUser(uDao.getUserById(pbt.getUserId()));
             List<Comment> comms = coDao.getCommentsForPost(pbt.getBlogPostId());
             comms = addUsersToComments(comms);
             pbt.setCommentList(comms);
@@ -417,53 +418,24 @@ public class BlogServiceImpl implements BlogService{
     
      //further implementation: make the hashtag text bold or a URL?
     public BlogPost parseTags(BlogPost bp){
-        // commented-out code doesn't work
-        // it would split by # and so tags would look like "<p>  ", "holy hell this", "parser is <br> <strong>", "coolAF</strong>"
-        // very ghetto way to parse tag text is found below, feel free to revise/improve as needed
-        // also need to remember to set body with new tags
-        // - Seth
 
-//        String[] beginWithHT = bp.getBody().split("#");
         ArrayList<Tag> tagList = new ArrayList<>();
         ArrayList<String> hashText = new ArrayList<>();
-//        for(String s: beginWithHT){
-//            String[] oneAndGarbage = s.split(" ");
-//            String useful = oneAndGarbage[0];
-//            useful = useful.substring(1);
-//            hashText.add(useful);
-//            Tag toAdd = new Tag();
-//            toAdd.setTagText(useful);
-//            tagList.add(toAdd);
-//        }
-        String textToSearchForTags = bp.getBody();
-        int i = 0;
-        while(i < textToSearchForTags.length()){
-            if(textToSearchForTags.charAt(i) == '#'){
-                int j = i + 1;
-                String tagText = "";
-                while(j < textToSearchForTags.length()
-                        && textToSearchForTags.charAt(j) != ' '
-                        && Character.isLetterOrDigit(textToSearchForTags.charAt(j))){
-                    tagText += textToSearchForTags.charAt(j);
-                    j++;
-                }
-                hashText.add(tagText);
-                Tag toAdd = new Tag();
-                toAdd.setTagText(tagText);
-                tagList.add(toAdd);
-                i = j;
-            }
-            else if(((i + 1) < textToSearchForTags.length()) && textToSearchForTags.charAt(i) == '&' && textToSearchForTags.charAt(i+1) == '#'){
-                i += 2;
-            }
-            else{
-                i++;
-            }
+
+        String regex = "(?:\\s|\\A|>)[##]+([A-Za-z0-9-_]+)";
+        Pattern regPat = Pattern.compile(regex);
+        Matcher m = regPat.matcher(bp.getBody());
+        while(m.find()){
+            String str = m.group().split("#")[1];
+            hashText.add(str);
+            Tag toAdd = new Tag();
+            toAdd.setTagText(str);
+            tagList.add(toAdd);
         }
         
         for(String hashtag: hashText){
             bp.setBody(bp.getBody().replaceAll("#"+hashtag,
-                    "<a href='./search?cat=blog&method=tags&state=published&terms=" +
+                    "<a class='bodytag' href='./search?cat=blog&method=tag&state=published&terms=" +
                             hashtag +"'>#"+hashtag+"</a>"));
         }
         

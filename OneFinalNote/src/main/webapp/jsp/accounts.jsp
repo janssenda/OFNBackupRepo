@@ -39,10 +39,11 @@
                     </ul>
                 </li>
             </ul>
-            <span id="title"> One Final Note</span>&nbsp;
+            <span id="title"><img src="./images/logo.png" alt="One Final Note"></span>&nbsp;
 
         </div>
         <div class="col-sm-6 text-right" id="title-col">
+            <br/>
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <c:if test="${param.login_error == 1}">
                     <span class="errmsg"> Wrong id or password!</span><br/>
@@ -58,10 +59,12 @@
                 </form>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <span id="welcome">
-                    Hello : <span id="hello">${pageContext.request.userPrincipal.name}</span>
-                    | <a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
-                </span>
+                <div id="welcomediv">
+
+                    <span id="hello">${pageContext.request.userPrincipal.name}</span>
+                    | <a class="hlink" href="<c:url value="/j_spring_security_logout" />">Logout</a>
+
+                </div>
             </c:if>
         </div>
     </div>
@@ -69,21 +72,21 @@
 
 
     <div class="row">
-        <div class="col-sm-2 text-left" id="links-bar">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <div id="linktitle">Content</div>
-                </div>
-            </div>
+        <%--<div class="col-sm-2 text-left" id="links-bar">--%>
+            <%--<div class="row">--%>
+                <%--<div class="col-12 text-center">--%>
+                    <%--<div id="linktitle">Content</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
 
-            <div id="staticpagelinkdiv">
-                <ul id="links-ul">
-                    <li class="staticpages">View Users</li>
-                    <li class="staticpages">Search Users</li>
-                </ul>
-            </div>
-        </div>
-        <div class="col-sm-10 text-center center-offset">
+            <%--<div id="staticpagelinkdiv">--%>
+                <%--<ul id="links-ul">--%>
+                    <%--<li class="staticpages">View Users</li>--%>
+                    <%--<li class="staticpages">Search Users</li>--%>
+                <%--</ul>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+        <div class="col-sm-12 text-center">
             <div class="row">
                 <div class="col-12">
                     <h2>Manage Users</h2>

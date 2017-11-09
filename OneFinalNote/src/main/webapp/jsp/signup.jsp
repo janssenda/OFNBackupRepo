@@ -36,10 +36,11 @@
                     </ul>
                 </li>
             </ul>
-            <span id="title"> One Final Note</span>&nbsp;
+            <span id="title"><img src="./images/logo.png" alt="One Final Note"></span>&nbsp;
 
         </div>
         <div class="col-sm-6 text-right" id="title-col">
+            <br/>
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <c:if test="${param.login_error == 1}">
                     <span class="errmsg"> Wrong id or password!</span><br/>
@@ -55,10 +56,12 @@
                 </form>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <span id="welcome">
-                    Hello : <span id="hello">${pageContext.request.userPrincipal.name}</span>
-                    | <a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
-                </span>
+                <div id="welcomediv">
+
+                    <span id="hello">${pageContext.request.userPrincipal.name}</span>
+                    | <a class="hlink" href="<c:url value="/j_spring_security_logout" />">Logout</a>
+
+                </div>
             </c:if>
         </div>
     </div>

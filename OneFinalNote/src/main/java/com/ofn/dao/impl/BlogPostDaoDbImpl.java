@@ -90,7 +90,7 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
     @Override
     public BlogPost addBlogPost(BlogPost post) {
         int success = jdbcTemplate.update(SQL_ADD_BLOGPOST,
-                post.getUserId(), Timestamp.valueOf(post.getUpdateTime()),
+                post.getUser().getUserId(), Timestamp.valueOf(post.getUpdateTime()),
                 post.getTitle(), post.getCategoryId(), post.getBody(),
                 post.getStartDate(), post.getEndDate(), post.isPublished());
         if(success == 1){
@@ -101,7 +101,7 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
                 jdbcTemplate.update("update blogposts set Published = ? where BlogPostID = ?", false, bp.getBlogPostId());
                 bp.setPublished(false);
             }
-            bp.setUserName(post.getUserName());
+            bp.setUser(post.getUser());
             List<Tag> tagList = post.getTagList();
             if(tagList != null && !tagList.isEmpty()) {
                 for (Tag t : tagList) {
@@ -135,7 +135,7 @@ public class BlogPostDaoDbImpl implements BlogPostDao {
 
     @Override
     public boolean updateBlogPost(BlogPost post) {
-        int success = jdbcTemplate.update(SQL_EDIT_BLOGPOST, post.getUserId(),
+        int success = jdbcTemplate.update(SQL_EDIT_BLOGPOST, post.getUser().getUserId(),
                 Timestamp.valueOf(post.getUpdateTime()), post.getTitle(),
                 post.getCategoryId(), post.getBody(), post.getStartDate(),
                 post.getEndDate(), post.isPublished(), post.getBlogPostId());

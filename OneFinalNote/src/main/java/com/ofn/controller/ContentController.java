@@ -9,8 +9,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +21,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 public class ContentController {
@@ -36,7 +35,10 @@ public class ContentController {
 
 
     @RequestMapping(value = {"", "/", "/home", "/index","/show"}, method = RequestMethod.GET)
-    public String welcomeMap(HttpServletRequest request, Model model) {
+    public String welcomeMap(HttpServletRequest request,Model model,
+                             RedirectAttributes redirectAttrs) {
+
+//        String blogid = request.getParameter("blogid");
 
         model.addAttribute("cShow","0");
         try {
@@ -53,7 +55,7 @@ public class ContentController {
 
         Map<Integer, String> pageLinks = service.getPageLinks();
         model.addAttribute("pageLinks", pageLinks);
-        Map<Integer, BlogPost> blogMap = new HashMap<>();
+        Map<Integer, BlogPost> blogMap = new LinkedHashMap<>();
         List<BlogPost> allBlogs = service.getAllPosts();
         model.addAttribute("userList", getUserNames());
 
@@ -61,6 +63,11 @@ public class ContentController {
             blogMap.put(ab.getBlogPostId(),ab);
         }
         model.addAttribute("allBlogs", blogMap);
+
+        if (model.containsAttribute("blogid")){
+            model.addAttribute("cShow","2");
+        }
+
         return "index";
     }
 
@@ -74,19 +81,27 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/deleteComment", method = RequestMethod.GET)
-    public String deleteComment(HttpServletRequest request){
+    public String deleteComment(RedirectAttributes redirectAttrs, HttpServletRequest request){
+
         int commentId = Integer.parseInt(request.getParameter("commId"));
+        String blogid = request.getParameter("blogid");
+        redirectAttrs.addFlashAttribute("blogid", blogid);
+
         try {
             service.removeComment(commentId);
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
+
+
         return "redirect:index";
     }
 
 
     @RequestMapping(value = "/editComment", method = RequestMethod.GET)
-    public String editComment(HttpServletRequest request){
+    public String editComment(RedirectAttributes redirectAttrs, HttpServletRequest request, Model model){
+
+        String blogid = request.getParameter("blogid");
         int commentId = Integer.parseInt(request.getParameter("commId"));
         Comment updating = service.getCommentById(commentId);
         if(updating.isPublished()){
@@ -100,6 +115,9 @@ public class ContentController {
         } catch (PersistenceException e) {
             e.printStackTrace();
         }
+
+
+        redirectAttrs.addFlashAttribute("blogid", blogid);
         return "redirect:index";
     }
 
@@ -111,6 +129,7 @@ public class ContentController {
     public String createContent(Model model) {
         List<Category> categories = service.getAllCategories();
         model.addAttribute("categories", categories);
+        model.addAttribute("newcontent", "true");
         return "createcontent";
     }
 
@@ -130,7 +149,7 @@ public class ContentController {
         LocalDateTime endDate;
         boolean published;
         String body;
-
+        String userName;
         try {
             int id = Integer.parseInt(request.getParameter("contentID"));
             String type = request.getParameter("contentType");
@@ -143,17 +162,18 @@ public class ContentController {
                 endDate = post.getEndDate();
                 published = post.isPublished();
                 body = post.getBody();
-
+                userName = post.getUser().getUserName();
                 model.addAttribute("catID", catID);
                 model.addAttribute("startDate", startDate);
                 model.addAttribute("endDate", endDate);
-
 
             } else {
                 Page page = service.getPageById(id);
                 title = page.getTitle();
                 published = page.isPublished();
                 body = page.getBody();
+                userName = page.getUser().getUserName();
+
 
             }
 
@@ -162,7 +182,8 @@ public class ContentController {
             model.addAttribute("body",body);
             model.addAttribute("published", published);
             model.addAttribute("contentID", id);
-
+            model.addAttribute("author", userName);
+            model.addAttribute("newcontent", "false");
 
         } catch (Exception e){
             return "createcontent";
@@ -190,6 +211,7 @@ public class ContentController {
             contentID = Integer.parseInt(request.getParameter("contentID"));
         } catch (Exception e){}
 
+
         String title = request.getParameter("newBlogPostTitle");
         String body = request.getParameter("newBlogPost");
         boolean isPublishing = Boolean.parseBoolean(request.getParameter("publishedSelector"));
@@ -199,6 +221,13 @@ public class ContentController {
         User u = service.getUserByName(userLoggedIn);
 
         if(radioChecked.equals("blog")){
+            if (request.getParameter("button").equals("delete")){
+                try {
+                    service.removePost(contentID);
+                    return "index";
+                } catch (Exception e){}
+            }
+
             LocalDateTime start, end;
             int categoryID = Integer.parseInt(request.getParameter("categorySelector"));
 
@@ -216,6 +245,7 @@ public class ContentController {
 
             BlogPost bp = new BlogPost();
             bp.setUserId(u.getUserId());
+            bp.setUser(u);
             bp.setTitle(title);
             bp.setBody(body);
             bp.setCategoryId(categoryID);
@@ -237,8 +267,8 @@ public class ContentController {
 
                 if (contentID > 0){
                     bp.setBlogPostId(contentID);
-                    bp.setUserName(service.getBlogPost(contentID).getUserName());
-                    bp.setUserId(service.getBlogPost(contentID).getUserId());
+                    bp.setUser(service.getBlogPost(contentID).getUser());
+                    bp.setUserId(service.getBlogPost(contentID).getUser().getUserId());
                     service.updatePost(bp);
                 } else {
                     service.addPost(bp);
@@ -249,6 +279,12 @@ public class ContentController {
             }
         }
         else{
+            if (request.getParameter("button").equals("delete")){
+                try {
+                    service.removePage(contentID);
+                    return "index";
+                } catch (Exception e){}
+            }
             Page p = new Page();
             p.setTitle(title);
             p.setBody(body);
@@ -273,13 +309,18 @@ public class ContentController {
     }
 
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
-    public String addCommentToBlogPost(HttpServletRequest request){
+    public String addCommentToBlogPost(RedirectAttributes redirectAttrs, HttpServletRequest request){
+
         String commentBody = request.getParameter("commentBody");
         User u = service.getUserByName(request.getParameter("userLoggedIn"));
         boolean isPublishing = Boolean.parseBoolean(request.getParameter("isPublishing"));
         String blogIdStr = request.getParameter("blogIdNumber");
         int blogId = Integer.parseInt(blogIdStr);
+
+        redirectAttrs.addFlashAttribute("blogid", blogId);
+
         Comment c = new Comment();
+
         c.setUser(u);
         c.setBody(commentBody);
         c.setPublished(isPublishing);

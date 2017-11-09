@@ -11,16 +11,21 @@ $(document).ready(function () {
 
 function preload(){
 
+    if ($("#cShow").val() === "2"){
+
+        var commDivID = "blogPostComments"+$("#blogid").val();
+        $("#"+commDivID).show();
+
+        document.getElementById(commDivID).scrollIntoView();
+    }
+
     if ($("#cShow").val() === "1"){
 
         var id = $("#cShowID").val();
         var type = $("#cShowType").val();
 
-
         if (type === "blog"){
-            hideall();
-            fetchBlogPost(id,true);
-            $("#singleblogdiv").show();
+           document.getElementById("bp"+id).scrollIntoView();
         }
         else {
             hideall();
@@ -35,7 +40,9 @@ function preload(){
 
 function startAutoComplete() {
 
-    var call = "http://localhost:8080/getUserNames";
+
+
+    var call = "/onefinalnote/getUserNames";
     $.ajax({
         type: "GET",
         url: call,
@@ -46,9 +53,8 @@ function startAutoComplete() {
             alert("fail")
         }
     });
-
-
 }
+
 
 function autoListener(list){
 
@@ -83,6 +89,27 @@ function hideall(){
 // Listens for clicks on elements and implements resulting functions
 function indexListener() {
 
+    var elements = document.getElementsByClassName('bodytag');
+
+    $.each(elements, function(index, el){
+        el.style.color = '#'+(0x1000000+(Math.random())*0xffffff).toString(16).substr(1,6);
+    });
+
+    $(".bodytag").on({
+        mouseenter: function () {
+            $(this).addClass("taghover");
+        },
+        mouseleave: function () {
+            $(this).removeClass("taghover");
+        }
+    });
+
+    // $(document).on("hover", ".bodytag", function () {
+    //     console.log("x");
+    //     $(this).addClass("test");
+    // });
+
+
     $(document).on("click", "#staticpagelinkdiv .staticlnk", function () {
          hideall();
         $("#staticdiv").show();
@@ -97,28 +124,10 @@ function indexListener() {
 
         var commDivID = "#blogPostComments"+blogPostID;
 
-        console.log(commDivID);
         if ($(commDivID).is(":visible")){
             $(commDivID).hide();
         } else {
-
-        // document.getElementById("hiddenBlogPostID").value = blogPostID;
-        // var blogCommentColl = document.getElementsByClassName("blogcomments");
-        // for(var bcc in blogCommentColl){
-        //     if(bcc === ("blogPostComments" + blogPostID)){
-        //         document.getElementById(bcc).style.display = 'inline';
-        //     }
-        //     else{
-        //         if(bcc.length >= 16){
-        //             if(bcc.substr(0,16) === "blogPostComments"){
-        //                 // document.getElementById(bcc).style.display = 'none';
-        //             }
-        //         }
-        //     }
-        // }
-
         $(commDivID).show();
-
         }
 
     });
@@ -139,7 +148,7 @@ function fetchPage(pageID) {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/displayStaticPage/" + pageID,
+        url: "/onefinalnote/displayStaticPage/" + pageID,
         dataType: "json",
         headers: {
             "Accept": "application/json",
@@ -171,7 +180,7 @@ function fetchBlogPost(blogPostID, direct) {
 
     $.ajax({
         type: "GET",
-        url: "http://localhost:8080/displayBlogPost/" + blogPostID,
+        url: "/onefinalnote/displayBlogPost/" + blogPostID,
         dataType: "json",
         headers: {
             "Accept": "application/json",
@@ -207,7 +216,7 @@ function fetchComments(blogPostID){
     var isOwner = document.getElementById("ownerLoggedIn").value;
     $.ajax({
         type: "get",
-        url: "http://localhost:8080/getCommentsForBlogPost/" + blogPostID + "/" + isOwner,
+        url: "/onefinalnote/getCommentsForBlogPost/" + blogPostID + "/" + isOwner,
         dataType: "json",
         headers: {
             "Accept": "application/json",
@@ -224,4 +233,15 @@ function fetchComments(blogPostID){
             alert("fail"); }
     });
     $("#commentbuttondiv").show();
+}
+
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+
 }

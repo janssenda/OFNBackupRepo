@@ -1,14 +1,16 @@
 $(document).ready(function () {
 
-launchEditor();
+    if ($("#redirect").val() === "true") {
+        window.setTimeout(function () {
+            window.location.href = "./index";
+        }, 3000);
+    }
+    launchEditor();
 
 
-
-
-
-    $('input[type=radio]').change(function() {
-    console.log("sx");
-        switch($(this).val()) {
+    $('input[type=radio]').change(function () {
+        console.log("sx");
+        switch ($(this).val()) {
             case 'blog':
                 $(".form-hide").show();
                 break;
@@ -30,7 +32,7 @@ function launchEditor() {
             'subscript', 'superscript', 'outdent', 'indent',
             'clearFormatting', 'insertTable', 'html', 'insertLink',
             'insertImage', 'insertVideo', 'emoticons', 'specialCharacters',
-            'fontFamily', 'fontSize', 'color','align', 'formatOL', 'formatUL' ],
+            'fontFamily', 'fontSize', 'color', 'align', 'formatOL', 'formatUL'],
 
 
         heightMin: 300,

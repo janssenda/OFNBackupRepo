@@ -49,10 +49,11 @@
                     </ul>
                 </li>
             </ul>
-            <span id="title"> One Final Note</span>&nbsp;
+            <span id="title"><img src="./images/logo.png" alt="One Final Note"></span>&nbsp;
 
         </div>
         <div class="col-sm-6 text-right" id="title-col">
+            <br/>
             <c:if test="${pageContext.request.userPrincipal.name == null}">
                 <c:if test="${param.login_error == 1}">
                     <span class="errmsg"> Wrong id or password!</span><br/>
@@ -68,10 +69,12 @@
                 </form>
             </c:if>
             <c:if test="${pageContext.request.userPrincipal.name != null}">
-                <span id="welcome">
-                    Hello : <span id="hello">${pageContext.request.userPrincipal.name}</span>
-                    | <a href="<c:url value="/j_spring_security_logout" />"> Logout</a>
-                </span>
+                <div id="welcomediv">
+
+                    <span id="hello">${pageContext.request.userPrincipal.name}</span>
+                    | <a class="hlink" href="<c:url value="/j_spring_security_logout" />">Logout</a>
+
+                </div>
             </c:if>
         </div>
     </div>
@@ -82,82 +85,102 @@
     <sec:authorize access="hasRole('ROLE_OWNER')">
         <c:set var="isApprovalNeeded" value="false"/>
     </sec:authorize>
+    <c:choose>
+    <c:when test="${newcontent == 'true' || pageContext.request.userPrincipal.name == 'owner' ||
+        (pageContext.request.userPrincipal.name == author)}">
 
-    <%--<c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/>--%>
+        <%--<c:out value="Last updated: ${cf:formatLocalDateTime(blog.updateTime, 'dd.MM.yyyy hh:mm')}"/>--%>
 
-    <form action="save" method="POST">
-        <input type="hidden" name="contentID" value="${contentID}"/>
-        <input type="hidden" name="isApprovalNeeded" value="${isApprovalNeeded}"/>
-        <input type="hidden" name="userLoggedIn"
-               value="${pageContext.request.userPrincipal.name}"/>
-        <div class="row">
-            <div class="col-sm-3" id="links-bar" >
-                <div class="row">
-                    <div class="col-12 text-center">
-                        <div id="linktitle">Properties</div>
+        <form action="save" method="POST">
+            <input type="hidden" name="contentID" value="${contentID}"/>
+            <input type="hidden" name="isApprovalNeeded" value="${isApprovalNeeded}"/>
+            <input type="hidden" name="userLoggedIn"
+                   value="${pageContext.request.userPrincipal.name}"/>
+            <div class="row">
+                <div class="col-sm-3" id="links-bar">
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <div id="linktitle">Properties</div>
+                        </div>
+                    </div>
+                    <div id="contentformlinks">
+                        <table id="contentform-table">
+                            <tbody>
+                            <tr>
+                                <td class="form-left">Title:</td>
+                                <td class="form-right">
+                                    <input value="${title}" class="contentform" type="text" placeholder="Title"
+                                           name="newBlogPostTitle" id="newBlogPostTitle" required/></td>
+                            </tr>
+
+
+                            <tr class="form-hide">
+                                <td class="form-left">Category:</td>
+                                <td class="form-right">
+                                    <select class="contentform" name="categorySelector" id="categorySelector" required>
+                                        <c:forEach var="cat" items="${categories}">
+                                            <option value="${cat.categoryID}"
+                                                    <c:if test="${catID == 1}">
+                                                        selected</c:if>
+                                            >${cat.categoryName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr class="form-hide">
+                                <td class="form-left">Start Date:</td>
+                                <td class="form-right">
+                                    <input value="${startDate}" class="contentform" type="datetime-local"
+                                           name="startDateSelector" id="startDateSelector"/></td>
+                            </tr>
+                            <tr class="form-hide">
+                                <td class="form-left">End Date:</td>
+                                <td class="form-right">
+                                    <input value="${endDate}" class="contentform" type="datetime-local"
+                                           name="endDateSelector" id="endDateSelector"/></td>
+                            </tr>
+                            <tr>
+
+
+                                <td class="form-left">Post Type:</td>
+                                <td class="form-right">
+                                    Blog <input class="ebox" type="radio" value="blog" name="typeRadio" checked>&nbsp;&nbsp;
+                                    <sec:authorize access="hasRole('ROLE_OWNER')">
+                                        Page <input class="ebox" type="radio" value="page" name="typeRadio">
+                                    </sec:authorize>
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="form-left">Publish:</td>
+                                <td class="form-right">
+
+                                    <c:choose>
+                                        <c:when test="${isApprovalNeeded == false}">
+                                            <input type="checkbox"
+                                                    <c:if test="${published == true}"> checked </c:if>
+                                                   name="publishedSelector" value="true" class="ebox"/>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <input type="checkbox" name="publishedSelector" disabled value="true"
+                                                   class="ebox"/>
+                                        </c:otherwise>
+                                    </c:choose>
+
+
+                                </td>
+                            </tr>
+                            <tr>
+                                <td id="cf-buttonrow" colspan="2">
+                                    <button type="submit" value="save" name="button">Save</button>&nbsp;&nbsp;
+                                    <button type="submit" value="delete" name="button">Delete</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div id="contentformlinks">
-                    <table id="contentform-table">
-                        <tbody>
-                        <tr><td class="form-left" >Title:</td><td class="form-right" >
-                            <input value="${title}" class = "contentform" type="text" placeholder="Title" name="newBlogPostTitle" id="newBlogPostTitle" required/></td></tr>
-
-
-                        <tr class="form-hide"><td class="form-left" >Category:</td><td class="form-right">
-                            <select class="contentform" name="categorySelector" id="categorySelector" required>
-                                <c:forEach var="cat" items="${categories}">
-                                    <option value="${cat.categoryID}"
-                                    <c:if test="${catID == 1}">
-                                        selected</c:if>
-                                    >${cat.categoryName}</option>
-                                </c:forEach>
-                            </select>
-                        </td></tr>
-                        <tr class="form-hide">
-                            <td class="form-left">Start Date:</td>
-                            <td class="form-right">
-                            <input value="${startDate}" class="contentform" type="datetime-local" name="startDateSelector" id="startDateSelector"/></td></tr>
-                        <tr class="form-hide">
-                            <td class="form-left">End Date:</td>
-                            <td class="form-right">
-                            <input value="${endDate}" class = "contentform" type="datetime-local" name="endDateSelector" id="endDateSelector"/></td></tr>
-                        <tr>
-
-
-                            <td class="form-left">Post Type:</td>
-                            <td class="form-right">
-                            Blog <input class="ebox" type="radio" value="blog" name="typeRadio" checked>&nbsp;&nbsp;
-                            <sec:authorize access="hasRole('ROLE_OWNER')">
-                                Page <input class="ebox" type="radio" value="page" name="typeRadio">
-                            </sec:authorize>
-
-                            </td></tr>
-                        <tr>
-                            <td class="form-left">Publish:</td><td class="form-right">
-
-                            <c:choose>
-                                <c:when test="${isApprovalNeeded == false}">
-                                    <input type="checkbox"
-                                           <c:if test="${published == true}"> checked </c:if>
-                                           name="publishedSelector" value="true" class="ebox"/>
-                                </c:when>
-                                <c:otherwise>
-                                    <input type="checkbox" name="publishedSelector" disabled value="true" class="ebox"/>
-                                </c:otherwise>
-                            </c:choose>
-
-
-                        </td></tr>
-                        <tr>
-                            <td id="cf-buttonrow" colspan="2">
-                            <button>Save</button>&nbsp;&nbsp;
-                            <button>Discard</button></td> </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-sm-9 text-center">
+                <div class="col-sm-9 text-center">
                 <textarea name="newBlogPost" id="newBlogPost">
                     <c:choose>
                         <c:when test="${not empty body}">
@@ -170,9 +193,19 @@
 
 
                 </textarea><br>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </c:when>
+        <c:otherwise>
+
+            <div  class="alert alert-danger" role="alert">You are not authorized to view this content...</div>
+            <input type="hidden" value="true" id="redirect"/>
+
+
+
+        </c:otherwise>
+    </c:choose>
 </div>
 
 <script src="./js/tether.min.js"></script>

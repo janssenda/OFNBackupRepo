@@ -1,10 +1,14 @@
-body {font-family: Arial; background-color: #f7f7f7; font-size: 11pt;
-background-color:#666666;}
+body {
+    font-family: Arial;
+    background: #d8e5e0 url("../images/smokewallpaper.png") fixed;
+    font-size: 11pt;
+}
+
 
 a, a:visited {color: black}
 a:hover, a.active {color: #c80022; text-decoration: none}
 
-#page {width: 90%; margin-right: auto; margin-left: auto;}
+#page {width: 90%; max-width: 1300px; margin-right: auto; margin-left: auto;}
 
 hr {
     border: 0;
@@ -23,12 +27,20 @@ hr {
 
 .center-offset{padding-right: 170px;}
 #page .center-offset-editor{padding-right: 30px;}
-.at-span, .hlink, .hlink:visited, .staticpages, a.hlink2 {
+.content-title, .at-span, .hlink, .hlink:visited, .staticpages, a.hlink2 {
     font-size: 11pt;
-    color: #536ebc;
+    color: #670003;
 }
-a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer}
-.hlink, .hlink:visited, .staticpages{ font-weight: bold;}
+
+#linksdropdown{
+    border: solid 1px black;
+    background-color: rgb(241, 241, 241)
+}
+
+.bodytag, a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #ff0024; cursor: pointer}
+.bodytag, .hlink, .hlink:visited, .staticpages, .content-title{ font-weight: bold;}
+
+.taghover{color:#ff0024; background-color: black}
 
 #linktitle{font-size: 12pt; font-weight: bold; text-decoration: underline; margin-bottom: 10px}
 #title-row {margin-bottom: -10px; padding-right: 15px; padding-left: 15px}
@@ -46,7 +58,8 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
 
 .user-role-form{display: inline}
 .user-role-div{border-bottom: solid 1px black}
-.edit-username-font{color: #2aabd2}
+.edit-username-font{color: #ff1e28
+}
 .editbutton{width:18%; min-width: 30px}
 .roleselect{width:40%;}
 #page #links-bar {padding: 0;}
@@ -55,18 +68,19 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
 
 #resultstable {border-radius: 5px; border: 2px solid black; border-collapse: separate; border-spacing: 0; width: 100%}
 #resultstable tbody, thead {border: 1px solid black; text-align: left}
-#resultstable .header-th-id, th {background-color: #2ecc7d; border-bottom: 2px solid black; padding: 3px; color: white;font-family: "Arial"; font-size: 10pt; font-weight: normal}
+#resultstable .header-th-id, th {background-color: #2e2e2e; border-bottom: 2px solid black; padding: 3px; color: white;font-family: "Arial"; font-size: 10pt; font-weight: normal}
 #resultstable tr {border-right: 1px solid black}
 #resultstable th {text-align: left;}
 #resultstable .header-th-id, .id-col {text-align: right; width:25px; padding-right: 10px; padding-left: 10px}
-#resultstable tr:nth-child(odd) {background: #f3fff3}
+#resultstable tr:nth-child(odd) {background: rgb(250, 250, 250)
+}
 #resultstable tr:nth-child(even) {background: white;}
 /*tr:hover{background: rgba(0, 228, 135, 0.24); }*/
 #resultstable td {padding-right: 10px}
 
 
 .page-container, .blogDiv{
-    border: solid 1px darkgray;
+    border: solid 1px #d3d3d3;
     border-radius: 5px;
     width: 90%;
     padding-top: 20px;
@@ -75,6 +89,12 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
     margin-right: auto;
     background-color: #cccccc;
 }
+
+#title-col{
+    margin-top: 15px;
+}
+
+
 .tagDiv {
     width: 100%;
     padding:3px 3px 3px 10px;
@@ -89,6 +109,11 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
     float:left;
     width: 80%
 }
+.spc{color:white}
+.blogDiv{
+    border: solid 1px black;
+    background-color: #fbfbfb;
+}
 
 .blogposts .commentbuttondiv{
     text-align: right;
@@ -100,13 +125,15 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
 #mainblogdiv .single-comment{
     width:70%;
     text-align: left;
-    border: solid 1px darkgray;
+    border: solid 1px #000000;
     display: inline-block;
     margin: 20px auto auto 0;
     padding: 5px;
     border-radius: 5px;
-    background-color: #ffffcc;
+    background-color: white;
 }
+
+.single-comment{width:55%}
 
 #mainblogdiv .add-comment{
     width:70%;
@@ -120,10 +147,11 @@ a.hlink2:hover, .hlink:hover, .staticpages:hover{color: #c80022; cursor: pointer
 
 .commentBody{
     resize: none;
-    width: 300px;
+    width: 400px;
     height: 75px;
-    border: solid 1px darkgray;
-    border-radius: 5px;
+    border: solid 1px black;
+    border-radius: 1px;
+    background-color: white;
 }
 
 .cb-table{

@@ -12,7 +12,7 @@ public class BlogPost {
 
     private int blogPostId;
     private int userId;
-    private String userName;
+    private User user;
 
     @JsonSerialize(using = ToStringSerializer.class)
     @JsonDeserialize(using = ParseDeserializer.class)
@@ -69,11 +69,11 @@ public class BlogPost {
     public void setTitle(String title) {
         this.title = title;
     }
-    public void setUserName(String userName){
-        this.userName = userName;
+    public void setUser(User user){
+        this.user = user;
     }
-    public String getUserName(){
-        return this.userName;
+    public User getUser(){
+        return this.user;
     }
     public String getBody() {
         return body;
@@ -129,6 +129,9 @@ public class BlogPost {
         if(!Objects.equals(this.userId, blogPost.userId)){
             return false;
         }
+        if(!Objects.equals(this.user, blogPost.user)){
+            return false;
+        }
         if(!Objects.equals(this.categoryId, blogPost.categoryId)){
             return false;
         }
@@ -162,7 +165,7 @@ public class BlogPost {
     @Override
     public int hashCode() {
         int result = blogPostId;
-        result = 31 * result + userId;
+        result = 31 * result + (user != null ? user.hashCode() : 0);
         result = 31 * result + (updateTime != null ? updateTime.hashCode() : 0);
         result = 31 * result + (title != null ? title.hashCode() : 0);
         result = 31 * result + categoryId;

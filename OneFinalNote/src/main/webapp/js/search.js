@@ -6,13 +6,14 @@ $(document).ready(function () {
     var terms = getParameterByName("terms");
 
     if (cat === null || cat === undefined){
-
         clickHandlers()
     }
 
     else {
         qfrMin(cat, sub, pub, terms);
+        clickHandlers();
     }
+
 
 
 });
@@ -56,7 +57,6 @@ function clickHandlers() {
 
 }
 
-
 function queryforresults() {
 
     var terms;
@@ -83,10 +83,11 @@ function queryforresults() {
 
 function qfrMin(category, method, state, terms) {
 
-    var call = "http://localhost:8080/search/" + category
+    var call = "/onefinalnote/search/" + category
         + "s?method=" + method + "&state=" + state + "&terms=" + terms;
 
-    console.log(call);
+
+
 
 
     $.ajax({
@@ -114,6 +115,7 @@ function printResults(results, category) {
         type = "page";
     }
     var sec = $("#sec").val();
+    var curruser = $("#userid").val();
 
     var resultstable =
         "<table id='resultstable'>" +
@@ -132,6 +134,8 @@ function printResults(results, category) {
     resultstable += "</tr> </thead> <tbody>";
 
     $.each(results, function (index, res) {
+
+        console.log(res.published);
 
         var d = moment(res[time]);
         var body = res.body;
@@ -163,19 +167,23 @@ function printResults(results, category) {
 
         if (sec === "admin" || sec === "owner") {
             resultstable += "<td>" + res.published + "</td>";
-
-
-            if (sec === "owner") {
+            if (sec === "owner" && curruser === "owner") {
                 resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a>&nbsp; | &nbsp;" +
                     "<a class='hlink2' target='_blank' href='deleteBlogPost?blogId=" + res[id] + "'>Delete</a></td>";
-            } else if (sec === "admin" && type === "blog"){
-                resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a></td>";
+            } else if (sec === "owner" && curruser === res.user.userName){
+                resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a>&nbsp; | &nbsp;" +
+                    "<a class='hlink2' target='_blank' href='deleteBlogPost?blogId=" + res[id] + "'>Delete</a></td>";
+            } else if (sec === "admin" && curruser === res.user.userName && res.published === false) {
+                resultstable += "<td><a class='hlink2' target='_blank' href='./editcontent?contentType=" + type + "&contentID=" + res[id] + "'>Edit</a>&nbsp; | &nbsp;" +
+                    "<a class='hlink2' target='_blank' href='deleteBlogPost?blogId=" + res[id] + "'>Delete</a></td>";
+            } else {
+                resultstable += "<td>No functions Available</td>";
             }
         }
         resultstable += "</tr>";
     });
 
-    resultstable += "</tbody> </table> <hr/>";
+    resultstable += "</tbody> </table>";
     $("#resultsdiv").html(resultstable);
 }
 
