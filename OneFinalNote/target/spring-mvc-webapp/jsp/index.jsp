@@ -22,7 +22,7 @@
 <div class="container" id="page">
 
     <hr/>
-    <input type="hidden" id="ajaxUrl" value='@Url.Action("GetlocationAjax", "UpdateDetail")' />
+
     <input type="hidden" id="cShowType" name="cShowType" value="${cShowType}"/>
     <input type="hidden" id="cShowID" name="cShowID" value="${cShowID}"/>
     <input type="hidden" id="cShow" name="cShow" value="${cShow}"/>

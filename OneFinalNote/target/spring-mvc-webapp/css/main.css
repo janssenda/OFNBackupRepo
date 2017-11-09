@@ -110,10 +110,12 @@ hr {
     width: 80%
 }
 .spc{color:white}
-.blogDiv{
+.page-container, .blogDiv{
     border: solid 1px black;
     background-color: #fbfbfb;
 }
+
+.page-container{padding: 25px}
 
 .blogposts .commentbuttondiv{
     text-align: right;
